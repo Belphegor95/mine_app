@@ -20,6 +20,8 @@ import GameHome from '../views/game/GameHome.vue'
 
 // 视频区(广告区)带播放部分
 import AdvertisingHome from '../views/advertising/AdvertisingHome.vue'
+import VideoPlayback from '../views/advertising/VideoPlayback.vue'
+
 
 
 Vue.use(VueRouter)
@@ -94,6 +96,11 @@ const routes = [
     path: '/advertising',
     name: 'AdvertisingHome',
     component: AdvertisingHome
+  },
+  {
+    path: '/videoPlayback',
+    name: 'VideoPlayback',
+    component: VideoPlayback
   },
 
   

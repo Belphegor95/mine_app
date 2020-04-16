@@ -2,31 +2,14 @@
 <template>
   <div class="AdvertisingHome_box">
     <breadcrumb></breadcrumb>
-    <van-tabs>
-      <van-tab v-for="index in 8" :key="index" :title="'标签 ' + index">
-        <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-          <van-cell>
-            <ul class="list" >
-              <li v-for="value  in list" :key="value">
-                <div class="img_"></div>
-                <div class="xinxi_box">
-                  <p>奥克斯净水器</p>
-                  <div class="jilv_box">
-                    <img src="../../assets/img/personal/eyeimg.png" alt />
-                    <p>12</p>
-                  </div>
-                </div>
-              </li>
-            </ul>
-          </van-cell>
-        </van-list>
-      </van-tab>
-    </van-tabs>
+    <div id="dplayer"></div>
   </div>
 </template>
 
 <script>
 import breadcrumb from "@/components/breadcrumb";
+import "dplayer/dist/DPlayer.min.css";
+import DPlayer from "dplayer";
 export default {
   components: {
     breadcrumb
@@ -37,13 +20,22 @@ export default {
       tarbarTitile: "",
       list: [],
       loading: false,
-      finished: false
+      finished: false,
+      dp: null
     };
   },
   created() {
     this.$store.commit("show_typeid", 177);
   },
-  mounted() {},
+  mounted() {
+    const dp = new DPlayer({
+      container: document.getElementById("dplayer"),
+      video: {
+        url: "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4"
+      }
+    });
+    this.dp = dp;
+  },
   methods: {
     onLoad() {
       setTimeout(() => {
@@ -65,6 +57,10 @@ export default {
 </script>
 <style scoped >
 .AdvertisingHome_box {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 .list {
   display: flex;
