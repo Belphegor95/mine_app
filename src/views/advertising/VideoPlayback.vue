@@ -1,7 +1,7 @@
 <!-- 广告视频区 -->
 <template>
-  <div class="AdvertisingHome_box">
-    <breadcrumb></breadcrumb>
+  <div class="VideoPlayback_box">
+    <breadcrumb :config="config" ></breadcrumb>
     <div id="dplayer"></div>
   </div>
 </template>
@@ -30,9 +30,13 @@ export default {
   mounted() {
     const dp = new DPlayer({
       container: document.getElementById("dplayer"),
+      lang:'zh-cn',
       video: {
-        url: "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4"
-      }
+        url: "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4",
+        pic: "../../assets/img/personal/sharingimg.png"
+      },
+      autoplay:false,
+      theme:'#FFFFFF',
     });
     this.dp = dp;
   },
@@ -56,11 +60,14 @@ export default {
 };
 </script>
 <style scoped >
-.AdvertisingHome_box {
+.VideoPlayback_box {
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
+}
+#dplayer{
+  flex: 1;
 }
 .list {
   display: flex;
