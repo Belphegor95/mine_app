@@ -1,45 +1,7 @@
 <!-- 我的团队 -->
 <template>
-  <div>
+  <div class="Group">
     <breadcrumb :typeid="101"></breadcrumb>
-    <!-- <ul>
-      <li>
-        <span>会员账号</span>
-        <span>级别</span>
-        <span>直推人数</span>
-        <span>团队人数</span>
-      </li>
-      <li>
-        <span>246213</span>
-        <span>普通朋友</span>
-        <span>20</span>
-        <span>200</span>
-      </li>
-      <li>
-        <span>246213</span>
-        <span>普通朋友</span>
-        <span>20</span>
-        <span>200</span>
-      </li>
-      <li>
-        <span>246213</span>
-        <span>普通朋友</span>
-        <span>20</span>
-        <span>200</span>
-      </li>
-      <li>
-        <span>246213</span>
-        <span>普通朋友</span>
-        <span>20</span>
-        <span>200</span>
-      </li>
-      <li>
-        <span>246213</span>
-        <span>普通朋友</span>
-        <span>20</span>
-        <span>200</span>
-      </li>
-    </ul>-->
     <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
       <van-cell>
         <div class="biaoge_box">
@@ -73,6 +35,9 @@ export default {
       loading: false,
       finished: false
     };
+  },
+  created() {
+    this.$store.commit("show_typeid", 101);
   },
   methods: {
     onLoad() {
@@ -109,5 +74,11 @@ export default {
 <style>
 .biaoge_box .van-cell:nth-of-type(even) {
   background: #fafafa;
+}
+.Group .van-cell:nth-of-type(even) {
+  background: #fafafa;
+}
+.Group .van-cell:not(:last-child)::after {
+  border: none !important;
 }
 </style>

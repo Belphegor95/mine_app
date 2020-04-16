@@ -36,7 +36,7 @@
         <img src="../../assets/img/personal/friendimg.png" alt />
         <p>我的钱包</p>
       </li>
-      <li @click="rut_push(false,'register',6)">
+      <li @click="rut_push(false,'register',7)">
         <img src="../../assets/img/personal/serviceimg.png" alt />
         <p>联系客服</p>
       </li>

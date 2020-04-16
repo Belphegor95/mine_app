@@ -56,24 +56,25 @@
         </li>
       </ul>
       <div class="geren_box">
-        <div>
+        <div @click="password(3)">
           <span>登录密码</span>
           <img src="../assets/img/moreimg.png" />
         </div>
-        <div>
+        <div @click="password(4)">
           <span>支付密码</span>
           <img src="../assets/img/moreimg.png" />
         </div>
-        <div>
+        <div @click="password(5)">
           <span>支付宝账号</span>
           <img src="../assets/img/moreimg.png" />
         </div>
-        <div>
+        <div @click="password(6)">
           <span>银行卡账号</span>
           <img src="../assets/img/moreimg.png" />
         </div>
       </div>
     </div>
+    <!-- 更改登录密码 -->
     <ul class="mima" v-else-if="typeid === 3">
       <li>
         <span>新登录密码</span>
@@ -115,7 +116,7 @@
         <van-button class="fasongbtn" type="info">发送</van-button>
       </li>
     </ul>
-    <ul class="yinhangzhanghao" v-else-if="typeid === 5">
+    <ul class="yinhangzhanghao" v-else-if="typeid === 6">
       <li>
         <span>开户银行</span>
         <van-field v-model="text" placeholder="请输入银行名称" />
@@ -131,14 +132,14 @@
       <li>
         <span>开户行地址</span>
         <van-field v-model="text" placeholder="请输入银行卡开户行地址" />
-      </li> 
+      </li>
       <li>
         <span>短信验证</span>
         <van-field v-model="text" />
         <van-button class="fasongbtn" type="info">发送</van-button>
       </li>
     </ul>
-    <ul class="kefu" v-else-if="typeid === 6">
+    <ul class="kefu" v-else-if="typeid === 7">
       <li>
         <span>联系电话</span>
         <van-field v-model="text" placeholder="13666666666" />
@@ -148,7 +149,7 @@
         <van-field v-model="text" placeholder="13666666666" />
       </li>
     </ul>
-    <div class="queding_box" v-if="typeid != 6">
+    <div class="queding_box" v-if="typeid != 7">
       <van-button class="quedingbtn" type="info">确定</van-button>
     </div>
   </div>
@@ -165,6 +166,12 @@ export default {
       text: "",
       typeid: this.$store.getters.get_typeid
     };
+  },
+  methods: {
+    password: function(id) {
+      this.typeid = id;
+      this.$store.commit("show_typeid", id);
+    }
   }
 };
 </script>

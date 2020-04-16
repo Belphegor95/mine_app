@@ -17,7 +17,7 @@
       </li>
     </ul>
     <!-- 退还押金 -->
-    <!-- <ul class="tuihuan">
+    <ul class="tuihuan" v-else-if="typeid=== 10602">
       <li>
         <span>押金金额</span>
         <van-field v-model="text" placeholder="100.00" />
@@ -37,9 +37,9 @@
         <span></span>
         <p>退还押金请删除全部广告视频</p>
       </li>
-    </ul> -->
+    </ul>
     <!-- 提现 -->
-    <ul class="tuihuan">
+    <ul class="tuihuan" v-else-if="typeid=== 10601">
       <li>
         <span>提现金额</span>
         <van-field v-model="text" placeholder="100.00" />

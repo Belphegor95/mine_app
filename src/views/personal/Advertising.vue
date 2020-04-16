@@ -1,18 +1,24 @@
 <!-- 广告 -->
 <template>
   <div class="Advertising_box">
-    <breadcrumb :typeid="103"></breadcrumb>
+    <breadcrumb></breadcrumb>
     <ul>
-      <li v-for="value  in 5" :key="value">
-        <div class="img_"></div>
-        <div class="xinxi_box">
-          <p>奥克斯净水器</p>
-          <div class="jilv_box">
-            <img src="../../assets/img/personal/eyeimg.png" alt />
-            <p>12</p>
+      <van-checkbox-group v-model="result" class="fuxuan_box">
+        <li v-for="value  in 5" :key="value">
+          <div class="img_"></div>
+          <div class="xinxi_box">
+            <p>奥克斯净水器</p>
+            <div class="jilv_box">
+              <van-checkbox v-if="is_delet" :name="value"></van-checkbox>
+              <div></div>
+              <div class="shu_box">
+                <img src="../../assets/img/personal/eyeimg.png" alt />
+                <p>12</p>
+              </div>
+            </div>
           </div>
-        </div>
-      </li>
+        </li>
+      </van-checkbox-group>
     </ul>
     <div class="queding_box">
       <van-button @click="rut_upadvertising" class="quedingbtn" type="info">上传广告</van-button>
@@ -27,12 +33,18 @@ export default {
     breadcrumb
   },
   data() {
-    return {};
+    return {
+      result: [1],
+      is_delet: false
+    };
+  },
+  created() {
+    this.$store.commit("show_typeid", 103);
   },
   methods: {
     rut_upadvertising: function() {
       this.$store.commit("show_typeid", 105);
-      this.$router.push("/personal/up_advertising")
+      this.$router.push("/personal/up_advertising");
     }
   }
 };
@@ -43,9 +55,12 @@ export default {
   background-color: #f7f7f7;
 }
 ul {
+  /* justify-content: space-around; */
+}
+.fuxuan_box {
+  width: 100%;
   display: flex;
   flex-wrap: wrap;
-  /* justify-content: space-around; */
 }
 li {
   flex: 0 0 46%;
@@ -76,12 +91,15 @@ li {
 .jilv_box {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: space-between;
 }
-.jilv_box > img {
+.shu_box {
+  display: flex;
+}
+.shu_box > img {
   height: 0.22rem;
 }
-.jilv_box > p {
+.shu_box > p {
   margin-left: 0.08rem;
   font-size: 0.22rem;
   font-family: Adobe Heiti Std;
