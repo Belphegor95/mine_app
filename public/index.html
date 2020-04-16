@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+  <title><%= htmlWebpackPlugin.options.title %></title>
+</head>
+
+<body>
+  <noscript>
+    <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled.
+      Please enable it to continue.</strong>
+  </noscript>
+  <div id="app"></div>
+  <!-- built files will be auto injected -->
+</body>
+<script>
+  function htmlFontSize() {     // 防用户设置字体大小rem
+    var h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+    var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+    var html = document.querySelector('html');
+    var width = w > h ? h : w;
+    width = width > 750 ? 750 : width
+    var fz = (width * 100000 / 75) / 10000
+    html.style.fontSize = fz + 'px';
+    var realfz = window.getComputedStyle(html).fontSize.replace('px', '') * 10000 / 10000
+    if (fz !== realfz) {
+      html.style.fontSize = fz * (fz / realfz) + 'px';
+    }
+  }
+  htmlFontSize()
+  // function setRemFontSize() {  基础版rem
+  //     var remSize = window.innerWidth / 7.5;
+  //     document.querySelector("html").style.fontSize = (remSize > 100 ? 100 : remSize) + "px";
+  // }
+  setInterval(() => {
+    htmlFontSize();
+  }, 200);
+  window.onload = function () {
+    htmlFontSize()
+  }
+</script>
+
+</html>
