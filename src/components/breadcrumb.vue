@@ -32,17 +32,6 @@
 <script>
 export default {
   name: "breadcrumb",
-  props: {
-    // filedata: {
-    //   type: Object
-    // },
-    // fileurl: {
-    //   type: String
-    // },
-    // typeid: {
-    //   type: Number
-    // }
-  },
   data: function() {
     return {
       is_delet: true
@@ -73,6 +62,7 @@ export default {
 <style scoped>
 .boxFather {
   padding: 0.3rem 0.27rem;
+  box-sizing: border-box;
   height: 0.4rem;
 }
 .box {
