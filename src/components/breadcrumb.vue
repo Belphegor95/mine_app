@@ -3,28 +3,12 @@
     <div class="box">
       <div class="left_box">
         <img @click="back" src="@/assets/img/backimg.png" alt />
-        <p v-if="$store.getters.get_typeid=== 1">注册信息</p>
-        <p v-if="$store.getters.get_typeid=== 2">个人资料</p>
-        <p v-if="$store.getters.get_typeid=== 3">更改登录密码</p>
-        <p v-if="$store.getters.get_typeid=== 4">更改支付密码</p>
-        <p v-if="$store.getters.get_typeid=== 5">绑定支付宝账号</p>
-        <p v-if="$store.getters.get_typeid=== 6">绑定银行卡账号</p>
-        <p v-if="$store.getters.get_typeid=== 7">联系客服</p>
-        <p v-else-if="$store.getters.get_typeid=== 101">我的团队</p>
-        <p v-else-if="$store.getters.get_typeid=== 102">我的交易单</p>
-        <p v-else-if="$store.getters.get_typeid=== 103">我的广告</p>
-        <p v-else-if="$store.getters.get_typeid=== 104">分享推广</p>
-        <p v-else-if="$store.getters.get_typeid=== 105">上传广告</p>
-        <p v-else-if="$store.getters.get_typeid=== 106">我的钱包</p>
-        <p v-else-if="$store.getters.get_typeid=== 10601">提现</p>
-        <p v-else-if="$store.getters.get_typeid=== 10602">矿机钱包记录</p>
-        <p v-else-if="$store.getters.get_typeid=== 10603">商务钱包记录</p>
-        <p v-else-if="$store.getters.get_typeid=== 177">广告</p>
+        <p v-text="getTitle($store.getters.get_typeid)"></p>
       </div>
       <div class="right_box" v-if="$store.getters.get_typeid=== 103">
         <p v-if="is_delet" @click="manage">管理</p>
         <p v-else @click="delet">删除广告</p>
-      </div>
+      </div>  
     </div>
   </div>
 </template>
@@ -34,18 +18,39 @@ export default {
   name: "breadcrumb",
   data: function() {
     return {
-      is_delet: true
-      // typeid: this.$store.getters.get_typeid
+      is_delet: true,
+      titles:[
+        {id:1,title:'注册信息'},
+        {id:2,title:'个人资料'},
+        {id:3,title:'更改登录密码'},
+        {id:4,title:'更改支付密码'},
+        {id:5,title:'绑定支付宝账号'},
+        {id:6,title:'绑定银行卡账号'},
+        {id:7,title:'联系客服'},
+        {id:101,title:'我的团队'},
+        {id:102,title:'我的交易单'},
+        {id:103,title:'我的广告'},
+        {id:104,title:'分享推广'},
+        {id:105,title:'上传广告'},
+        {id:106,title:'我的钱包'},
+        {id:10601,title:'提现'},
+        {id:10602,title:'矿机钱包记录'},
+        {id:10603,title:'商务钱包记录'},
+        {id:177,title:'广告'},
+      ]
     };
   },
-  watch: {
-    "$store.getters.get_typeid": function(newFlag) {
-      // 需要执行的代码
-      this.typeid = newFlag;
-      this.$emit("upload_true", true);
-    }
-  },
   methods: {
+    getTitle:function(typeid){
+      let title = '';
+       this.titles.some(item=>{
+        if(item.id == typeid){
+          title = item.title
+          return item.title
+        }
+      }) 
+      return title
+    },
     back: function() {
       this.$router.go(-1);
     },
