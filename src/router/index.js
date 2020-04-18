@@ -22,7 +22,8 @@ import GameHome from '../views/game/GameHome.vue'
 import AdvertisingHome from '../views/advertising/AdvertisingHome.vue'
 import VideoPlayback from '../views/advertising/VideoPlayback.vue'
 
-
+// 交易区
+import TradingFloor from '../views/deal/TradingFloor.vue'
 
 Vue.use(VueRouter)
 
@@ -101,6 +102,11 @@ const routes = [
     path: '/videoPlayback',
     name: 'VideoPlayback',
     component: VideoPlayback
+  },
+  {
+    path: '/deal/trading_floor',
+    name: 'TradingFloor',
+    component: TradingFloor
   },
 
   

@@ -1,7 +1,7 @@
 <!-- 广告 -->
 <template>
   <div class="Advertising_box">
-    <breadcrumb></breadcrumb>
+    <breadcrumb @is_manage="manage"></breadcrumb>
     <ul>
       <van-checkbox-group v-model="result" class="fuxuan_box">
         <li v-for="value  in 5" :key="value">
@@ -9,7 +9,7 @@
           <div class="xinxi_box">
             <p>奥克斯净水器</p>
             <div class="jilv_box">
-              <van-checkbox v-if="is_delet" :name="value"></van-checkbox>
+              <van-checkbox v-if="!is_delet" :name="value"></van-checkbox>
               <div></div>
               <div class="shu_box">
                 <img src="../../assets/img/personal/eyeimg.png" alt />
@@ -35,7 +35,7 @@ export default {
   data() {
     return {
       result: [1],
-      is_delet: false
+      is_delet: true
     };
   },
   created() {
@@ -45,6 +45,13 @@ export default {
     rut_upadvertising: function() {
       this.$store.commit("show_typeid", 105);
       this.$router.push("/personal/up_advertising");
+    },
+    manage: function(is) {
+      if (!is) {
+        this.is_delet = is;
+      } else {
+        this.is_delet = is;
+      }
     }
   }
 };
@@ -89,12 +96,14 @@ li {
   color: rgba(51, 51, 51, 1);
 }
 .jilv_box {
+  height: 0.4rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 .shu_box {
   display: flex;
+  align-items: center;
 }
 .shu_box > img {
   height: 0.22rem;

@@ -19,7 +19,7 @@
         <p>我的好友</p>
       </div>
       <div>
-        <img src="../assets/img/friendimg.png" />
+        <img @click="TradingFloor" src="../assets/img/friendimg.png" />
         <p>交易大厅</p>
       </div>
       <div>
@@ -70,6 +70,10 @@ export default {
     },
     Advertising: function () {
       this.$router.push("/advertising")
+    },
+    TradingFloor: function () {
+      this.$store.commit("show_typeid", 201);
+      this.$router.push("/deal/trading_floor")
     }
   }
 };
