@@ -6,6 +6,8 @@ import { RadioGroup, Radio } from 'vant';
 import { List, Cell } from 'vant';
 import { Tab, Tabs } from 'vant';
 import { Checkbox, CheckboxGroup } from 'vant';
+import { Popup } from 'vant';
+import { Search } from 'vant';
 
 import 'vant/lib/index.css'
 
@@ -21,3 +23,6 @@ Vue.use(Tab)
 Vue.use(Tabs)
 Vue.use(Checkbox);
 Vue.use(CheckboxGroup);
+Vue.use(Popup);
+Vue.use(Search);
+

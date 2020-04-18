@@ -14,7 +14,7 @@
     </div>
     <div>已发放</div>
     <div class="menu_box">
-      <div>
+      <div @click="GameHome">
         <img src="../assets/img/friendimg.png" />
         <p>我的好友</p>
       </div>
@@ -50,7 +50,7 @@
         <img src="../assets/img/friendimg.png" />
         <p>音频</p>
       </div>
-      <div @click="Advertising" >
+      <div @click="Advertising">
         <img src="../assets/img/friendimg.png" />
         <p>视频直播</p>
       </div>
@@ -65,11 +65,14 @@ export default {
     head_
   },
   methods: {
-    personal: function () {
-      this.$router.push("/personal/personal")
+    GameHome: function() {
+      this.$router.push("/gameHome");
     },
-    Advertising: function () {
-      this.$router.push("/advertising")
+    personal: function() {
+      this.$router.push("/personal/personal");
+    },
+    Advertising: function() {
+      this.$router.push("/advertising");
     }
   }
 };
@@ -124,7 +127,7 @@ export default {
   /* border-radius: 0.2rem; */
 }
 .van-swipe__indicator--active {
-  background-color: #1989fa!important;
+  background-color: #1989fa !important;
 }
 .my-swipe .van-swipe-item {
   color: #fff;

@@ -90,7 +90,7 @@ const routes = [
   {
     path: '/gameHome',
     name: 'GameHome',
-    component: GameHome
+    component: GameHome,
   },
   {
     path: '/advertising',
