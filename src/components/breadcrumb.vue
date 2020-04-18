@@ -51,6 +51,7 @@ export default {
         { id: 202, title: "交易详情" },
         { id: 301, title: "朋友圈" },
         { id: 302, title: "返回" },
+        { id: 401, title: "新闻快讯" },
         { id: 901, title: "签到" }
       ]
     };

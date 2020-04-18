@@ -30,6 +30,10 @@ import Particulars from '../views/deal/Particulars.vue'
 import Friendster from '../views/friendster/Friendster.vue'
 import Issue from '../views/friendster/Issue.vue'
 
+// 新闻区 
+import Journalism from '../views/journalism/Journalism.vue'
+import Details from '../views/journalism/Details.vue'
+
 // 签到
 import SignIn from '../views/SignIn.vue'
 
@@ -136,6 +140,16 @@ const routes = [
     path: '/sign_in',
     name: 'SignIn',
     component: SignIn
+  },
+  {
+    path: '/journalism/journalism',
+    name: 'Journalism',
+    component: Journalism
+  },
+  {
+    path: '/journalism/details',
+    name: 'Details',
+    component: Details
   },
   // {  
   //   path: '/about',

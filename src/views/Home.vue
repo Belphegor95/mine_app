@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <header class="header">
-      <img src="../assets/img/home/qian.png" alt />
+      <img @click="rut_push(901,'/sign_in')" src="../assets/img/home/qian.png" alt />
       <button>
         <span>已发行/已销毁</span>
       </button>
@@ -31,7 +31,7 @@
       </ul>
     </div>
     <div class="news">
-      <img src="../assets/img/home/newLeft.png" alt />
+      <img @click="rut_push(401,'/journalism/journalism')" src="../assets/img/home/newLeft.png" alt />
       <van-notice-bar text="张三说李四今天不在家，赵四却说李四在家，李四说在刘四他家，刘四说李四不在他家，李四到底在那家。" />
       <img src="../assets/img/home/newRight.png" alt />
     </div>
@@ -48,7 +48,7 @@
         <img src="../assets/img/home/tar3.png" />
         <p>朋友圈</p>
       </div>
-      <div>
+      <div @click="rut_push(106,'/personal/burse')">
         <img src="../assets/img/home/tar4.png" />
         <p>钱包</p>
       </div>
