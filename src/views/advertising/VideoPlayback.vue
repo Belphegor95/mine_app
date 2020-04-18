@@ -1,8 +1,11 @@
 <!-- 广告视频区 -->
 <template>
   <div class="VideoPlayback_box">
-    <breadcrumb :config="config" ></breadcrumb>
+    <breadcrumb></breadcrumb>
     <div id="dplayer"></div>
+    <van-popup :overlay-style="{background:'transparent'}" position="bottom" v-model="show">
+      <div class="explain">1231231</div>
+    </van-popup>
   </div>
 </template>
 
@@ -16,11 +19,7 @@ export default {
   },
   data() {
     return {
-      activeName: "",
-      tarbarTitile: "",
-      list: [],
-      loading: false,
-      finished: false,
+      show: true,
       dp: null
     };
   },
@@ -30,33 +29,19 @@ export default {
   mounted() {
     const dp = new DPlayer({
       container: document.getElementById("dplayer"),
-      lang:'zh-cn',
+      lang: "zh-cn",
+      autoplay: false,
       video: {
         url: "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4",
-        pic: "../../assets/img/personal/sharingimg.png"
+        pic:
+          "https://www.baidu.com/img/pcpad_e247c0f9a461b6394da20e308588818f.png"
+        // type: 'hls'
       },
-      autoplay:false,
-      theme:'#FFFFFF',
+      player: null
     });
     this.dp = dp;
   },
-  methods: {
-    onLoad() {
-      setTimeout(() => {
-        for (let i = 0; i < 5; i++) {
-          this.list.push(this.list.length + 1);
-        }
-
-        // 加载状态结束
-        this.loading = false;
-
-        // 数据全部加载完成
-        if (this.list.length >= 20) {
-          this.finished = true;
-        }
-      }, 1000);
-    }
-  }
+  methods: {}
 };
 </script>
 <style scoped >
@@ -66,62 +51,23 @@ export default {
   display: flex;
   flex-direction: column;
 }
-#dplayer{
+#dplayer {
   flex: 1;
 }
-.list {
-  display: flex;
-  flex-wrap: wrap;
-  /* justify-content: space-around; */
-}
-.list li {
-  flex: 0 0 46%;
-  margin-left: 0.2rem;
-  margin-top: 0.2rem;
-  border-radius: 0.2rem;
-  overflow: hidden;
-}
-.list .img_ {
+.explain {
   width: 100%;
-  height: 3.5rem;
-  background-color: #eeeeee;
+  height: 2.2rem;
+  background: rgba(0, 0, 0, 0.3);
 }
-.list .xinxi_box {
-  height: 1.1rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  background-color: #fff;
-  padding: 0.1rem 0.22rem 0.16rem 0.2rem;
-}
-.list .xinxi_box > p {
-  font-size: 0.24rem;
-  font-family: Adobe Heiti Std;
-  font-weight: normal;
-  color: rgba(51, 51, 51, 1);
-}
-.list .jilv_box {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-}
-.list .jilv_box > img {
-  height: 0.22rem;
-}
-.list .jilv_box > p {
-  margin-left: 0.08rem;
-  font-size: 0.22rem;
-  font-family: Adobe Heiti Std;
-  font-weight: normal;
-  color: rgba(153, 153, 153, 1);
+.van-popup {
+  width: 100% !important;
+  background-color:transparent!important;
 }
 </style>
 
 <style >
-.van-tabs__nav {
-  background: #f7f7f7 !important;
-}
-.van-tabs__line {
-  bottom: 0.4rem !important;
+.dplayer-controller-mask,
+.dplayer-controller {
+  display: none !important;
 }
 </style>

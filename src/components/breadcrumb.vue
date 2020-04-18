@@ -1,6 +1,6 @@
 <template>
   <div class="boxFather">
-    <div class="box">
+    <div class="box" :style="{'background':transparent?'transparent':'#fff'}">
       <div class="left_box">
         <img @click="back" src="@/assets/img/backimg.png" alt />
         <p v-text="getTitle($store.getters.get_typeid)"></p>
@@ -43,6 +43,10 @@ export default {
         { id: 10602, title: "矿机钱包记录" },
         { id: 10603, title: "商务钱包记录" },
         { id: 177, title: "广告" },
+        { id: 17801, title: "我的好友" },
+        { id: 17802, title: "添加好友" },
+        { id: 17803, title: "好友推荐" },
+        { id: 17804, title: "矿机市场" },
         { id: 201, title: "交易大厅" },
         { id: 202, title: "交易详情" },
         { id: 301, title: "朋友圈" },
@@ -68,7 +72,8 @@ export default {
       this.is_delet = !this.is_delet;
       this.$emit("is_manage", this.is_delet);
     }
-  }
+  },
+  props: ["transparent"]
 };
 </script>
 
@@ -76,7 +81,7 @@ export default {
 .boxFather {
   padding: 0.3rem 0.27rem;
   box-sizing: border-box;
-  height: 1rem;
+  height: 0.4rem;
 }
 .box {
   position: fixed;

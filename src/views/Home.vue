@@ -14,7 +14,7 @@
     </div>
     <div>已发放</div>
     <div class="menu_box">
-      <div >
+      <div @click="GameHome">
         <img src="../assets/img/friendimg.png" />
         <p>我的好友</p>
       </div>
@@ -78,7 +78,10 @@ export default {
     rut_push: function(id,rut) {
       this.$store.commit("show_typeid", id);
       this.$router.push(rut);
-    }
+      },
+    GameHome: function() {
+      this.$router.push("/gameHome");
+    },
   }
 };
 </script>

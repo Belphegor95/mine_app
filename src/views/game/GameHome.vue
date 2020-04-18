@@ -1,132 +1,204 @@
 <!-- 交易单 -->
 <template>
-  <div class="DealingSlip_box">
-    <breadcrumb></breadcrumb>
-    <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-      <van-cell>
-        <div class="liebiao_box">
-          <div class="zhuangtai_box">
-            <p>状态</p>
-            <p>对方ID</p>
-            <p>交易金额</p>
-            <p>交易时间</p>
-          </div>
-          <div class="xinxi_box">
-            <p class="blue">待您付款</p>
-            <p>126854</p>
-            <p>8000.00</p>
-            <p>2018-08-08 24:00:00</p>
-          </div>
-        </div>
-      </van-cell>
-      <van-cell>
-        <div class="liebiao_box">
-          <div class="zhuangtai_box">
-            <p>状态</p>
-            <p>对方ID</p>
-            <p>交易金额</p>
-            <p>交易时间</p>
-          </div>
-          <div class="xinxi_box">
-            <p class="red">待对方付款</p>
-            <p>126854</p>
-            <p>8000.00</p>
-            <p>2018-08-08 24:00:00</p>
-          </div>
-        </div>
-      </van-cell>
-      <van-cell v-for="item in list" :key="item">
-        <div class="liebiao_box">
-          <div class="zhuangtai_box">
-            <p>状态</p>
-            <p>对方ID</p>
-            <p>交易金额</p>
-            <p>交易时间</p>
-          </div>
-          <div class="xinxi_box">
-            <p >交易完成</p>
-            <p>126854</p>
-            <p>8000.00</p>
-            <p>2018-08-08 24:00:00</p>
-          </div>
-        </div>
-      </van-cell>
-    </van-list>
+  <div class="GameHome_box">
+    <!-- 头部信息展示部分 -->
+    <header class="headerMsg">
+      <div v-for="(item,index) in headerMsg" :key="index">
+        <span v-text="item.value"></span>
+        <span v-text="item.key"></span>
+      </div>
+    </header>
+    <!-- 游戏内贴图 -->
+    <main class="gameMsg">
+      <!-- 返回 -->
+      <img src="../../assets/img/game/gameGoback.png" alt class="goBack" @click="goBack" />
+      <!-- 狗 -->
+      <!-- <img src="" alt="" class="dog" > -->
+      <!-- 旷工带机器 -->
+      <!-- <img src="" alt="" class="man" > -->
+    </main>
+    <!-- 底部导航部分 -->
+    <footer class="gameTarbar">
+      <div @click="tarPush(1)">
+        <!-- 角标 -->
+        <span>9</span>
+        <img src="../../assets/img/game/gameTar1.png" alt />
+      </div>
+      <div @click="tarPush(2)">
+        <img src="../../assets/img/game/gameTar2.png" alt />
+      </div>
+      <div @click="tarPush(3)">
+        <img src="../../assets/img/game/gameTar3.png" alt />
+      </div>
+      <div @click="tarPush(4)">
+        <img src="../../assets/img/game/gameTar4.png" alt />
+      </div>
+      <div @click="collect">
+        <img src="../../assets/img/game/gameTar5.png" alt />
+      </div>
+    </footer>
+    <!-- 游戏部分功能弹框 -->
+    <van-popup v-model="popupShow" position="left">
+      <div class="tarbarContentBox">
+        <FriendModular v-if="tarbarType == 1" />
+        <FriendAdd v-else-if="tarbarType == 101" />
+        <FriendRecommend v-else-if="tarbarType == 102" />
+        <Machine v-else-if="tarbarType == 2" />
+        <MyMachine v-else-if="tarbarType == 3" />
+        <Machine v-else-if="tarbarType == 4" />
+      </div>
+    </van-popup>
   </div>
 </template>
 
 <script>
-import breadcrumb from "@/components/breadcrumb";
+import FriendModular from "./friendModular";
+import FriendAdd from "./friendAdd";
+import FriendRecommend from "./friendRecommend";
+import Machine from "./machine";
+import MyMachine from "./myMachine";
+
+
+
 export default {
   components: {
-    breadcrumb
+    FriendModular,
+    FriendAdd,
+    FriendRecommend,
+    Machine,
+    MyMachine
   },
   data() {
     return {
-      list: [],
-      loading: false,
-      finished: false
+      popupShow: false, // 弹框开关
+      tarbarType: false, //  弹出那一个模块
+      headerMsg: [
+        { key: "矿机钱包", value: "888888" },
+        { key: "今日收益", value: "888888" },
+        { key: "有效矿机", value: "3" },
+        { key: "算力", value: "21" }
+      ]
     };
   },
-  created() {
-    this.$store.commit("show_typeid", 102);
-  },
-  mounted() {
-    
-  },
+  created() {},
+  mounted() {},
   methods: {
-    onLoad() {
-      setTimeout(() => {
-        for (let i = 0; i < 5; i++) {
-          this.list.push(this.list.length + 1);
+    //根据tarbar弹出不同的内容
+    tarPush(type) {
+      this.$router.push(`/gameHome?tarbar=${type}`);
+    },
+    // 返回
+    goBack() {
+      this.$router.go(-1);
+    },
+    // 一键收取
+    collect() {
+      console.log("点击一键收取了");
+    }
+  },
+  watch: {
+    $route: {
+      handler(newValue) {
+        if (newValue.query.tarbar) {
+          this.tarbarType = newValue.query.tarbar;
+          !this.popupShow ? (this.popupShow = true) : null;
+          return;
         }
-
-        // 加载状态结束
-        this.loading = false;
-
-        // 数据全部加载完成
-        if (this.list.length >= 20) {
-          this.finished = true;
-        }
-      }, 1000);
+        this.popupShow = false;
+      },
+      deep: true
     }
   }
 };
 </script>
 <style scoped>
-.liebiao_box {
+.GameHome_box {
   display: flex;
+  padding: 0.2rem 0 0.6rem 0;
+  box-sizing: border-box;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  background: url("../../assets/img/game/gameBgc.png") center center / 100% 100%
+    no-repeat;
 }
-.liebiao_box > div {
-  flex: 0 0 50%;
+.headerMsg {
+  display: flex;
+  align-items: center;
+  width: 92%;
+  height: 1rem;
+  background: url("../../assets/img/game/gameheaderBgc.png") center center /
+    100% 100% no-repeat;
 }
-.zhuangtai_box {
-  font-size: 0.26rem;
+.headerMsg div {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  font-size: 0.22rem;
   font-family: Adobe Heiti Std;
   font-weight: normal;
   color: rgba(51, 51, 51, 1);
-  /* line-height: 0.45rem; */
 }
-.liebiao_box > div > p:nth-child(1) {
-  font-size: 0.3rem;
+.headerMsg div span:nth-child(1) {
+  margin-bottom: 0.1rem;
+}
+.gameMsg {
+  flex: 1;
+  width: 92%;
+}
+.gameMsg .goBack {
+  width: 0.86rem;
+  height: 0.92rem;
+  margin-top: 0.3rem;
+}
+.gameTarbar {
+  display: flex;
+  align-items: center;
+  height: 1rem;
+  width: 100%;
+}
+.gameTarbar div {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.gameTarbar div span {
+  position: absolute;
+  top: -0.1rem;
+  right: 0.2rem;
+  height: 0.3rem;
+  background: #fd1a1a;
+  border-radius: 0.15rem;
+  padding: 0 0.1rem;
+  font-size: 0.16rem;
   font-family: Adobe Heiti Std;
   font-weight: normal;
-  color: rgba(51, 51, 51, 1);
-  margin: 0.13rem 0;
+  color: rgba(255, 255, 255, 1);
+  line-height: 0.3rem;
 }
-.xinxi_box {
-  text-align: right;
+.gameTarbar div img {
+  height: 0.93rem;
 }
-.blue {
-  color: #398EF5!important;
+.tarbarContentBox {
+  width: 100%;
+  height: 100%;
+  background: white;
+  overflow-y: scroll;
 }
-.red {
-  color: #FD1A1A!important;
+.tarbarContentBox::-webkit-scrollbar {
+  display: none;
 }
 </style>
 
-<style >
-.DealingSlip_box .van-cell {
-  padding: 0.23rem 0.29rem 0.3rem 0.3rem !important;
+<style scoped >
+.van-popup--left {
+  width: 100%;
+  height: 100%;
 }
 </style>
