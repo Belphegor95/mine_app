@@ -22,6 +22,13 @@ import GameHome from '../views/game/GameHome.vue'
 import AdvertisingHome from '../views/advertising/AdvertisingHome.vue'
 import VideoPlayback from '../views/advertising/VideoPlayback.vue'
 
+// 交易区
+import TradingFloor from '../views/deal/TradingFloor.vue'
+import Particulars from '../views/deal/Particulars.vue'
+
+// 朋友圈
+import Friendster from '../views/friendster/Friendster.vue'
+import Issue from '../views/friendster/Issue.vue'
 
 
 Vue.use(VueRouter)
@@ -102,8 +109,26 @@ const routes = [
     name: 'VideoPlayback',
     component: VideoPlayback
   },
-
-  
+  {
+    path: '/deal/trading_floor',
+    name: 'TradingFloor',
+    component: TradingFloor
+  },
+  {
+    path: '/deal/particulars',
+    name: 'Particulars',
+    component: Particulars
+  },
+  {
+    path: '/friendster/friendster',
+    name: 'Friendster',
+    component: Friendster
+  },
+  {
+    path: '/friendster/issue',
+    name: 'Issue',
+    component: Issue
+  },
   // {  
   //   path: '/about',
   //   name: 'About',

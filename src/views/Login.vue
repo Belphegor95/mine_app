@@ -3,7 +3,7 @@
     <div class="logo_box">
       <div>
         <div></div>
-        <p>项目名称</p>
+        <p class="logo_name">项目名称</p>
       </div>
     </div>
     <div class="login_box">
@@ -11,7 +11,14 @@
       <van-field v-model="text" placeholder="请输入密码" />
       <div class="yanzheng_box">
         <van-field v-model="text" placeholder="请输入验证码" />
-        <span class="yanzheng">1234</span>
+        <div class="yzm" @click="originalCodeUpdata">
+          <i
+            v-for="(item,index) in originalCode"
+            :key="index"
+            v-text="item.code"
+            :style="{color:item.color,transform:item.transform}"
+          ></i>
+        </div>
       </div>
       <van-button class="login_button" type="primary" @click="home">登录</van-button>
       <div class="zhanghao_box">
@@ -32,11 +39,38 @@
 export default {
   data() {
     return {
-      text: ""
+      text: "",
+      originalCode: [] // 用来生成验证码
     };
   },
   mounted() {},
   methods: {
+    originalCodeUpdata() {
+      // 随机生成验证码
+      let y_code = "";
+      let originalCode = [];
+      for (let a = 0; a < 4; a++) {
+        let code = Math.round(Math.random() * 9);
+        originalCode.push({
+          code,
+          color: `rgb(${Math.round(Math.random() * 255) +
+            "," +
+            Math.round(Math.random() * 255) +
+            "," +
+            Math.round(Math.random() * 255)})`,
+          transform: `rotateZ(${
+            Math.random() > 0.5 ? "+" : "-" + Math.round(Math.random() * 20)
+          }deg) translateY(${
+            Math.random() > 0.5
+              ? "+"
+              : "-" + Math.round(Math.random() * 10) * 0.01
+          }rem)`
+        });
+        y_code += code;
+      }
+      this.y_code = y_code;
+      this.originalCode = originalCode;
+    },
     home: function() {
       this.$router.push("/home");
     },
@@ -47,6 +81,9 @@ export default {
     deal: function() {
       this.$router.push("/deal");
     }
+  },
+  created() {
+    this.originalCodeUpdata(); // 初始化验证码
   }
 };
 </script>
@@ -56,11 +93,17 @@ export default {
   display: flex;
   flex-direction: column;
   height: 100%;
+  background: url("../assets/img/appStart.jpg") center center / 100% 100%
+    no-repeat;
 }
 .box > div {
   flex: 1;
   display: flex;
   flex-direction: column;
+}
+.box > div:nth-child(1) {
+  flex: none;
+  height: 5rem;
 }
 .login_box {
   flex: 1.5 !important;
@@ -70,9 +113,18 @@ export default {
   display: flex;
   justify-content: space-between;
 }
-.yanzheng {
+.yzm {
   width: 2rem;
   height: 0.7rem;
+  background: white;
+  display: flex;
+  align-items: center;
+  padding: 0 0.2rem;
+  box-sizing: border-box;
+}
+.yzm i {
+  flex: 1;
+  font-size: 0.3rem;
 }
 /* .logo_box,.login_box {
     justify-content: center;
@@ -80,6 +132,15 @@ export default {
 } */
 .logo_box {
   text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+.logo_name {
+  font-size: 0.32rem;
+  font-family: Adobe Heiti Std;
+  font-weight: normal;
+  color: rgba(255, 255, 255, 1);
+  margin-top: 0.17rem;
 }
 .logo_box > div > div:nth-child(1) {
   width: 1.4rem;
@@ -98,6 +159,10 @@ export default {
   margin-top: 0.21rem;
   font-size: 0.3rem;
   justify-content: space-between;
+  font-size: 0.3rem;
+  font-family: Adobe Heiti Std;
+  font-weight: normal;
+  color: rgba(255, 255, 255, 1);
 }
 .xiazai_box {
   /* display: block !important; */
@@ -107,13 +172,33 @@ export default {
 .xiazai_box > a {
   margin-bottom: 0.3rem;
   margin-right: 0.34rem;
+  font-size: 0.3rem;
+  font-family: Adobe Heiti Std;
+  font-weight: normal;
+  color: rgba(255, 255, 255, 1);
 }
-</style>
-
-<style>
 .login_box .van-cell {
   padding: 0;
   height: 0.7rem;
   margin-bottom: 0.31rem;
+  background-color: transparent !important;
+}
+.van-cell:not(:last-child)::after {
+  left: 0;
+}
+</style>
+
+<style>
+.login_box .van-field__control {
+  font-size: 0.3rem !important;
+  font-family: PingFang;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 1) !important;
+}
+.login_box .van-field__control::-webkit-input-placeholder {
+  font-size: .3rem;
+  font-family: PingFang;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 1);
 }
 </style>
