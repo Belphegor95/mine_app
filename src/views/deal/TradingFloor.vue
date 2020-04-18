@@ -23,13 +23,20 @@
         <li v-for="value in 5" :key="value">
           <span>20.1025</span>
           <span>20.1025</span>
-          <span class="yellow">购买</span>
+          <span class="yellow" @click="particulars">购买</span>
         </li>
       </ul>
     </div>
     <div class="maichu_box">
-      <van-button class="maichubtn" type="info">卖出</van-button>
+      <van-button @click="show" class="maichubtn" type="info">卖出</van-button>
     </div>
+    <van-popup class="modal_box" round v-model="modal">
+      <div class="mima_box">
+        <img src alt />
+        <van-field v-model="text" placeholder="请输入交易密码" />
+      </div>
+      <van-button @click="show" class="quedingbtn" type="info">确定</van-button>
+    </van-popup>
   </div>
 </template>
 
@@ -40,12 +47,22 @@ export default {
     breadcrumb
   },
   data() {
-    return {};
+    return {
+      modal: false,
+      text: ""
+    };
   },
   mounted() {
     this.my();
   },
   methods: {
+    show: function() {
+      this.modal = true;
+    },
+    particulars: function() {
+      this.$store.commit("show_typeid", 202);
+      this.$router.push("/deal/particulars");
+    },
     my: function() {
       let size = 8;
       let option = {
@@ -245,7 +262,32 @@ li > span {
   border-radius: 0.35rem;
 }
 
+.modal_box {
+  /* width: 96%; */
+  /* height: 4.5rem; */
+  padding: 0 0.5rem;
+}
+.mima_box {
+  margin-top: 1.2rem;
+  margin-bottom: 1.3rem;
+}
+.quedingbtn {
+  width: 6rem;
+  height: 0.8rem;
+  margin-bottom: 0.5rem;
+  /* background: rgba(57, 142, 245, 1); */
+}
 .yellow {
   color: #fcb63b;
 }
+</style>
+<style>
+.TradingFloor .van-cell {
+  background: #f6f6f6;
+  height: 0.7rem;
+}
+/* .TradingFloor .van-cell {
+  flex: auto;
+  width: 0px !important;
+} */
 </style>

@@ -9,6 +9,12 @@
         <p v-if="is_delet" @click="manage">管理</p>
         <p v-else @click="manage">删除广告</p>
       </div>
+      <div class="right_box" v-if="$store.getters.get_typeid=== 301">
+        <p v-if="is_delet" @click="manage">发布朋友圈</p>
+      </div>
+      <div class="right_box" v-if="$store.getters.get_typeid=== 302">
+        <p v-if="is_delet" @click="manage">发布</p>
+      </div>
     </div>
   </div>
 </template>
@@ -37,7 +43,10 @@ export default {
         { id: 10602, title: "矿机钱包记录" },
         { id: 10603, title: "商务钱包记录" },
         { id: 177, title: "广告" },
-        { id: 201, title: "交易大厅" }
+        { id: 201, title: "交易大厅" },
+        { id: 202, title: "交易详情" },
+        { id: 301, title: "朋友圈" },
+        { id: 302, title: "返回" }
       ]
     };
   },

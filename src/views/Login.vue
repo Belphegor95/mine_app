@@ -3,7 +3,7 @@
     <div class="logo_box">
       <div>
         <div></div>
-        <p>项目名称</p>
+        <p class="logo_name">项目名称</p>
       </div>
     </div>
     <div class="login_box">
@@ -80,6 +80,15 @@ export default {
 } */
 .logo_box {
   text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+.logo_name {
+  font-size: 0.32rem;
+  font-family: Adobe Heiti Std;
+  font-weight: normal;
+  color: rgba(255, 255, 255, 1);
+  margin-top: 0.17rem;
 }
 .logo_box > div > div:nth-child(1) {
   width: 1.4rem;

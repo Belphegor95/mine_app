@@ -14,15 +14,15 @@
     </div>
     <div>已发放</div>
     <div class="menu_box">
-      <div>
+      <div >
         <img src="../assets/img/friendimg.png" />
         <p>我的好友</p>
       </div>
-      <div>
-        <img @click="TradingFloor" src="../assets/img/friendimg.png" />
+      <div @click="rut_push(201,'/deal/trading_floor')">
+        <img src="../assets/img/friendimg.png" />
         <p>交易大厅</p>
       </div>
-      <div>
+      <div @click="rut_push(301,'/friendster/Friendster')">
         <img src="../assets/img/friendimg.png" />
         <p>朋友圈</p>
       </div>
@@ -50,7 +50,7 @@
         <img src="../assets/img/friendimg.png" />
         <p>音频</p>
       </div>
-      <div @click="Advertising" >
+      <div @click="Advertising">
         <img src="../assets/img/friendimg.png" />
         <p>视频直播</p>
       </div>
@@ -65,15 +65,19 @@ export default {
     head_
   },
   methods: {
-    personal: function () {
-      this.$router.push("/personal/personal")
+    personal: function() {
+      this.$router.push("/personal/personal");
     },
-    Advertising: function () {
-      this.$router.push("/advertising")
+    Advertising: function() {
+      this.$router.push("/advertising");
     },
-    TradingFloor: function () {
-      this.$store.commit("show_typeid", 201);
-      this.$router.push("/deal/trading_floor")
+    // TradingFloor: function() {
+    //   this.$store.commit("show_typeid", 201);
+    //   this.$router.push("/deal/trading_floor");
+    // },
+    rut_push: function(id,rut) {
+      this.$store.commit("show_typeid", id);
+      this.$router.push(rut);
     }
   }
 };
@@ -128,7 +132,7 @@ export default {
   /* border-radius: 0.2rem; */
 }
 .van-swipe__indicator--active {
-  background-color: #1989fa!important;
+  background-color: #1989fa !important;
 }
 .my-swipe .van-swipe-item {
   color: #fff;
