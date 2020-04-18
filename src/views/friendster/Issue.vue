@@ -50,4 +50,8 @@ export default {
 .tu_box > img {
     flex: 0 0 24%;
 }
+img {
+    width: 24%;
+    margin-right: 0.1rem;
+}
 </style>

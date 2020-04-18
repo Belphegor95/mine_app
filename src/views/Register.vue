@@ -1,7 +1,7 @@
 <template>
   <div class="register">
     <breadcrumb></breadcrumb>
-    <ul class="zhuce" v-if="typeid === 1">
+    <ul class="zhuce" v-if="$store.getters.get_typeid === 1">
       <li>
         <span>推荐人</span>
         <van-field v-model="text" placeholder="103164" />
@@ -36,7 +36,7 @@
         <van-button class="fasongbtn" type="info">发送</van-button>
       </li>
     </ul>
-    <div v-else-if="typeid === 2" style="width:100%;height:100%">
+    <div v-else-if="$store.getters.get_typeid === 2" style="width:100%;height:100%">
       <ul>
         <li>
           <span>推荐人</span>
@@ -56,26 +56,26 @@
         </li>
       </ul>
       <div class="geren_box">
-        <div @click="password(3)">
+        <div @click="password(21)">
           <span>登录密码</span>
           <img src="../assets/img/moreimg.png" />
         </div>
-        <div @click="password(4)">
+        <div @click="password(22)">
           <span>支付密码</span>
           <img src="../assets/img/moreimg.png" />
         </div>
-        <div @click="password(5)">
+        <div @click="password(23)">
           <span>支付宝账号</span>
           <img src="../assets/img/moreimg.png" />
         </div>
-        <div @click="password(6)">
+        <div @click="password(24)">
           <span>银行卡账号</span>
           <img src="../assets/img/moreimg.png" />
         </div>
       </div>
     </div>
     <!-- 更改登录密码 -->
-    <ul class="mima" v-else-if="typeid === 3">
+    <ul class="mima" v-else-if="$store.getters.get_typeid === 21">
       <li>
         <span>新登录密码</span>
         <van-field v-model="text" placeholder="请输入登录密码" />
@@ -90,7 +90,8 @@
         <van-button class="fasongbtn" type="info">发送</van-button>
       </li>
     </ul>
-    <ul class="zhifumima" v-else-if="typeid === 4">
+    <!-- 更改支付密码 -->
+    <ul class="zhifumima" v-else-if="$store.getters.get_typeid === 22">
       <li>
         <span>新支付密码</span>
         <van-field v-model="text" placeholder="请输入支付密码" />
@@ -105,7 +106,8 @@
         <van-button class="fasongbtn" type="info">发送</van-button>
       </li>
     </ul>
-    <ul class="zhifuzhanghao" v-else-if="typeid === 5">
+    <!-- 绑定支付宝账号 -->
+    <ul class="zhifuzhanghao" v-else-if="$store.getters.get_typeid === 23">
       <li>
         <span>支付宝账号</span>
         <van-field v-model="text" placeholder="13644444444" />
@@ -116,7 +118,8 @@
         <van-button class="fasongbtn" type="info">发送</van-button>
       </li>
     </ul>
-    <ul class="yinhangzhanghao" v-else-if="typeid === 6">
+    <!-- 绑定银行卡账号 -->
+    <ul class="yinhangzhanghao" v-else-if="$store.getters.get_typeid === 24">
       <li>
         <span>开户银行</span>
         <van-field v-model="text" placeholder="请输入银行名称" />
@@ -139,7 +142,7 @@
         <van-button class="fasongbtn" type="info">发送</van-button>
       </li>
     </ul>
-    <ul class="kefu" v-else-if="typeid === 7">
+    <ul class="kefu" v-else-if="$store.getters.get_typeid === 7">
       <li>
         <span>联系电话</span>
         <van-field v-model="text" placeholder="13666666666" />
@@ -149,7 +152,7 @@
         <van-field v-model="text" placeholder="13666666666" />
       </li>
     </ul>
-    <div class="queding_box" v-if="typeid != 7">
+    <div class="queding_box" v-if="$store.getters.get_typeid != 7">
       <van-button class="quedingbtn" type="info">确定</van-button>
     </div>
   </div>
@@ -163,13 +166,11 @@ export default {
   },
   data() {
     return {
-      text: "",
-      typeid: this.$store.getters.get_typeid
+      text: ""
     };
   },
   methods: {
     password: function(id) {
-      this.typeid = id;
       this.$store.commit("show_typeid", id);
     }
   }

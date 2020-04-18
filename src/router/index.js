@@ -26,9 +26,12 @@ import VideoPlayback from '../views/advertising/VideoPlayback.vue'
 import TradingFloor from '../views/deal/TradingFloor.vue'
 import Particulars from '../views/deal/Particulars.vue'
 
-// 朋友圈
+// 朋友圈 
 import Friendster from '../views/friendster/Friendster.vue'
 import Issue from '../views/friendster/Issue.vue'
+
+// 签到
+import SignIn from '../views/SignIn.vue'
 
 
 Vue.use(VueRouter)
@@ -128,6 +131,11 @@ const routes = [
     path: '/friendster/issue',
     name: 'Issue',
     component: Issue
+  },
+  {
+    path: '/sign_in',
+    name: 'SignIn',
+    component: SignIn
   },
   // {  
   //   path: '/about',
