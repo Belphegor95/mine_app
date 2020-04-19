@@ -20,9 +20,18 @@
         </li>
       </van-checkbox-group>
     </ul>
+    <div style="height:1.2rem;" ></div>
     <div class="queding_box">
       <van-button @click="rut_upadvertising" class="quedingbtn" type="info">上传广告</van-button>
     </div>
+    <van-popup class="modal_box" v-model="modal">
+      <h4>退出登录</h4>
+      <p>您真的要退出登录吗</p>
+      <div class="btn_box">
+        <span @click="modal = false">取消</span>
+        <span @click="quit">确定</span>
+      </div>
+    </van-popup>
   </div>
 </template>
 
@@ -35,7 +44,8 @@ export default {
   data() {
     return {
       result: [1],
-      is_delet: true
+      is_delet: true,
+      modal: false
     };
   },
   created() {
@@ -50,16 +60,25 @@ export default {
       if (!is) {
         this.is_delet = is;
       } else {
-        this.is_delet = is;
+        this.modal = true;
+        // this.is_delet = is;
       }
+    },
+    quit: function() {
+      this.modal = false;
     }
   }
 };
 </script>
 <style scoped>
 .Advertising_box {
+  width: 100%;
   height: 100%;
   background-color: #f7f7f7;
+  overflow-y: scroll;
+}
+.Advertising_box::-webkit-scrollbar{
+  display: none;
 }
 ul {
   /* justify-content: space-around; */
@@ -118,6 +137,9 @@ li {
 
 /* 确定 */
 .queding_box {
+  position: fixed;
+  left: 0;
+  bottom: 0;
   width: 100%;
   height: 0.98rem;
   background: #fff;
@@ -131,5 +153,41 @@ li {
   width: 6rem;
   height: 0.7rem;
   border-radius: 0.35rem;
+}
+
+.modal_box {
+  width: 80%;
+  padding: 0 0.5rem;
+  border-radius: 0.06rem;
+}
+.modal_box > h4 {
+  font-size: 0.4rem;
+  font-family: Adobe Heiti Std;
+  font-weight: normal;
+  color: rgba(51, 51, 51, 1);
+  line-height: 0.7rem;
+  margin-top: 0.28rem;
+}
+.modal_box > p {
+  font-size: 0.26rem;
+  font-family: Adobe Heiti Std;
+  font-weight: normal;
+  color: rgba(153, 153, 153, 1);
+  line-height: 0.7rem;
+  margin-bottom: 0.76rem;
+}
+.modal_box .btn_box {
+  font-size: 0.3rem;
+  font-family: PingFang;
+  font-weight: 500;
+  color: rgba(51, 51, 51, 1);
+  line-height: 0.7rem;
+  margin-bottom: 0.28rem;
+  height: 0.7rem;
+}
+.modal_box .btn_box > span {
+  margin-left: 0.78rem;
+  float: right;
+  box-sizing: border-box;
 }
 </style>

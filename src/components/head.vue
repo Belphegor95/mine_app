@@ -1,6 +1,6 @@
 <template>
   <div class="box">
-    <img src="../assets/img/logoimg.png" />
+    <img @click="back" src="../assets/img/logoimg.png" />
     <span>项目名称</span>
   </div>
 </template>

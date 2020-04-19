@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <header class="header">
-      <img src='../assets/img/home/qian.png' alt />
+      <img @click="rut_push(901,'/sign_in')" src="../assets/img/home/qian.png" alt />
       <button>
         <span>已发行/已销毁</span>
       </button>
@@ -33,7 +33,7 @@
     <div class="news">
       <img src="../assets/img/home/newLeft.png" alt />
       <van-notice-bar text="张三说李四今天不在家，赵四却说李四在家，李四说在刘四他家，刘四说李四不在他家，李四到底在那家。" />
-      <img src="../assets/img/home/newRight.png" alt />
+      <img @click="rut_push(401,'/journalism/journalism')" src="../assets/img/home/newRight.png" alt />
     </div>
     <div class="menu_box">
       <div @click="GameHome">
@@ -48,7 +48,7 @@
         <img src="../assets/img/home/tar3.png" />
         <p>朋友圈</p>
       </div>
-      <div>
+      <div @click="rut_push(106,'/personal/burse')">
         <img src="../assets/img/home/tar4.png" />
         <p>钱包</p>
       </div>
@@ -78,8 +78,7 @@
 
 <script>
 export default {
-  components: {
-  },
+  components: {},
   data() {
     return {
       current: 0 // 当亲轮播图下标
@@ -112,12 +111,13 @@ export default {
 </script>
 
 <style scoped>
-.home{
+.home {
   overflow: hidden;
+  background: #fff;
 }
 .header {
-  margin-top: .2rem;
-  height: .78rem;
+  margin-top: 0.2rem;
+  height: 0.78rem;
   padding: 0 0.3rem;
   box-sizing: border-box;
   display: flex;
@@ -136,7 +136,7 @@ export default {
   height: 0.6rem;
   border-radius: 0.3rem;
   background: #398ef5;
-  font-size: .26rem;
+  font-size: 0.26rem;
   font-family: Adobe Heiti Std;
   font-weight: normal;
   color: rgba(255, 255, 255, 1);
@@ -186,17 +186,23 @@ export default {
 .menu_box {
   display: flex;
   flex-wrap: wrap;
+  background: #F1F1F1;
 }
 .menu_box > div {
   /* padding: 0.55rem; */
-  flex: 0 0 33.33%;
+  /* flex: 0 0 33%; */
+  background: #fff;
+  width: 33%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 2.5rem;
-  border: 0.01rem solid #f1f1f1;
-  box-sizing: border-box;
+  margin-top: 1px
+}
+.menu_box > div:nth-child(3n+2){
+  margin: 0 1px;
+  margin-top: 1px
 }
 .menu_box > div > img {
   height: 1.2rem;

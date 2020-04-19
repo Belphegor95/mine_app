@@ -7,6 +7,10 @@
         <span></span>
         <span>全网交易数据</span>
       </div>
+      <div class="xinxi_box">
+        <span>今日价格: 1.00</span>
+        <span>24h成交量: 9448.00</span>
+      </div>
       <div id="myChart" :style="{width: '100%', height: '180px'}"></div>
     </div>
     <div class="liebiao_box">
@@ -32,8 +36,18 @@
     </div>
     <van-popup class="modal_box" round v-model="modal">
       <div class="mima_box">
-        <img src alt />
-        <van-field v-model="text" placeholder="请输入交易密码" />
+        <div>
+          <img src="../../assets/img/pigeon.png" alt />
+          <van-field v-model="text" placeholder="请输入出售数量" />
+        </div>
+        <div>
+          <img src="../../assets/img/pigeon.png" alt />
+          <van-field v-model="text" placeholder="请输入单个价格" />
+        </div>
+        <div>
+          <img src="../../assets/img/pigeon.png" alt />
+          <van-field v-model="text" placeholder="请输入交易密码" />
+        </div>
       </div>
       <van-button @click="show" class="quedingbtn" type="info">确定</van-button>
     </van-popup>
@@ -183,20 +197,38 @@ export default {
   background-color: #f1f1f1;
 }
 .my_box {
-  height: 4rem;
+  /* height: 4.5rem; */
   background-color: #fff;
   padding-bottom: 0.12rem;
 }
 .top_box {
-  padding: 0.3rem 0 0 0.4rem;
+  font-size: 0.27rem;
+  font-family: Adobe Heiti Std;
+  font-weight: normal;
+  color: rgba(51, 51, 51, 1);
+  padding: 0.3rem 0 0.2rem 0.4rem;
 }
 .top_box > span:nth-child(1) {
   display: inline-block;
-  width: 0.2rem;
-  height: 0.4rem;
+  width: 0.12rem;
+  height: 0.22rem;
   background-color: #fd5959;
+  margin-right: 0.1rem;
 }
-
+.xinxi_box {
+  padding-left: 0.2rem;
+  font-size: 0.24rem;
+  font-family: Adobe Heiti Std;
+  font-weight: normal;
+  color: rgba(51, 51, 51, 1);
+  display: flex;
+  padding: 0 0.6rem;
+  justify-content: space-between;
+}
+.xinxi_box > span:nth-child(1) {
+  font-size: 0.28rem;
+  font-weight: 700;
+}
 .liebiao_box {
   flex: auto;
   margin-top: 0.18rem;
@@ -270,6 +302,15 @@ li > span {
 .mima_box {
   margin-top: 1.2rem;
   margin-bottom: 1.3rem;
+}
+.mima_box > div {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.3rem;
+}
+.mima_box > div > img {
+  width: 0.35rem;
+  margin-right: 0.15rem;
 }
 .quedingbtn {
   width: 6rem;

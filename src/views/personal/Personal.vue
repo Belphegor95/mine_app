@@ -40,11 +40,19 @@
         <img src="../../assets/img/personal/serviceimg.png" alt />
         <p>联系客服</p>
       </li>
-      <li @click="quit">
+      <li @click="modal = true">
         <img src="../../assets/img/personal/quitimg.png" alt />
         <p>退出</p>
       </li>
     </ul>
+    <van-popup class="modal_box" v-model="modal">
+      <h4>退出登录</h4>
+      <p>您真的要退出登录吗</p>
+      <div class="btn_box">
+        <span @click="modal = false">取消</span>
+        <span @click="quit">确定</span>
+      </div>
+    </van-popup>
   </div>
 </template>
 
@@ -53,6 +61,11 @@ import head_ from "@/components/head";
 export default {
   components: {
     head_
+  },
+  data() {
+    return {
+      modal: false
+    };
   },
   methods: {
     rut_push: function(is, rut, typeid) {
@@ -127,5 +140,41 @@ li {
 li > img {
   height: 0.5rem;
   margin: 0 0.49rem 0 0.61rem;
+}
+
+.modal_box {
+  width: 80%;
+  padding: 0 0.5rem;
+  border-radius: 0.06rem;
+}
+.modal_box > h4 {
+  font-size: 0.4rem;
+  font-family: Adobe Heiti Std;
+  font-weight: normal;
+  color: rgba(51, 51, 51, 1);
+  line-height: 0.7rem;
+  margin-top: 0.28rem;
+}
+.modal_box > p {
+  font-size: 0.26rem;
+  font-family: Adobe Heiti Std;
+  font-weight: normal;
+  color: rgba(153, 153, 153, 1);
+  line-height: 0.7rem;
+  margin-bottom: 0.76rem;
+}
+.modal_box .btn_box {
+  font-size: 0.3rem;
+  font-family: PingFang;
+  font-weight: 500;
+  color: rgba(51, 51, 51, 1);
+  line-height: 0.7rem;
+  margin-bottom: 0.28rem;
+  height: 0.7rem;
+}
+.modal_box .btn_box > span {
+  margin-left: 0.78rem;
+  float: right;
+  box-sizing: border-box;
 }
 </style>

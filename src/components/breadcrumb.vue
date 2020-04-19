@@ -28,10 +28,10 @@ export default {
       titles: [
         { id: 1, title: "注册信息" },
         { id: 2, title: "个人资料" },
-        { id: 3, title: "更改登录密码" },
-        { id: 4, title: "更改支付密码" },
-        { id: 5, title: "绑定支付宝账号" },
-        { id: 6, title: "绑定银行卡账号" },
+        { id: 21, title: "更改登录密码" },
+        { id: 22, title: "更改支付密码" },
+        { id: 23, title: "绑定支付宝账号" },
+        { id: 24, title: "绑定银行卡账号" },
         { id: 7, title: "联系客服" },
         { id: 101, title: "我的团队" },
         { id: 102, title: "我的交易单" },
@@ -50,7 +50,9 @@ export default {
         { id: 201, title: "交易大厅" },
         { id: 202, title: "交易详情" },
         { id: 301, title: "朋友圈" },
-        { id: 302, title: "返回" }
+        { id: 302, title: "返回" },
+        { id: 401, title: "新闻快讯" },
+        { id: 901, title: "签到" }
       ]
     };
   },
@@ -66,7 +68,15 @@ export default {
       return title;
     },
     back: function() {
-      this.$router.go(-1);
+      let id = this.$store.getters.get_typeid;
+      if (id === 21 || id === 22 || id === 23 || id === 24) {
+        this.$store.commit("show_typeid", 2);
+      } else if (id === 302) {
+        this.$store.commit("show_typeid", 301);
+        this.$router.go(-1);
+      } else {
+        this.$router.go(-1);
+      }
     },
     manage: function() {
       this.is_delet = !this.is_delet;
