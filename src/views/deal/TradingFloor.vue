@@ -1,7 +1,7 @@
 <!-- 交易大厅 -->
 <template>
   <div class="TradingFloor">
-    <breadcrumb></breadcrumb>
+    <!-- <breadcrumb></breadcrumb> -->
     <div class="my_box">
       <div class="top_box">
         <span></span>
@@ -26,16 +26,16 @@
     </ul>
     <div class="liebiao_box">
       <ul>
-        <li v-for="value in 5" :key="value">
+        <li v-for="value in 10" :key="value">
           <span>20.1025</span>
           <span>20.1025</span>
           <span class="yellow" @click="particulars">购买</span>
         </li>
-        <li v-for="value in 5" :key="value">
+        <!-- <li v-for="value in 5" :key="value + 10">
           <span>20.1025</span>
           <span>20.1025</span>
           <span class="yellow" @click="particulars">购买</span>
-        </li>
+        </li>-->
       </ul>
     </div>
     <div class="maichu_box">
@@ -62,11 +62,11 @@
 </template>
 
 <script>
-import breadcrumb from "@/components/breadcrumb";
+// import breadcrumb from "@/components/breadcrumb";
 export default {
-  components: {
-    breadcrumb
-  },
+  // components: {
+  //   breadcrumb
+  // },
   data() {
     return {
       modal: false,
@@ -94,7 +94,7 @@ export default {
           top: "8%",
           left: "6%",
           right: "6%",
-          bottom: "4%",
+          bottom: "8%",
           containLabel: true
         },
         tooltip: {
@@ -167,7 +167,7 @@ export default {
             type: "line",
             symbolSize: 8,
             symbol: "circle",
-            data: [0.25, 0.3, 0.6, 0.4, 0.5, 0.25, 0.25, 0.25, 1, 0.9  ]
+            data: [0.25, 0.3, 0.6, 0.4, 0.5, 0.25, 0.25, 0.25, 1, 0.9]
           }
         ]
       };
@@ -185,11 +185,8 @@ export default {
   background-color: #f1f1f1;
 }
 .my_box {
-  height: 4.5rem;
-  /* height: 4.5rem; */
-  /* height: 4.5rem; */
   background-color: #fff;
-  padding-bottom: 0.12rem;
+  /* padding-bottom: 0.12rem; */
 }
 .top_box {
   font-size: 0.27rem;
@@ -220,7 +217,7 @@ export default {
   font-weight: 700;
 }
 .liebiao_box {
-  flex: auto;
+  /* flex: auto; */
   overflow-y: scroll;
   /* margin-top: 0.18rem; */
 }
@@ -245,7 +242,7 @@ export default {
 }
 
 .head_box > div:nth-child(1) {
-  width: 1.9rem;
+  width: 1.5rem;
   height: 0.5rem;
   /* background: rgba(57, 142, 245, 1); */
   /* border-radius: 10px 10px 0px 0px; */
@@ -257,13 +254,13 @@ export default {
   line-height: 0.5rem;
 }
 .head_box > div:nth-child(2) {
-  flex: auto;
+  /* flex: auto; */
   height: 0.03rem;
   background: rgba(57, 142, 245, 1);
 }
 
 ul {
-  height: 100%;
+  /* height: 100%; */
   background-color: #fafafa;
 }
 li {
@@ -287,15 +284,17 @@ li > span {
 
 .maichu_box {
   width: 100%;
-  height: 0.98rem;
+  height: 1.2rem;
   background: #fff;
   display: flex;
   justify-content: center;
   align-items: center;
+  border-top: 1px solid rgba(225, 225, 225, 1);
 }
 .maichubtn {
   width: 6rem;
-  height: 0.8rem;
+  height: 0.6rem;
+  line-height: 0.6rem;
   border-radius: 0.35rem;
 }
 

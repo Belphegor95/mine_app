@@ -154,8 +154,8 @@ li > img {
   margin-left: 0.09rem;
 }
 .btn {
-  width: 0.4rem;
-  height: 0.3rem;
+  width: 0.3rem;
+  height: 0.2rem;
   background: rgba(247, 247, 247, 1);
   border-radius: 0.04rem;
   display: flex;
