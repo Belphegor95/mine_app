@@ -31,7 +31,7 @@
       </ul>
     </div>
     <div class="news">
-      <img src="../assets/img/home/newLeft.png" alt />
+      <img @click="rut_push(401,'/journalism/journalism')" src="../assets/img/home/newLeft.png" alt />
       <van-notice-bar text="张三说李四今天不在家，赵四却说李四在家，李四说在刘四他家，刘四说李四不在他家，李四到底在那家。" />
       <img @click="rut_push(401,'/journalism/journalism')" src="../assets/img/home/newRight.png" alt />
     </div>
