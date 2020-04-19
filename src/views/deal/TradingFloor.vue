@@ -1,9 +1,9 @@
 <!-- 交易大厅 -->
 <template>
   <div class="TradingFloor">
-    <!-- <breadcrumb></breadcrumb> -->
+    <breadcrumb></breadcrumb>
     <div class="my_box">
-      <div class="top_box">
+      <div class="top1_box">
         <span></span>
         <span>全网交易数据</span>
       </div>
@@ -62,11 +62,11 @@
 </template>
 
 <script>
-// import breadcrumb from "@/components/breadcrumb";
+import breadcrumb from "@/components/breadcrumb";
 export default {
-  // components: {
-  //   breadcrumb
-  // },
+  components: {
+    breadcrumb
+  },
   data() {
     return {
       modal: false,
@@ -188,14 +188,14 @@ export default {
   background-color: #fff;
   /* padding-bottom: 0.12rem; */
 }
-.top_box {
+.top1_box {
   font-size: 0.27rem;
   font-family: Adobe Heiti Std;
   font-weight: normal;
   color: rgba(51, 51, 51, 1);
   padding: 0.3rem 0 0.2rem 0.4rem;
 }
-.top_box > span:nth-child(1) {
+.top1_box > span:nth-child(1) {
   display: inline-block;
   width: 0.12rem;
   height: 0.22rem;
