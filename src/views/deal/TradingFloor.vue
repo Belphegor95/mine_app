@@ -13,16 +13,23 @@
       </div>
       <div id="myChart" :style="{width: '100%', height: '180px'}"></div>
     </div>
+    <div class="head_box">
+      <div>出售</div>
+      <!-- <div></div> -->
+    </div>
+    <ul class="liebiaoHead">
+      <li>
+        <span>出售数量</span>
+        <span>价格</span>
+        <span>购买</span>
+      </li>
+    </ul>
     <div class="liebiao_box">
-      <div class="head_box">
-        <div>出售</div>
-        <div></div>
-      </div>
       <ul>
-        <li>
-          <span>出售数量</span>
-          <span>价格</span>
-          <span>购买</span>
+        <li v-for="value in 5" :key="value">
+          <span>20.1025</span>
+          <span>20.1025</span>
+          <span class="yellow" @click="particulars">购买</span>
         </li>
         <li v-for="value in 5" :key="value">
           <span>20.1025</span>
@@ -180,6 +187,7 @@ export default {
 .my_box {
   height: 4.5rem;
   /* height: 4.5rem; */
+  /* height: 4.5rem; */
   background-color: #fff;
   padding-bottom: 0.12rem;
 }
@@ -213,18 +221,33 @@ export default {
 }
 .liebiao_box {
   flex: auto;
-  margin-top: 0.18rem;
+  overflow-y: scroll;
+  /* margin-top: 0.18rem; */
+}
+.liebiao_box::-webkit-scrollbar {
+  display: none;
+}
+.liebiaoHead {
+  height: auto;
+  background: #fff;
+}
+.liebiaoHead > li {
+  background: #fff;
 }
 .head_box {
   width: 100%;
   height: 0.5rem;
   display: flex;
   align-items: flex-end;
+  margin-top: 0.18rem;
+  background: url("../../assets/img/deal/title.png") center center / 100% 100%
+    no-repeat;
 }
+
 .head_box > div:nth-child(1) {
   width: 1.9rem;
   height: 0.5rem;
-  background: rgba(57, 142, 245, 1);
+  /* background: rgba(57, 142, 245, 1); */
   /* border-radius: 10px 10px 0px 0px; */
   font-size: 0.26rem;
   font-family: Adobe Heiti Std;
@@ -241,7 +264,7 @@ export default {
 
 ul {
   height: 100%;
-  background-color: #fff;
+  background-color: #fafafa;
 }
 li {
   display: flex;
@@ -249,7 +272,7 @@ li {
   justify-content: center;
 }
 li:nth-of-type(even) {
-  background-color: #fafafa;
+  background-color: #fff;
 }
 li > span {
   font-size: 0.26rem;
