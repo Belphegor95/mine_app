@@ -36,8 +36,9 @@
         <van-button class="fasongbtn" type="info">发送</van-button>
       </li>
     </ul>
-    <div v-else-if="$store.getters.get_typeid === 2" style="width:100%;height:100%">
-      <ul>
+    <!-- 个人资料 -->
+    <div  v-else-if="$store.getters.get_typeid === 2" style="width:100%;height:100%">
+      <ul class="geren">
         <li>
           <span>推荐人</span>
           <van-field v-model="text" placeholder="103164" />

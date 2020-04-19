@@ -83,25 +83,6 @@ export default {
         //   数值颜色
         color: ["#69AAEA", "#ff733f", "#ec4863"],
         backgroundColor: "#fff",
-        title: [
-          {
-            text: "价格",
-            left: "1%",
-            top: "6%",
-            textStyle: {
-              color: "#fff"
-            }
-          },
-          {
-            text: "时间",
-            left: "83%",
-            top: "6%",
-            textAlign: "center",
-            textStyle: {
-              color: "#fff"
-            }
-          }
-        ],
         grid: {
           top: "8%",
           left: "6%",
@@ -179,7 +160,7 @@ export default {
             type: "line",
             symbolSize: 8,
             symbol: "circle",
-            data: [0.25, 0.3, 0.6, 0.4, 0.5, 0.25, 0.25, 0.25, 1]
+            data: [0.25, 0.3, 0.6, 0.4, 0.5, 0.25, 0.25, 0.25, 1, 0.9  ]
           }
         ]
       };

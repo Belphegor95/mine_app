@@ -138,6 +138,7 @@ li > img {
 }
 .tu_box img {
   width: 1.6rem;
+  height: 1.6rem;
   margin-right: 0.1rem;
 }
 .li_box {
@@ -153,14 +154,14 @@ li > img {
   margin-left: 0.09rem;
 }
 .btn {
-  width: 0.6rem;
-  height: 0.4rem;
+  width: 0.4rem;
+  height: 0.3rem;
   background: rgba(247, 247, 247, 1);
   border-radius: 0.04rem;
   display: flex;
   align-items: center;
   justify-content: space-around;
-  margin-left: 0.09rem;
+  margin-left: 0.1rem;
 }
 
 .btn > span {

@@ -44,14 +44,15 @@ export default {
   min-height: 2.4rem;
 }
 .tu_box {
-    display: flex;
-    padding: 0.4rem;
+  display: flex;
+  padding: 0.4rem;
 }
 .tu_box > img {
-    flex: 0 0 24%;
+  flex: 0 0 24%;
 }
 img {
-    width: 24%;
-    margin-right: 0.1rem;
+  width: 1.6rem;
+  height: 1.6rem;
+  margin-right: 0.1rem;
 }
 </style>
