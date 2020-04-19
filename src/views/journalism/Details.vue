@@ -23,6 +23,15 @@ export default {
 };
 </script>
 <style scoped>
+.Details{
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  overflow-y: scroll;
+}
+.Details::-webkit-scrollbar{
+  display: none;
+}
 .xiangqing {
   padding: 0.26rem 0.65rem 0 0.5rem;
 }

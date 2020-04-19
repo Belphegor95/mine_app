@@ -20,6 +20,7 @@
         </li>
       </van-checkbox-group>
     </ul>
+    <div style="height:1.2rem;" ></div>
     <div class="queding_box">
       <van-button @click="rut_upadvertising" class="quedingbtn" type="info">上传广告</van-button>
     </div>
@@ -71,8 +72,13 @@ export default {
 </script>
 <style scoped>
 .Advertising_box {
+  width: 100%;
   height: 100%;
   background-color: #f7f7f7;
+  overflow-y: scroll;
+}
+.Advertising_box::-webkit-scrollbar{
+  display: none;
 }
 ul {
   /* justify-content: space-around; */
@@ -131,6 +137,9 @@ li {
 
 /* 确定 */
 .queding_box {
+  position: fixed;
+  left: 0;
+  bottom: 0;
   width: 100%;
   height: 0.98rem;
   background: #fff;

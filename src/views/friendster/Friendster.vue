@@ -1,6 +1,6 @@
 <!-- 朋友圈 -->
 <template>
-  <div>
+  <div class="Friends" >
     <breadcrumb @is_manage="manage"></breadcrumb>
     <div class="topbtn_box">
       <span class="blue">文字</span>
@@ -87,6 +87,15 @@ export default {
 };
 </script>
 <style scoped>
+.Friends{
+  background: #fff;
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+}
+.Friends::-webkit-scrollbar{
+  display: none;
+}
 .topbtn_box {
   display: flex;
   height: 0.6rem;

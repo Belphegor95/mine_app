@@ -33,7 +33,7 @@
     <div class="news">
       <img @click="rut_push(401,'/journalism/journalism')" src="../assets/img/home/newLeft.png" alt />
       <van-notice-bar text="张三说李四今天不在家，赵四却说李四在家，李四说在刘四他家，刘四说李四不在他家，李四到底在那家。" />
-      <img src="../assets/img/home/newRight.png" alt />
+      <img @click="rut_push(401,'/journalism/journalism')" src="../assets/img/home/newRight.png" alt />
     </div>
     <div class="menu_box">
       <div @click="GameHome">
@@ -113,6 +113,7 @@ export default {
 <style scoped>
 .home {
   overflow: hidden;
+  background: #fff;
 }
 .header {
   margin-top: 0.2rem;
@@ -185,17 +186,23 @@ export default {
 .menu_box {
   display: flex;
   flex-wrap: wrap;
+  background: #F1F1F1;
 }
 .menu_box > div {
   /* padding: 0.55rem; */
-  flex: 0 0 33.33%;
+  /* flex: 0 0 33%; */
+  background: #fff;
+  width: 33%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 2.5rem;
-  border: 0.01rem solid #f1f1f1;
-  box-sizing: border-box;
+  margin-top: 1px
+}
+.menu_box > div:nth-child(3n+2){
+  margin: 0 1px;
+  margin-top: 1px
 }
 .menu_box > div > img {
   height: 1.2rem;

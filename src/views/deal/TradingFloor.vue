@@ -198,6 +198,7 @@ export default {
 }
 .my_box {
   height: 4.5rem;
+  /* height: 4.5rem; */
   background-color: #fff;
   padding-bottom: 0.12rem;
 }
