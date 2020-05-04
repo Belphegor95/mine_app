@@ -21,7 +21,7 @@
     <footer class="gameTarbar">
       <div @click="tarPush(1)">
         <!-- 角标 -->
-        <span>9</span>
+        <span>{{ friends }}</span>
         <img src="../../assets/img/game/gameTar1.png" alt />
       </div>
       <div @click="tarPush(2)">
@@ -72,6 +72,7 @@ export default {
     return {
       popupShow: false, // 弹框开关
       tarbarType: false, //  弹出那一个模块
+      friends: 0, // 好友数量
       headerMsg: [
         { key: "矿机钱包", value: "888888" },
         { key: "今日收益", value: "888888" },
@@ -81,8 +82,27 @@ export default {
     };
   },
   created() {},
-  mounted() {},
+  mounted() {
+    this.getgame()
+  },
   methods: {
+    getgame: function () {
+      this.token_post(this.$api.game_index, {
+        type: 1
+      })
+        .then(data => {
+          if (data.code === 200) {
+            this.headerMsg[0].value = data.data.ito_money
+            this.headerMsg[1].value = data.data.today_money
+            this.headerMsg[2].value = data.data.ito
+            this.headerMsg[3].value = data.data.computing
+            this.friends = data.data.friends
+          } else {
+            this.$toast(data.msg);
+          }
+        })
+        .catch(() => {});
+    },
     //根据tarbar弹出不同的内容
     tarPush(type) {
       this.$router.push(`/gameHome?tarbar=${type}`);

@@ -9,15 +9,15 @@
     <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
       <van-cell>
         <ul class="contentList">
-          <li v-for="value  in list" :key="value" @click="()=>popupShow=true">
+          <li v-for="(ito,index)  in itolist" :key="index" @click="()=>popupShow=true">
             <span>
               <img src="../../assets/img/game/text1.png" alt />
             </span>
             <div>
-              <p>等级：微矿</p>
-              <p>算力：0.01</p>
-              <p>采矿时间：30天</p>
-              <p>投入产出比：10/11</p>
+              <p>等级：{{ ito.name }}</p>
+              <p>算力：{{ ito.computing }}</p>
+              <p>采矿时间：{{ ito.valid_time }}天</p>
+              <p>投入产出比：{{ ito.roi }}</p>
             </div>
           </li>
         </ul>
@@ -68,7 +68,7 @@ export default {
       pwd: "",
       popupShow: false,
       nextTo: false,
-      list: [],
+      itolist: [],
       loading: false,
       finished: false
     };
@@ -76,8 +76,21 @@ export default {
   created() {
     this.$store.commit("show_typeid", 17804);
   },
-  mounted() {},
+  mounted() {
+    this.getito()
+  },
   methods: {
+    getito: function() {
+      this.axios
+        .get(this.$api.index_ito)
+        .then(data => {
+          if (data.code === 200) {
+            this.itolist = data.data
+            // this.$toast(data)
+          }
+        })
+        .catch(() => {});
+    },
     goBack() {
       this.$router.go(-1);
     },
@@ -85,19 +98,19 @@ export default {
       this.$router.push(`/gameHome?tarbar=${type}`);
     },
     onLoad() {
-      setTimeout(() => {
-        for (let i = 0; i < 10; i++) {
-          this.list.push(this.list.length + 1);
-        }
+      // setTimeout(() => {
+      //   for (let i = 0; i < 10; i++) {
+      //     this.list.push(this.list.length + 1);
+      //   }
 
-        // 加载状态结束
-        this.loading = false;
+      //   // 加载状态结束
+      //   this.loading = false;
 
-        // 数据全部加载完成
-        if (this.list.length >= 20) {
-          this.finished = true;
-        }
-      }, 1000);
+      //   // 数据全部加载完成
+      //   if (this.list.length >= 20) {
+      //     this.finished = true;
+      //   }
+      // }, 1000);
     }
   }
 };
@@ -211,8 +224,8 @@ export default {
 .msgTop div {
   line-height: 0.4rem;
 }
-.zhifumima{
-  margin-top: .3rem;
+.zhifumima {
+  margin-top: 0.3rem;
 }
 .zhifumima li {
   display: flex;
@@ -228,18 +241,18 @@ export default {
   font-weight: normal;
   color: rgba(51, 51, 51, 1);
 }
-.machineMsg >p {
+.machineMsg > p {
   margin-top: 1.2rem;
-  margin-bottom: .2rem;
+  margin-bottom: 0.2rem;
   font-size: 0.26rem;
   font-family: Adobe Heiti Std;
   font-weight: normal;
   color: rgba(51, 51, 51, 1);
-  margin-left: .55rem;
+  margin-left: 0.55rem;
 }
-.machineMsg >button {
+.machineMsg > button {
   width: 6rem;
-  height: .8rem;
+  height: 0.8rem;
   display: flex;
   margin: 0 auto;
   border: none;

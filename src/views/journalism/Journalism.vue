@@ -3,7 +3,11 @@
   <div class="Journalism">
     <breadcrumb></breadcrumb>
     <ul>
-      <li @click="rut_push">
+      <li @click="rut_push(news.id)" v-for="(news,index) in newslist" :key="index">
+        <p v-text="news.title"></p>
+        <div v-text="news.add_time"></div>
+      </li>
+      <!-- <li @click="rut_push">
         <p>NCK 2小时内快速拉升 涨破22美元，NCK 2小时内快速拉升 涨破22 美元，阿第三方科技爱的色放Joe啦地方</p>
         <div>2019-12-12 12:00:00</div>
       </li>
@@ -14,7 +18,7 @@
       <li>
         <p>NCK 2小时内快速拉升 涨破22美元，NCK 2小时内快速拉升 涨破22 美元，阿第三方科技爱的色放Joe啦地方</p>
         <div>2019-12-12 12:00:00</div>
-      </li>
+      </li> -->
     </ul>
   </div>
 </template>
@@ -26,11 +30,28 @@ export default {
     breadcrumb
   },
   data() {
-    return {};
+    return {
+      newslist: [] 
+    };
+  },
+  mounted() {
+    this.getNewslist();
   },
   methods: {
-    rut_push: function () {
-      this.$router.push("/journalism/details")
+    getNewslist: function() {
+      this.axios
+        .get(this.$api.index_newslist, {})
+        .then((data) => {
+          if (data.code === 200) {
+            this.newslist = data.data
+          } else {
+            this.$toast(data.msg)
+          }
+        })
+        .catch(() => {});
+    },
+    rut_push: function() {
+      this.$router.push("/journalism/details");
     }
   }
 };

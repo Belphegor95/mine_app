@@ -39,6 +39,7 @@ export default {
         { id: 104, title: "分享推广" },
         { id: 105, title: "上传广告" },
         { id: 106, title: "我的钱包" },
+        { id: 107, title: "我的信息" },
         { id: 10601, title: "提现" },
         { id: 10602, title: "矿机钱包记录" },
         { id: 10603, title: "商务钱包记录" },

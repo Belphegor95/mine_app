@@ -3,10 +3,10 @@
   <div class="AdvertisingHome_box">
     <breadcrumb></breadcrumb>
     <van-tabs>
-      <van-tab v-for="index in 8" :key="index" :title="'标签 ' + index">
+      <van-tab v-for="(item,index) in cates" :key="index" :title="item.ca_name">
         <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
           <van-cell>
-            <ul class="list" >
+            <ul class="list">
               <li v-for="value  in list" :key="value">
                 <div class="img_"></div>
                 <div class="xinxi_box">
@@ -37,14 +37,29 @@ export default {
       tarbarTitile: "",
       list: [],
       loading: false,
-      finished: false
+      finished: false,
+      cates: [], //广告标签
     };
   },
   created() {
     this.$store.commit("show_typeid", 177);
   },
-  mounted() {},
+  mounted() {
+    this.getcates();
+  },
   methods: {
+    getcates: function() {
+      this.axios
+        .get(this.$api.index_cates)
+        .then(data => {
+          if (data.code === 200) {
+            this.cates = data.data.cates
+          } else {
+            this.$toast(data.msg);
+          }
+        })
+        .catch(() => {});
+    },
     onLoad() {
       setTimeout(() => {
         for (let i = 0; i < 5; i++) {

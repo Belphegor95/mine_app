@@ -1,7 +1,8 @@
 <!-- 个人中心 -->
 <template>
   <div class="personalimg_box">
-    <head_></head_>
+    <breadcrumb></breadcrumb>
+    <!-- <head_></head_> -->
     <div class="geren_box">
       <div class="geren">
         <img src="../../assets/img/personal/portraitimg.png" />
@@ -57,10 +58,12 @@
 </template>
 
 <script>
-import head_ from "@/components/head";
+// import head_ from "@/components/head";
+import breadcrumb from "@/components/breadcrumb";
 export default {
   components: {
-    head_
+    // head_,
+    breadcrumb
   },
   data() {
     return {

@@ -34,7 +34,7 @@
         </span>
       </div>
       <p>坚持每天签到，收获更多</p>
-      <van-button class="quedingbtn" type="info">确定</van-button>
+      <van-button @click="sign" class="quedingbtn" type="info">确定</van-button>
     </div>
   </div>
 </template>
@@ -48,7 +48,20 @@ export default {
   data() {
     return {};
   },
-  methods: {}
+  methods: {
+    sign: function () {
+      this.token_post(this.$api.user_sign)
+        .then(data => {
+          if (data.code === 200) {
+            this.$toast(data.msg)
+            // console.log(data);
+          } else {
+            this.$toast(data.msg)
+          }
+        })
+        .catch(() => {});
+    }
+  }
 };
 </script>
 <style scoped>

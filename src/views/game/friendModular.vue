@@ -1,4 +1,4 @@
-<!-- 广告视频区 -->
+<!-- 我的好友 -->
 <template>
   <div class="AdvertisingHome_box">
     <breadcrumb></breadcrumb>
@@ -21,12 +21,12 @@
     <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
       <van-cell>
         <ul class="contentList">
-          <li v-for="value  in list" :key="value">
+          <li v-for="(item,index)  in myfriendslist" :key="index">
             <div>
-              <img src="../../assets/img/game/manFriend.png" alt />
+              <img :src="$api.baseUrl + item.us_head_pic" alt />
               <div>
-                <span>雷厉风行</span>
-                <i>ID：215472</i>
+                <span>{{ item.us_nickname }}</span>
+                <i>ID：{{ item.id }}</i>
               </div>
             </div>
             <img src="../../assets/img/game/gameTar5.png" alt />
@@ -46,7 +46,7 @@ export default {
   data() {
     return {
       nextTo:false,
-      list: [],
+      myfriendslist: [],
       loading: false,
       finished: false
     };
@@ -54,25 +54,37 @@ export default {
   created() {
     this.$store.commit("show_typeid", 17801);
   },
-  mounted() {},
+  mounted() {
+    this.getmyfriends()
+  },
   methods: {
+    getmyfriends: function () {
+      this.token_post(this.$api.user_myfriends)
+        .then(data => {
+          if (data.code === 200) {
+            // console.log(data);
+            this.myfriendslist = data.data
+          } else {
+            this.$toast(data.msg);
+          }
+        })
+        .catch(() => {});
+    },
     pushTo(type){
        this.$router.push(`/gameHome?tarbar=${type}`);
     },
     onLoad() {
-      setTimeout(() => {
-        for (let i = 0; i < 5; i++) {
-          this.list.push(this.list.length + 1);
-        }
-
-        // 加载状态结束
-        this.loading = false;
-
-        // 数据全部加载完成
-        if (this.list.length >= 20) {
-          this.finished = true;
-        }
-      }, 1000);
+      // setTimeout(() => {
+      //   for (let i = 0; i < 5; i++) {
+      //     this.list.push(this.list.length + 1);
+      //   }
+      //   // 加载状态结束
+      //   this.loading = false;
+      //   // 数据全部加载完成
+      //   if (this.list.length >= 20) {
+      //     this.finished = true;
+      //   }
+      // }, 1000);
     }
   }
 };

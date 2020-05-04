@@ -3,7 +3,7 @@
   <div class="DealingSlip_box">
     <breadcrumb></breadcrumb>
     <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-      <van-cell>
+      <van-cell v-for="(item,index) in mytradelist" :key="index">
         <div class="liebiao_box">
           <div class="zhuangtai_box">
             <p>状态</p>
@@ -12,42 +12,14 @@
             <p>交易时间</p>
           </div>
           <div class="xinxi_box">
-            <p class="blue">待您付款</p>
-            <p>126854</p>
-            <p>8000.00</p>
-            <p>2018-08-08 24:00:00</p>
-          </div>
-        </div>
-      </van-cell>
-      <van-cell>
-        <div class="liebiao_box">
-          <div class="zhuangtai_box">
-            <p>状态</p>
-            <p>对方ID</p>
-            <p>交易金额</p>
-            <p>交易时间</p>
-          </div>
-          <div class="xinxi_box">
-            <p class="red">待对方付款</p>
-            <p>126854</p>
-            <p>8000.00</p>
-            <p>2018-08-08 24:00:00</p>
-          </div>
-        </div>
-      </van-cell>
-      <van-cell v-for="item in list" :key="item">
-        <div class="liebiao_box">
-          <div class="zhuangtai_box">
-            <p>状态</p>
-            <p>对方ID</p>
-            <p>交易金额</p>
-            <p>交易时间</p>
-          </div>
-          <div class="xinxi_box">
-            <p >交易完成</p>
-            <p>126854</p>
-            <p>8000.00</p>
-            <p>2018-08-08 24:00:00</p>
+            <p v-if="item.status === 0" class="gray">待交易</p>
+            <p v-else-if="item.status === 1" class="red">待对方付款</p>
+            <p v-else-if="item.status === 2" class="blue">待您付款</p>
+            <p v-else-if="item.status === 3">交易完成</p>
+            <p v-if="item.us_id ">{{ item.us_id }}</p>
+            <p v-else>暂无</p>
+            <p>{{ item.price }}</p>
+            <p>{{ item.add_time }}</p>
           </div>
         </div>
       </van-cell>
@@ -63,7 +35,8 @@ export default {
   },
   data() {
     return {
-      list: [],
+      mytradelist: [],
+      page: 1,
       loading: false,
       finished: false
     };
@@ -72,23 +45,36 @@ export default {
     this.$store.commit("show_typeid", 102);
   },
   mounted() {
-    
+    this.getmytrade();
   },
   methods: {
+    getmytrade: function() {
+      this.finished = true;
+      this.token_post(this.$api.trade_mytrade, { Page: this.page })
+        .then(data => {
+          if (data.code === 200) {
+            this.mytradelist = this.mytradelist.concat(data.data);
+            this.finished = false;
+          } else {
+            this.$toast(data.msg);
+          }
+        })
+        .catch(() => {});
+    },
     onLoad() {
-      setTimeout(() => {
-        for (let i = 0; i < 5; i++) {
-          this.list.push(this.list.length + 1);
-        }
-
-        // 加载状态结束
-        this.loading = false;
-
-        // 数据全部加载完成
-        if (this.list.length >= 20) {
-          this.finished = true;
-        }
-      }, 1000);
+      this.page++
+      this.getmytrade()
+      // setTimeout(() => {
+      //   for (let i = 0; i < 5; i++) {
+      //     this.list.push(this.list.length + 1);
+      //   }
+      //   // 加载状态结束
+      //   this.loading = false;
+      //   // 数据全部加载完成
+      //   if (this.list.length >= 20) {
+      //     this.finished = true;
+      //   }
+      // }, 1000);
     }
   }
 };
@@ -118,10 +104,13 @@ export default {
   text-align: right;
 }
 .blue {
-  color: #398EF5!important;
+  color: #398ef5 !important;
 }
 .red {
-  color: #FD1A1A!important;
+  color: #fd1a1a !important;
+}
+.gray {
+  color: #AAA !important;
 }
 </style>
 

@@ -38,13 +38,18 @@
       </li>
     </ul>
     <!-- </div> -->
+    <!-- <van-uploader :after-read="afterRead" /> -->
+
     <div class="up_box">
       <div class="upbtn_box">
-        <img src="../../assets/img/deal/uploadingimg.png" alt />
-        <p>请上传转账凭证</p>
+        <van-uploader>
+          <img src="../../assets/img/deal/uploadingimg.png" alt />
+          <p>请上传转账凭证</p>
+        </van-uploader>
       </div>
       <p>温馨提示：请在2小时内完成支付，否者会封号处理</p>
     </div>
+
     <div class="zhifu_box">
       <van-button class="zhifubtn" type="info">我已支付</van-button>
     </div>
@@ -125,19 +130,20 @@ li {
   position: relative;
   margin-bottom: 0.31rem;
 }
-.upbtn_box > img {
+.upbtn_box  img {
   width: 3rem;
   height: 3.6rem;
   background: rgba(224, 233, 248, 1);
   border-radius: 10px;
 }
-.upbtn_box > p {
+.upbtn_box  p {
   font-size: 0.3rem;
   font-family: Adobe Heiti Std;
   font-weight: normal;
   color: rgba(144, 161, 196, 1);
   position: absolute;
   bottom: 0.58rem;
+  left: 0.4rem;
 }
 .up_box > p {
   font-size: 0.26rem;

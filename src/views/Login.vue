@@ -7,10 +7,10 @@
       </div>
     </div>
     <div class="login_box">
-      <van-field v-model="text" placeholder="请输入您的手机号" />
-      <van-field v-model="text" placeholder="请输入密码" />
+      <van-field v-model="account" placeholder="请输入您的手机号" />
+      <van-field v-model="password" placeholder="请输入密码" />
       <div class="yanzheng_box">
-        <van-field v-model="text" placeholder="请输入验证码" />
+        <van-field v-model="verification" placeholder="请输入验证码" />
         <div class="yzm" @click="originalCodeUpdata">
           <i
             v-for="(item,index) in originalCode"
@@ -39,7 +39,9 @@
 export default {
   data() {
     return {
-      text: "",
+      account: "",
+      password: "",
+      verification: "",
       originalCode: [] // 用来生成验证码
     };
   },
@@ -72,7 +74,36 @@ export default {
       this.originalCode = originalCode;
     },
     home: function() {
-      this.$router.push("/home");
+      // if (this.account === "") {
+      //   this.$toast("账号未输入");
+      //   return
+      // } else if (this.password === "") {
+      //   this.$toast("密码未输入");
+      //   return
+      // } else if (this.verification === "") {
+      //   this.$toast("验证码未输入");
+      //   return
+      // }
+      this.token_get(this.$api.user_login)
+        .then(data => {
+          if (data.code == 200) {
+            localStorage.clear();
+            window.localStorage.account = this.account;
+            window.localStorage.password = this.password;
+            this.$store.commit("show_user", data.data);
+            this.$toast({
+              message: data.msg,
+              onOpened: () => {
+                this.$router.push("/home");
+              }
+            });
+          } else {
+            this.$toast(data.msg);
+          }
+        })
+        .catch(() => {
+          this.$toast(this.$api.monmsg);
+        });
     },
     register: function() {
       this.$store.commit("show_typeid", 1);
@@ -197,7 +228,7 @@ export default {
   color: rgba(255, 255, 255, 1) !important;
 }
 .login_box .van-field__control::-webkit-input-placeholder {
-  font-size: .3rem;
+  font-size: 0.3rem;
   font-family: PingFang;
   font-weight: 400;
   color: rgba(255, 255, 255, 1);

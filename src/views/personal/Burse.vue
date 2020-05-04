@@ -13,10 +13,10 @@
       </div>
     </div>
     <ul>
-      <li @click="rut_moneyrecord(1)">
+      <!-- <li @click="rut_moneyrecord(1)">
         <img src="../../assets/img/personal/dealimg.png" />
         <p>提现</p>
-      </li>
+      </li> -->
       <li @click="rut_moneyrecord(2)">
         <img src="../../assets/img/personal/dealimg.png" />
         <p>矿机钱包记录</p>

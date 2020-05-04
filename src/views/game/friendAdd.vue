@@ -10,8 +10,20 @@
     <div class="searchEnd">搜索结果</div>
     <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
       <van-cell>
-        <ul class="contentList">
-          <li v-for="value  in list" :key="value">
+        <ul class="contentList" v-if="Object.keys(adduser) != 0">
+          <li>
+            <div>
+              <img :src="$api.baseUrl + adduser.us_head_pic" alt />
+              <div>
+                <span>{{ adduser.us_nickname }}</span>
+                <i>ID：{{ adduser.id }}</i>
+              </div>
+            </div>
+            <button @click="addfriend(adduser.id)">
+              <span>添 加</span>
+            </button>
+          </li>
+          <!-- <li v-for="value  in list" :key="value">
             <div>
               <img src="../../assets/img/game/manFriend.png" alt />
               <div>
@@ -22,7 +34,7 @@
             <button>
               <span>添 加</span>
             </button>
-          </li>
+          </li>-->
         </ul>
       </van-cell>
     </van-list>
@@ -37,17 +49,31 @@ export default {
   },
   data() {
     return {
+      user: this.$store.state.user,
       searchValue: "",
       list: [],
       loading: false,
-      finished: false
+      finished: false,
+      adduser: {}
     };
   },
   created() {
     this.$store.commit("show_typeid", 17802);
   },
-  mounted() {},
+  mounted() {
+  },
   methods: {
+    addfriend: function (id) {
+      this.token_post(this.$api.user_addfriend,{id: id})
+        .then(data => {
+          if (data.code === 200) {
+            this.$toast(data.msg);
+          } else {
+            this.$toast(data.msg);
+          }
+        })
+        .catch(() => {});
+    },
     pushTo(type) {
       this.$router.push(`/gameHome?tarbar=${type}`);
     },
@@ -68,6 +94,22 @@ export default {
     },
     // 搜索
     onSearch() {
+      if (this.searchValue === "") {
+        this.$toast("搜索为空");
+        return;
+      }
+      this.axios
+        .post(this.$api.index_search, {
+          id: this.searchValue
+        })
+        .then(data => {
+          if (data.code === 200) {
+            this.adduser = data.data
+          } else {
+            this.$toast(data.msg);
+          }
+        })
+        .catch(() => {});
       console.log(this.searchValue);
       console.log("点击搜索");
     }
@@ -113,8 +155,8 @@ export default {
   font-family: PingFang;
   font-weight: 500;
   color: rgba(255, 255, 255, 1);
-  background: #398EF5;
-  border-radius:.05rem;
+  background: #398ef5;
+  border-radius: 0.05rem;
   border: none;
 }
 .contentList li > div {
@@ -166,7 +208,7 @@ export default {
 .van-icon {
   font-size: 20px !important;
 }
-.van-search__action{
-  margin-right: .2rem;
+.van-search__action {
+  margin-right: 0.2rem;
 }
 </style>

@@ -11,12 +11,12 @@
           <span>团队人数</span>
         </div>
       </van-cell>
-      <van-cell v-for="item in list" :key="item">
+      <van-cell v-for="(item,index) in myTeamlist" :key="index">
         <div class="biaoge_box">
-          <span>246213</span>
-          <span>普通朋友</span>
-          <span>20</span>
-          <span>200</span>
+          <span>{{ item.us_account }}</span>
+          <span>{{ item.us_nickname }}</span>
+          <span>{{ item.first }}</span>
+          <span>{{ item.teams }}</span>
         </div>
       </van-cell>
     </van-list>
@@ -31,7 +31,7 @@ export default {
   },
   data() {
     return {
-      list: [],
+      myTeamlist: [],
       loading: false,
       finished: false
     };
@@ -39,23 +39,34 @@ export default {
   created() {
     this.$store.commit("show_typeid", 101);
   },
+  mounted() {
+    this.getmyTeam()
+  },
   methods: {
+    getmyTeam: function() {
+      this.token_post(this.$api.user_myTeam)
+        .then(data => {
+          if (data.code === 200) {
+            // console.info(data)
+            this.myTeamlist = data.data
+          }
+        })
+        .catch(() => {});
+    },
     onLoad() {
       // 异步更新数据
       // setTimeout 仅做示例，真实场景中一般为 ajax 请求
-      setTimeout(() => {
-        for (let i = 0; i < 5; i++) {
-          this.list.push(this.list.length + 1);
-        }
-
-        // 加载状态结束
-        this.loading = false;
-
-        // 数据全部加载完成
-        if (this.list.length >= 20) {
-          this.finished = true;
-        }
-      }, 1000);
+      // setTimeout(() => {
+      //   for (let i = 0; i < 5; i++) {
+      //     this.list.push(this.list.length + 1);
+      //   }
+      //   // 加载状态结束
+      //   this.loading = false;
+      //   // 数据全部加载完成
+      //   if (this.list.length >= 20) {
+      //     this.finished = true;
+      //   }
+      // }, 1000);
     }
   }
 };

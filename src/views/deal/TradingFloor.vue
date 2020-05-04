@@ -26,9 +26,9 @@
     </ul>
     <div class="liebiao_box">
       <ul>
-        <li v-for="value in 10" :key="value">
-          <span>20.1025</span>
-          <span>20.1025</span>
+        <li v-for="(item,index) in tradelist" :key="index">
+          <span>{{ item.num }}</span>
+          <span>{{ item.price }}</span>
           <span class="yellow" @click="particulars">购买</span>
         </li>
         <!-- <li v-for="value in 5" :key="value + 10">
@@ -69,14 +69,27 @@ export default {
   },
   data() {
     return {
+      tradelist: [],
       modal: false,
-      text: ""
+      text: "",
     };
   },
   mounted() {
     this.my();
+    this.gettrade();
   },
   methods: {
+    gettrade: function() {
+      this.token_post(this.$api.trade_index)
+        .then(data => {
+          if (data.code === 200) {
+            this.tradelist = data.msg.trade
+            // console.info(data)
+          }
+        })
+        .catch(() => {});
+    },
+    //
     show: function() {
       this.modal = true;
     },

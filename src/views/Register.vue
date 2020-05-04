@@ -1,43 +1,44 @@
 <template>
   <div class="register">
     <breadcrumb></breadcrumb>
+    <!-- 注册信息 -->
     <ul class="zhuce" v-if="$store.getters.get_typeid === 1">
       <li>
         <span>推荐人</span>
-        <van-field v-model="text" placeholder="103164" />
+        <van-field v-model="ptel" placeholder="103164" />
       </li>
       <li>
         <span>
           <i>*</i>手机号
         </span>
-        <van-field v-model="text" placeholder="请输入您的手机号" />
+        <van-field v-model="us_tel" placeholder="请输入您的手机号" />
       </li>
       <li>
         <span>
           <i>*</i>昵称
         </span>
-        <van-field v-model="text" placeholder="请输入您的昵称" />
+        <van-field v-model="us_nickname" placeholder="请输入您的昵称" />
       </li>
       <li>
         <span>
           <i>*</i>登录密码
         </span>
-        <van-field v-model="text" placeholder="请输入登录密码" />
+        <van-field v-model="us_pwd" placeholder="请输入登录密码" />
       </li>
       <li>
         <span>
           <i>*</i>确认密码
         </span>
-        <van-field v-model="text" placeholder="请再次输入登录密码" />
+        <van-field v-model="us_pwd_" placeholder="请再次输入登录密码" />
       </li>
       <li>
         <span>短信验证</span>
-        <van-field v-model="text" />
+        <van-field v-model="code" />
         <van-button class="fasongbtn" type="info">发送</van-button>
       </li>
     </ul>
     <!-- 个人资料 -->
-    <div  v-else-if="$store.getters.get_typeid === 2" style="width:100%;height:100%">
+    <div v-else-if="$store.getters.get_typeid === 2" style="width:100%;height:100%">
       <ul class="geren">
         <li>
           <span>推荐人</span>
@@ -79,15 +80,15 @@
     <ul class="mima" v-else-if="$store.getters.get_typeid === 21">
       <li>
         <span>新登录密码</span>
-        <van-field v-model="text" placeholder="请输入登录密码" />
+        <van-field v-model="us_pwd" placeholder="请输入登录密码" />
       </li>
       <li>
         <span>确认登录密码</span>
-        <van-field v-model="text" placeholder="请再次输入登录密码" />
+        <van-field v-model="us_pwd_" placeholder="请再次输入登录密码" />
       </li>
       <li>
         <span>短信验证</span>
-        <van-field v-model="text" />
+        <van-field v-model="us_tel" />
         <van-button class="fasongbtn" type="info">发送</van-button>
       </li>
     </ul>
@@ -95,15 +96,15 @@
     <ul class="zhifumima" v-else-if="$store.getters.get_typeid === 22">
       <li>
         <span>新支付密码</span>
-        <van-field v-model="text" placeholder="请输入支付密码" />
+        <van-field v-model="us_safe_pwd" placeholder="请输入支付密码" />
       </li>
       <li>
         <span>确认支付密码</span>
-        <van-field v-model="text" placeholder="请再次输入支付密码" />
+        <van-field v-model="us_safe_pwd_" placeholder="请再次输入支付密码" />
       </li>
       <li>
         <span>短信验证</span>
-        <van-field v-model="text" />
+        <van-field v-model="us_tel" />
         <van-button class="fasongbtn" type="info">发送</van-button>
       </li>
     </ul>
@@ -111,11 +112,11 @@
     <ul class="zhifuzhanghao" v-else-if="$store.getters.get_typeid === 23">
       <li>
         <span>支付宝账号</span>
-        <van-field v-model="text" placeholder="13644444444" />
+        <van-field v-model="ali_account" placeholder="13644444444" />
       </li>
       <li>
         <span>短信验证</span>
-        <van-field v-model="text" />
+        <van-field v-model="code" />
         <van-button class="fasongbtn" type="info">发送</van-button>
       </li>
     </ul>
@@ -123,23 +124,23 @@
     <ul class="yinhangzhanghao" v-else-if="$store.getters.get_typeid === 24">
       <li>
         <span>开户银行</span>
-        <van-field v-model="text" placeholder="请输入银行名称" />
+        <van-field v-model="us_bank" placeholder="请输入银行名称" />
       </li>
       <li>
         <span>持卡人姓名</span>
-        <van-field v-model="text" placeholder="请输入持卡人姓名" />
+        <van-field v-model="us_bank_person" placeholder="请输入持卡人姓名" />
       </li>
       <li>
         <span>银行卡号</span>
-        <van-field v-model="text" placeholder="请输入银行卡号" />
+        <van-field v-model="bank_account" placeholder="请输入银行卡号" />
       </li>
       <li>
         <span>开户行地址</span>
-        <van-field v-model="text" placeholder="请输入银行卡开户行地址" />
+        <van-field v-model="bank_place" placeholder="请输入银行卡开户行地址" />
       </li>
       <li>
         <span>短信验证</span>
-        <van-field v-model="text" />
+        <van-field v-model="code" />
         <van-button class="fasongbtn" type="info">发送</van-button>
       </li>
     </ul>
@@ -154,7 +155,7 @@
       </li>
     </ul>
     <div class="queding_box" v-if="$store.getters.get_typeid != 7">
-      <van-button class="quedingbtn" type="info">确定</van-button>
+      <van-button @click="determine" class="quedingbtn" type="info">确定</van-button>
     </div>
   </div>
 </template>
@@ -167,10 +168,119 @@ export default {
   },
   data() {
     return {
-      text: ""
+      text: "",
+      ptel: "", // 推荐人手机号或账号
+      code: "", // 验证码 （测试期间可以随机填数字）
+      us_nickname: "", // 昵称
+      us_pwd: "", // 登录密码
+      us_pwd_: "", // 确认密码
+      us_tel: "", // 手机号码
+      us_safe_pwd: "", // 支付密码
+      us_safe_pwd_: "", // 确认支付密码
+      ali_account: "", // 支付宝账号
+      us_bank: "", // 银行名称
+      bank_place: "", // 开户行地址
+      us_bank_person: "", // 持卡人
+      bank_account: "" // 银行卡号
     };
   },
   methods: {
+    determine: function() {
+      // 确定
+      let type = this.$store.getters.get_typeid;
+      if (type === 1) {
+        this.register();
+      } else if (type === 21) {
+        this.changePwd();
+      } else if (type === 22) {
+        this.changeSafe();
+      } else if (type === 23) {
+        this.bindAlipay();
+      } else if (type === 24) {
+        this.blindBank();
+      }
+    },
+    register: function() {
+      // 注册账号
+      this.token_post(this.$api.every_register, {
+        us_pwd: this.us_pwd,
+        us_tel: this.us_tel,
+        ptel: this.ptel,
+        code: this.code,
+        us_nickname: this.nickname
+      })
+        .then(data => {
+          if (data.code === 200) {
+            this.$toast(data.msg);
+          } else {
+            this.$toast(data.msg);
+          }
+        })
+        .catch(() => {});
+    },
+    changePwd: function() {
+      // 修改密码
+      this.token_post(this.$api.user_changePwd, {
+        us_pwd: this.us_pwd,
+        us_tel: this.us_tel
+      })
+        .then(data => {
+          if (data.code === 200) {
+            this.$toast(data.msg);
+          } else {
+            this.$toast(data.msg);
+          }
+        })
+        .catch(() => {});
+    },
+    changeSafe: function() {
+      // 修改支付密码
+      this.token_post(this.$api.user_changeSafe, {
+        us_safe_pwd: this.us_safe_pwd,
+        us_tel: this.us_tel
+      })
+        .then(data => {
+          if (data.code === 200) {
+            this.$toast(data.msg);
+          } else {
+            this.$toast(data.msg);
+          }
+        })
+        .catch(() => {});
+    },
+    bindAlipay: function() {
+      // 绑定支付宝账号
+      this.token_post(this.$api.user_bindAlipay, {
+        code: this.code,
+        ali_account: this.ali_account
+      })
+        .then(data => {
+          if (data.code === 200) {
+            this.$toast(data.msg);
+          } else {
+            this.$toast(data.msg);
+          }
+        })
+        .catch(() => {});
+    },
+    blindBank: function() {
+      // 绑定银行卡
+      this.token_post(this.$api.user_blindBank, {
+        code: this.code,
+        us_bank: this.us_bank,
+        bank_place: this.bank_place,
+        us_bank_person: this.us_bank_person,
+        bank_account: this.bank_account
+      })
+        .then(data => {
+          if (data.code === 200) {
+            this.$toast(data.msg);
+          } else {
+            this.$toast(data.msg);
+          }
+        })
+        .catch(() => {});
+    },
     password: function(id) {
       this.$store.commit("show_typeid", id);
     }

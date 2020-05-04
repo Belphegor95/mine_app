@@ -8,10 +8,9 @@
     </header>
     <div class="swipe_box">
       <van-swipe class="my-swipe" @change="onChange" :autoplay="3000" :show-indicators="false">
-        <van-swipe-item>1</van-swipe-item>
-        <van-swipe-item>2</van-swipe-item>
-        <van-swipe-item>3</van-swipe-item>
-        <!-- <van-swipe-item>4</van-swipe-item> -->
+        <van-swipe-item v-for="(image, index) in shuffling" :key="index">
+          <img  :src="$api.baseUrl + image"  />
+        </van-swipe-item>
       </van-swipe>
     </div>
     <div class="swipe_bottom">
@@ -32,13 +31,17 @@
     </div>
     <div class="news">
       <img @click="rut_push(401,'/journalism/journalism')" src="../assets/img/home/newLeft.png" alt />
-      <van-notice-bar text="张三说李四今天不在家，赵四却说李四在家，李四说在刘四他家，刘四说李四不在他家，李四到底在那家。" />
-      <img @click="rut_push(401,'/journalism/journalism')" src="../assets/img/home/newRight.png" alt />
+      <van-notice-bar :text="notice" />
+      <img
+        @click="rut_push(401,'/journalism/journalism')"
+        src="../assets/img/home/newRight.png"
+        alt
+      />
     </div>
     <div class="menu_box">
       <div @click="GameHome">
         <img src="../assets/img/home/tar1.png" />
-        <p>我的好友</p>
+        <p>赏金矿场</p>
       </div>
       <div @click="rut_push(201,'/deal/trading_floor')">
         <img src="../assets/img/home/tar2.png" />
@@ -54,11 +57,11 @@
       </div>
       <div @click="Advertising">
         <img src="../assets/img/home/tar5.png" />
-        <p>广告</p>
+        <p>任务中心</p>
       </div>
-      <div @click="personal">
-        <img src="../assets/img/home/tar6.png" />
-        <p>我的</p>
+      <div @click="()=>$toast('暂未开放,敬请期待')">
+        <img src="../assets/img/home/tar9.png" />
+        <p>交易所</p>
       </div>
       <div @click="()=>$toast('暂未开放,敬请期待')">
         <img src="../assets/img/home/tar7.png" />
@@ -68,9 +71,10 @@
         <img src="../assets/img/home/tar8.png" />
         <p>视频直播</p>
       </div>
-      <div @click="()=>$toast('暂未开放,敬请期待')">
-        <img src="../assets/img/home/tar9.png" />
-        <p>交易所</p>
+
+      <div @click="rut_push(107,'/personal/personal')">
+        <img src="../assets/img/home/tar6.png" />
+        <p>我的</p>
       </div>
     </div>
   </div>
@@ -81,10 +85,31 @@ export default {
   components: {},
   data() {
     return {
+      shuffling: [], //轮播图地址
+      notice: "", // 走马灯
       current: 0 // 当亲轮播图下标
     };
   },
+  mounted() {
+    this.getSwipeImg();
+  },
   methods: {
+    getSwipeImg: function() {
+      this.axios
+        .get(this.$api.index_index, {})
+        .then(data => {
+          if (data.code == 200) {
+            // console.info(data)
+            this.notice = data.data.news
+            this.shuffling = data.data.shuffling;
+          } else {
+            this.$toast(data.msg);
+          }
+        })
+        .catch(() => {
+          this.$toast(this.$api.monmsg);
+        });
+    },
     // 轮播图id回调
     onChange(index) {
       this.current = index;
@@ -186,7 +211,7 @@ export default {
 .menu_box {
   display: flex;
   flex-wrap: wrap;
-  background: #F1F1F1;
+  background: #f1f1f1;
 }
 .menu_box > div {
   /* padding: 0.55rem; */
@@ -198,11 +223,11 @@ export default {
   justify-content: center;
   align-items: center;
   height: 2.5rem;
-  margin-top: 1px
+  margin-top: 1px;
 }
-.menu_box > div:nth-child(3n+2){
+.menu_box > div:nth-child(3n + 2) {
   margin: 0 1px;
-  margin-top: 1px
+  margin-top: 1px;
 }
 .menu_box > div > img {
   height: 1.2rem;

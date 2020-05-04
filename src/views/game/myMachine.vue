@@ -9,15 +9,15 @@
       <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
         <van-cell>
           <ul class="contentList">
-            <li v-for="value  in list" :key="value" @click="()=>popupShow=true">
+            <li v-for="(item,index)  in usitolist" :key="index" @click="()=>popupShow=true">
               <span>
                 <img src="../../assets/img/game/text1.png" alt />
               </span>
               <div>
-                <p>等级：微矿</p>
-                <p>算力：0.01</p>
-                <p>采矿时间：30天</p>
-                <p>投入产出比：10/11</p>
+                <p>等级：{{ item.name }}</p>
+                <p>算力：{{ item.computing }}</p>
+                <p>采矿时间：{{ item.valid_time }}天</p>
+                <p>投入产出比：{{ item.roi }}</p>
               </div>
             </li>
           </ul>
@@ -69,7 +69,7 @@ export default {
       // pwd: "",
       // popupShow: false,
       nextTo: false,
-      list: [],
+      usitolist: [],
       loading: false,
       finished: false
     };
@@ -77,8 +77,23 @@ export default {
   created() {
     this.$store.commit("show_typeid", 17804);
   },
-  mounted() {},
+  mounted() {
+    this.getgame();
+  },
   methods: {
+    getgame: function() {
+      this.token_post(this.$api.game_index, {
+        type: 2
+      })
+        .then(data => {
+          if (data.code === 200) {
+            this.usitolist = data.data.usito;
+          } else {
+            this.$toast(data.msg);
+          }
+        })
+        .catch(() => {});
+    },
     goBack() {
       this.$router.go(-1);
     },
@@ -86,19 +101,17 @@ export default {
       this.$router.push(`/gameHome?tarbar=${type}`);
     },
     onLoad() {
-      setTimeout(() => {
-        for (let i = 0; i < 10; i++) {
-          this.list.push(this.list.length + 1);
-        }
-
-        // 加载状态结束
-        this.loading = false;
-
-        // 数据全部加载完成
-        if (this.list.length >= 20) {
-          this.finished = true;
-        }
-      }, 1000);
+      // setTimeout(() => {
+      //   for (let i = 0; i < 10; i++) {
+      //     this.list.push(this.list.length + 1);
+      //   }
+      //   // 加载状态结束
+      //   this.loading = false;
+      //   // 数据全部加载完成
+      //   if (this.list.length >= 20) {
+      //     this.finished = true;
+      //   }
+      // }, 1000);
     }
   }
 };
@@ -113,16 +126,16 @@ export default {
   align-items: center;
   flex-direction: column;
 }
-.MyMachineHome_box >div{
+.MyMachineHome_box > div {
   width: 100%;
   height: 4.8rem;
 }
-.MyMachineHome_box main{
+.MyMachineHome_box main {
   width: 100%;
   flex: 1;
   overflow-y: scroll;
 }
-.MyMachineHome_box main::-webkit-scrollbar{
+.MyMachineHome_box main::-webkit-scrollbar {
   display: none;
 }
 .header {
