@@ -2,7 +2,7 @@
 <template>
   <div class="AdvertisingHome_box">
     <breadcrumb></breadcrumb>
-    <van-tabs>
+    <van-tabs v-model="cate_index" @click="getadvertDetail">
       <van-tab v-for="(item,index) in cates" :key="index" :title="item.ca_name">
         <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
           <van-cell>
@@ -39,6 +39,7 @@ export default {
       loading: false,
       finished: false,
       cates: [], //广告标签
+      cate_index: 0, //选中的广告标签
     };
   },
   created() {
@@ -53,7 +54,22 @@ export default {
         .get(this.$api.index_cates)
         .then(data => {
           if (data.code === 200) {
-            this.cates = data.data.cates
+            this.cates = data.data.cates;
+            this.getadvertDetail()
+          } else {
+            this.$toast(data.msg);
+          }
+        })
+        .catch(() => {});
+    },
+    getadvertDetail: function () {
+      this.axios
+        .post(this.$api.index_advertDetail,{
+          id: this.cates[this.cate_index].id
+        })
+        .then(data => {
+          if (data.code === 200) {
+            // this.cates = data.data.cates
           } else {
             this.$toast(data.msg);
           }

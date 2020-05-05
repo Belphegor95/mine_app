@@ -43,15 +43,33 @@ export default {
   },
   data() {
     return {
+      user: this.$store.state.user,
       result: [1],
       is_delet: true,
       modal: false
     };
   },
   created() {
+    this.getadvert()
+    
     this.$store.commit("show_typeid", 103);
   },
   methods: {
+    getadvert: function () {
+      this.token_post(this.$api.advert_index,{
+        code: 222,
+        us_bank: this.user.us_bank,
+        bank_place: this.user.bank_place,
+        us_bank_person: this.user.us_bank_person,
+        bank_account: this.user.bank_account
+      }).then((data) => {
+        if (data.code === 200) {
+          console.info(data)
+        }
+      }).catch(() => {
+
+      })
+    },
     rut_upadvertising: function() {
       this.$store.commit("show_typeid", 105);
       this.$router.push("/personal/up_advertising");

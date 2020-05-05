@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import createPersistedState from "vuex-persistedstate"; //插件 用来解决F5 刷新后 VUEX 数据的丢失
 
 Vue.use(Vuex)
 
@@ -28,5 +29,6 @@ export default new Vuex.Store({
   },
   modules: {
 
-  }
+  },
+  plugins: [createPersistedState()] // 插件
 })

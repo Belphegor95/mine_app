@@ -12,6 +12,7 @@ import { Search } from 'vant';
 import { Toast } from 'vant';
 import { NoticeBar } from 'vant';
 import { Uploader } from 'vant';
+import { DropdownMenu, DropdownItem } from 'vant';
 import 'vant/lib/index.css'
 
 Vue.use(Button)
@@ -32,6 +33,8 @@ Vue.use(Search);
 Vue.use(Toast);
 Vue.use(NoticeBar);
 Vue.use(Uploader);
+Vue.use(DropdownMenu);
+Vue.use(DropdownItem);
 
 
 
