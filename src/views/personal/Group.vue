@@ -2,24 +2,21 @@
 <template>
   <div class="Group">
     <breadcrumb :typeid="101"></breadcrumb>
-    <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-      <van-cell>
-        <div class="biaoge_box">
-          <span>会员账号</span>
-          <span>级别</span>
-          <span>直推人数</span>
-          <span>团队人数</span>
-        </div>
-      </van-cell>
-      <van-cell v-for="(item,index) in myTeamlist" :key="index">
-        <div class="biaoge_box">
-          <span>{{ item.us_account }}</span>
-          <span>{{ item.us_nickname }}</span>
-          <span>{{ item.first }}</span>
-          <span>{{ item.teams }}</span>
-        </div>
-      </van-cell>
-    </van-list>
+    <!-- <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad"> -->
+    <!-- <van-cell> -->
+    <div class="biaoge_box">
+      <span>会员账号</span>
+      <span>级别</span>
+      <span>直推人数</span>
+      <span>团队人数</span>
+    </div>
+    <!-- </van-cell> -->
+    <div class="biaoge_box" v-for="(item,index) in myTeamlist" :key="index">
+      <span>{{ item.us_account }}</span>
+      <span>{{ item.us_nickname }}</span>
+      <span>{{ item.first }}</span>
+      <span>{{ item.teams }}</span>
+    </div>
   </div>
 </template>
 
@@ -40,7 +37,7 @@ export default {
     this.$store.commit("show_typeid", 101);
   },
   mounted() {
-    this.getmyTeam()
+    this.getmyTeam();
   },
   methods: {
     getmyTeam: function() {
@@ -48,7 +45,7 @@ export default {
         .then(data => {
           if (data.code === 200) {
             // console.info(data)
-            this.myTeamlist = data.data
+            this.myTeamlist = data.data;
           }
         })
         .catch(() => {});
@@ -74,8 +71,16 @@ export default {
 <style scoped>
 .biaoge_box {
   display: flex;
+  height: 0.8rem;
+  justify-content: center;
+  align-items: center;
+  /* background: rgba(250, 250, 250, 1); */
 }
 .biaoge_box > span {
+  font-size: 0.24rem;
+  font-family: Adobe Heiti Std;
+  font-weight: normal;
+  color: rgba(51, 51, 51, 1);
   flex: 0 0 25%;
   display: flex;
   justify-content: center;
@@ -83,13 +88,13 @@ export default {
 </style>
 
 <style>
-.biaoge_box .van-cell:nth-of-type(even) {
+.biaoge_box:nth-of-type(even) {
   background: #fafafa;
 }
-.Group .van-cell:nth-of-type(even) {
+.Group:nth-of-type(even) {
   background: #fafafa;
 }
-.Group .van-cell:not(:last-child)::after {
+.Group:not(:last-child)::after {
   border: none !important;
 }
 </style>

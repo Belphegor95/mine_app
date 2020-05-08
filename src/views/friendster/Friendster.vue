@@ -6,7 +6,8 @@
       <span class="blue">文字</span>
       <span>视频</span>
     </div>
-    <ul>
+    <van-empty v-if="friendlist.length === 0" description="暂无数据" />
+    <ul v-else>
       <li v-for="(item,index) in friendlist" :key="index">
         <img :src="$api.baseUrl + item.us_head_pic" alt />
         <div class="neirong_box">

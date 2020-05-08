@@ -49,12 +49,15 @@ export default {
   },
   methods: {
     getmytrade: function() {
-      this.finished = true;
+      this.loading = true;
       this.token_post(this.$api.trade_mytrade, { Page: this.page })
         .then(data => {
           if (data.code === 200) {
             this.mytradelist = this.mytradelist.concat(data.data);
-            this.finished = false;
+            this.loading = false;
+            if (data.data.length != 10) {
+              this.finished = true;
+            }
           } else {
             this.$toast(data.msg);
           }
@@ -62,19 +65,8 @@ export default {
         .catch(() => {});
     },
     onLoad() {
-      this.page++
-      this.getmytrade()
-      // setTimeout(() => {
-      //   for (let i = 0; i < 5; i++) {
-      //     this.list.push(this.list.length + 1);
-      //   }
-      //   // 加载状态结束
-      //   this.loading = false;
-      //   // 数据全部加载完成
-      //   if (this.list.length >= 20) {
-      //     this.finished = true;
-      //   }
-      // }, 1000);
+      this.page++;
+      this.getmytrade();
     }
   }
 };
@@ -110,7 +102,7 @@ export default {
   color: #fd1a1a !important;
 }
 .gray {
-  color: #AAA !important;
+  color: #aaa !important;
 }
 </style>
 

@@ -38,21 +38,26 @@ export default {
   },
   mounted() {
     if (this.$store.getters.get_typeid === 10602) {
-      this.type = 1
+      this.type = 1;
     } else if (this.$store.getters.get_typeid === 10603) {
-      this.type = 2
+      this.type = 2;
     }
     this.getmycash();
   },
   methods: {
     getmycash: function() {
+      this.loading = true;
       this.token_post(this.$api.user_mycash, {
         type: this.type,
         page: this.page
       })
         .then(data => {
           if (data.code === 200) {
-             this.mycashlist = this.mycashlist.concat(data.data);
+            this.loading = false;
+            this.mycashlist = this.mycashlist.concat(data.data);
+            if (data.data.length != 10) {
+              this.finished = true;
+            }
           } else {
             this.$toast(data.msg);
           }
@@ -60,8 +65,8 @@ export default {
         .catch(() => {});
     },
     onLoad() {
-      this.page++
-      this.getmycash()
+      this.page++;
+      this.getmycash();
       // 异步更新数据
       // setTimeout 仅做示例，真实场景中一般为 ajax 请求
       // setTimeout(() => {

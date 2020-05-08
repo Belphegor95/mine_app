@@ -5,7 +5,7 @@
     <ul class="zhuce" v-if="$store.getters.get_typeid === 1">
       <li>
         <span>推荐人</span>
-        <van-field v-model="ptel" placeholder="103164" />
+        <van-field v-model="ptel" placeholder="请输入推荐人" />
       </li>
       <li>
         <span>
@@ -23,13 +23,13 @@
         <span>
           <i>*</i>登录密码
         </span>
-        <van-field v-model="us_pwd" placeholder="请输入登录密码" />
+        <van-field type="password" v-model="us_pwd" placeholder="请输入登录密码" />
       </li>
       <li>
         <span>
           <i>*</i>确认密码
         </span>
-        <van-field v-model="us_pwd_" placeholder="请再次输入登录密码" />
+        <van-field type="password" v-model="us_pwd_" placeholder="请再次输入登录密码" />
       </li>
       <li>
         <span>短信验证</span>
@@ -42,7 +42,7 @@
       <ul class="geren">
         <li>
           <span>推荐人</span>
-          <van-field v-model="text" placeholder="103164" />
+          <van-field v-model="text" placeholder="请输入推荐人" />
         </li>
         <li>
           <span>
@@ -84,11 +84,11 @@
     <ul class="mima" v-else-if="$store.getters.get_typeid === 21">
       <li>
         <span>新登录密码</span>
-        <van-field v-model="us_pwd" placeholder="请输入登录密码" />
+        <van-field v-model="us_pwd" type="password" placeholder="请输入登录密码" />
       </li>
       <li>
         <span>确认登录密码</span>
-        <van-field v-model="us_pwd_" placeholder="请再次输入登录密码" />
+        <van-field v-model="us_pwd_" type="password" placeholder="请再次输入登录密码" />
       </li>
       <li>
         <span>短信验证</span>
@@ -100,11 +100,11 @@
     <ul class="zhifumima" v-else-if="$store.getters.get_typeid === 22">
       <li>
         <span>新支付密码</span>
-        <van-field v-model="us_safe_pwd" placeholder="请输入支付密码" />
+        <van-field v-model="us_safe_pwd" type="password" placeholder="请输入支付密码" />
       </li>
       <li>
         <span>确认支付密码</span>
-        <van-field v-model="us_safe_pwd_" placeholder="请再次输入支付密码" />
+        <van-field v-model="us_safe_pwd_" type="password" placeholder="请再次输入支付密码" />
       </li>
       <li>
         <span>短信验证</span>
@@ -116,7 +116,7 @@
     <ul class="zhifuzhanghao" v-else-if="$store.getters.get_typeid === 23">
       <li>
         <span>支付宝账号</span>
-        <van-field v-model="ali_account" placeholder="13644444444" />
+        <van-field v-model="ali_account" placeholder="请输入支付宝账号" />
       </li>
       <li>
         <span>短信验证</span>
@@ -152,11 +152,11 @@
     <ul class="shiming" v-else-if="$store.getters.get_typeid === 25">
       <li>
         <span>真实姓名</span>
-        <van-field v-model="text" placeholder="13666666666" />
+        <van-field v-model="text" placeholder="请输入真实姓名" />
       </li>
       <li style="margin-bottom: 0.5rem">
         <span>联系电话</span>
-        <van-field v-model="text" placeholder="13666666666" />
+        <van-field v-model="text" placeholder="请输入联系电话" />
       </li>
       <div class="shenfen_box">
         <van-uploader>

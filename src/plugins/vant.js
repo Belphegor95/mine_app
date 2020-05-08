@@ -13,6 +13,7 @@ import { Toast } from 'vant';
 import { NoticeBar } from 'vant';
 import { Uploader } from 'vant';
 import { DropdownMenu, DropdownItem } from 'vant';
+import { Empty } from 'vant';
 import 'vant/lib/index.css'
 
 Vue.use(Button)
@@ -35,6 +36,7 @@ Vue.use(NoticeBar);
 Vue.use(Uploader);
 Vue.use(DropdownMenu);
 Vue.use(DropdownItem);
+Vue.use(Empty);
 
 
 
