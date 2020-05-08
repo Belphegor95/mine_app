@@ -23,7 +23,7 @@
       <van-button class="login_button" type="primary" @click="home">登录</van-button>
       <div class="zhanghao_box">
         <span @click="register">注册账号</span>
-        <span @click="deal">忘记密码</span>
+        <!-- <span @click="deal">忘记密码</span> -->
         <!-- <a href>注册账号</a>
         <a href>忘记密码</a>-->
       </div>
@@ -74,22 +74,22 @@ export default {
       this.originalCode = originalCode;
     },
     home: function() {
-      // if (this.account === "") {
-      //   this.$toast("账号未输入");
-      //   return
-      // } else if (this.password === "") {
-      //   this.$toast("密码未输入");
-      //   return
-      // } else if (this.verification === "") {
-      //   this.$toast("验证码未输入");
-      //   return
-      // }
+      if (this.account === "") {
+        this.$toast("账号未输入");
+        return;
+      } else if (this.password === "") {
+        this.$toast("密码未输入");
+        return;
+      } else if (this.verification === "") {
+        this.$toast("验证码未输入");
+        return;
+      }
+      localStorage.clear();
+      window.localStorage.account = this.account;
+      window.localStorage.password = this.password;
       this.token_get(this.$api.user_login)
         .then(data => {
           if (data.code == 200) {
-            localStorage.clear();
-            window.localStorage.account = this.account;
-            window.localStorage.password = this.password;
             this.$store.commit("show_user", data.data);
             this.$toast({
               message: data.msg,

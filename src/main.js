@@ -43,18 +43,21 @@ axios.interceptors.response.use(
 );
 axios.defaults.baseURL = api.baseUrl;
 
-function headers (url){
+function headers(url) {
   console.log(url)
+  let account = window.localStorage.account
+  let password = window.localStorage.password
   return {
-    authtoken: `15538927152:234567:${cryptoJs.MD5(`234567:${url}`).toString()}`
+    authtoken: `${account}:${password}:${cryptoJs.MD5(`${password}:${url}`).toString()}`
+    // authtoken: `15538927152:234567:${cryptoJs.MD5(`234567:${url}`).toString()}`
   }
 }
 
 function token_get(url, parame = {}) {
-  return axios.get(url, {headers: headers(url)},parame)
+  return axios.get(url, { headers: headers(url) }, parame)
 }
 function token_post(url, parame = {}) {
-  return axios.post(url, parame, {headers: headers(url)})
+  return axios.post(url, parame, { headers: headers(url) })
 }
 Vue.prototype.token_get = token_get
 Vue.prototype.token_post = token_post

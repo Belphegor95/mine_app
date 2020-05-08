@@ -5,11 +5,13 @@
     <div class="qian_box">
       <div>
         <p>矿机产出钱包</p>
-        <p>100,000.00</p>
+        <p v-if="user.lock_money">{{ user.lock_money }}</p>
+        <p v-else>0.0000</p>
       </div>
       <div>
         <p>商务钱包</p>
-        <p>1,000.00</p>
+        <p v-if="user.business_money">{{ user.business_money }}</p>
+        <p v-else>0.0000</p>
       </div>
     </div>
     <ul>
@@ -36,7 +38,9 @@ export default {
     breadcrumb
   },
   data() {
-    return {};
+    return {
+      user: this.$store.state.user
+    };
   },
   created() {
     this.$store.commit("show_typeid", 106);

@@ -7,6 +7,21 @@
   <meta name="viewport"
     content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
   <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+  <style>
+    .show1-enter-active {
+      transition: all 0.3s ease;
+    }
+
+    .show1-leave-active {
+      transition: all 0.1s cubic-bezier(1, 0.5, 0.8, 1);
+    }
+
+    .show1-enter,
+    .show1-leave-to {
+      transform: translateX(10px);
+      opacity: 0;
+    }
+  </style>
   <title><%= htmlWebpackPlugin.options.title %></title>
 </head>
 

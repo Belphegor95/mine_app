@@ -95,8 +95,6 @@ export default {
 };
 </script>
 <style scoped >
-.AdvertisingHome_box {
-}
 .list {
   display: flex;
   flex-wrap: wrap;

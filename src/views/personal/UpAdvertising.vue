@@ -92,37 +92,36 @@ export default {
   methods: {
     upload: function(file) {
       // 上传
-      this.axios
-        .post(this.$api.every_upload, {
-          file: file.file
-        })
+      console.info(file.file);
+      // this.axios
+      //   .post(this.$api.every_upload, {
+      //     file: file.file
+      //   })
+      //   .then(data => {
+      //     if (data.code === 200) {
+      //       console.log(data);
+      //     }
+      //   })
+      //   .catch(() => {});
+    },
+    addadvert: function() {
+      this.token_post(this.$api.advert_add, {
+        ad_name: this.ad_name,
+        company_name: this.company_name,
+        ca_id: this.ca_id,
+        ad_head_pic: this.ad_head_pic,
+        tel: this.tel,
+        total: this.total,
+        single: this.single,
+        video: this.video,
+        content: this.content
+      })
         .then(data => {
           if (data.code === 200) {
             console.log(data);
           }
         })
         .catch(() => {});
-    },
-    addadvert: function() {
-      //
-      this.token_post(this.$api.advert_add, {
-        ad_name: this.ad_name, 
-        company_name: this.company_name, 
-        ca_id: this.ca_id, 
-        ad_head_pic: this.ad_head_pic, 
-        tel: this.tel, 
-        total: this.total, 
-        single: this.single, 
-        video: this.video, 
-        content: this.content 
-      }).then((data) => {
-        if (data.code === 200) {
-          console.log(data);
-          
-        }
-      }).catch(() => {
-
-      })
     }
   }
 };

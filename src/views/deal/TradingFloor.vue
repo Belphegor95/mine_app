@@ -8,8 +8,8 @@
         <span>全网交易数据</span>
       </div>
       <div class="xinxi_box">
-        <span>今日价格: 1.00</span>
-        <span>24h成交量: 9448.00</span>
+        <span>今日价格: {{ mydata.price }}</span>
+        <span>24h成交量: {{ mydata.num }}</span>
       </div>
       <div id="myChart" :style="{width: '100%', height: '180px'}"></div>
     </div>
@@ -39,21 +39,25 @@
       </ul>
     </div>
     <div class="maichu_box">
-      <van-button @click="show" class="maichubtn" type="info">卖出</van-button>
+      <van-button @click="modal = true;" class="maichubtn" type="info">卖出</van-button>
     </div>
     <van-popup class="modal_box" round v-model="modal">
       <div class="mima_box">
         <div>
           <img src="../../assets/img/pigeon.png" alt />
-          <van-field v-model="text" placeholder="请输入出售数量" />
+          <van-field @input="getreal" v-model="num" placeholder="请输入出售数量" />
+        </div>
+        <div class="xianshi_box">
+          <!-- <img src="../../assets/img/pigeon.png" alt /> -->
+          <div style="margin-left: 0.5rem">
+            <p>实际挂卖数: {{ real.real_num }}</p>
+            <p>手续费: {{ real.fee }}</p>
+            <p>挂单价格: {{ real.price }}</p>
+          </div>
         </div>
         <div>
           <img src="../../assets/img/pigeon.png" alt />
-          <van-field v-model="text" placeholder="请输入单个价格" />
-        </div>
-        <div>
-          <img src="../../assets/img/pigeon.png" alt />
-          <van-field v-model="text" placeholder="请输入交易密码" />
+          <van-field v-model="us_safe_pwd" placeholder="请输入交易密码" />
         </div>
       </div>
       <van-button @click="show" class="quedingbtn" type="info">确定</van-button>
@@ -71,27 +75,74 @@ export default {
     return {
       tradelist: [],
       modal: false,
-      text: "",
+      mydata: {},
+      num: "",
+      us_safe_pwd: "",
+      real: {
+        fee: 0,
+        price: 0,
+        real_num: 0
+      }
     };
   },
   mounted() {
-    this.my();
     this.gettrade();
+    
+    
   },
   methods: {
     gettrade: function() {
       this.token_post(this.$api.trade_index)
         .then(data => {
           if (data.code === 200) {
-            this.tradelist = data.msg.trade
-            // console.info(data)
+            this.tradelist = data.msg.trade;
+            this.mydata = data.msg;
+            this.mydata.date = []
+            this.mydata.list = []
+            for (let i = 0; i < this.mydata.flot.length; i++) {
+              let item = this.mydata.flot[i];
+              let date = new Date(item.update_time);
+              
+              let yue = date.getMonth() + 1 + "";
+              let ri = date.getDate() + ""
+              if (yue.length === 1) {
+                yue = 0 + yue;
+              }
+              if (ri.length === 1) {
+                ri = 0 + ri;
+              }
+              this.mydata.date.push(yue + "/" + ri)
+              this.mydata.list.push(Number(item.price))
+            }
           }
+          this.my();
         })
         .catch(() => {});
     },
     //
     show: function() {
-      this.modal = true;
+      this.token_post(this.$api.trade_sale, {
+        num: this.num,
+        us_safe_pwd: this.us_safe_pwd
+      }).then(data => {
+        if (data.code === 200) {
+          this.modal = false;
+          this.$toast(data.msg);
+        } else {
+          this.$toast(data.msg);
+        }
+      });
+    },
+    getreal: function() {
+      this.token_post(this.$api.trade_getreal, {
+        num: this.num
+      }).then(data => {
+        if (data.code === 200) {
+          this.real = data.data;
+        } else {
+          this.$toast(data.msg);
+        }
+      });
     },
     particulars: function() {
       this.$store.commit("show_typeid", 202);
@@ -137,18 +188,7 @@ export default {
             }
           },
           boundaryGap: false,
-          data: [
-            "10/01",
-            "10/02",
-            "10/03",
-            "10/04",
-            "10/05",
-            "10/06",
-            "10/07",
-            "10/08",
-            "10/09",
-            "10/10"
-          ]
+          data: this.mydata.date
         },
         yAxis: {
           axisLine: {
@@ -180,7 +220,7 @@ export default {
             type: "line",
             symbolSize: 8,
             symbol: "circle",
-            data: [0.25, 0.3, 0.6, 0.4, 0.5, 0.25, 0.25, 0.25, 1, 0.9]
+            data: this.mydata.list
           }
         ]
       };
@@ -338,6 +378,21 @@ li > span {
 .yellow {
   color: #fcb63b;
 }
+.xianshi_box {
+  font-size: 0.26rem;
+}
+/* .xianshi_box > div {
+  display: flex;
+  width: 100%;
+}
+.xianshi_box > div  > span:nth-child(1) {
+  flex: 1.2;
+}
+
+.xianshi_box > div  > span:nth-child(2),
+.xianshi_box > div  > span:nth-child(3) {
+  flex: 1;
+} */
 </style>
 <style>
 .TradingFloor .van-cell {

@@ -32,6 +32,7 @@ export default {
         { id: 22, title: "更改支付密码" },
         { id: 23, title: "绑定支付宝账号" },
         { id: 24, title: "绑定银行卡账号" },
+        { id: 25, title: "实名认证" },
         { id: 7, title: "联系客服" },
         { id: 101, title: "我的团队" },
         { id: 102, title: "我的交易单" },
@@ -70,8 +71,10 @@ export default {
     },
     back: function() {
       let id = this.$store.getters.get_typeid;
-      if (id === 21 || id === 22 || id === 23 || id === 24) {
+      if (id === 21 || id === 22 || id === 23 || id === 24 || id === 25) {
         this.$store.commit("show_typeid", 2);
+      } else if (id === 301) {
+        this.$router.go(-1);
       } else if (id === 302) {
         this.$store.commit("show_typeid", 301);
         this.$router.go(-1);

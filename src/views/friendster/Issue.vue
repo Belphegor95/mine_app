@@ -4,7 +4,7 @@
     <breadcrumb @is_manage="manage"></breadcrumb>
     <van-field
       class="shuru"
-      v-model="message"
+      v-model="content"
       rows="2"
       autosize
       type="textarea"
@@ -12,10 +12,11 @@
       placeholder="请输入留言"
     />
     <div class="tu_box">
+      <van-uploader v-model="fileList" multiple />
+      <!-- <img src="../../assets/img/friendster/____1.png" alt />
       <img src="../../assets/img/friendster/____1.png" alt />
       <img src="../../assets/img/friendster/____1.png" alt />
-      <img src="../../assets/img/friendster/____1.png" alt />
-      <img src="../../assets/img/personal/upimg.png" alt />
+      <img src="../../assets/img/personal/upimg.png" alt />-->
     </div>
   </div>
 </template>
@@ -28,12 +29,34 @@ export default {
   },
   data() {
     return {
-      message: ""
+      content: "",
+      fileList: []
     };
   },
   methods: {
-    manage: function(is) {
-      console.info(is);
+    manage: function() {
+      let arr = [];
+      for (let i = 0; i < this.fileList.length; i++) {
+        let item = this.fileList[i].content;
+        arr.push(item);
+      }
+      this.token_post(this.$api.friend_add, {
+        content: this.content,
+        pic: arr
+      })
+        .then(data => {
+          if (data.code == 200) {
+            this.$toast({
+              message: data.msg,
+              onOpened: () => {
+                this.$router.go(-1);
+              }
+            });
+          } else {
+            this.$toast(data.msg);
+          }
+        })
+        .catch(() => {});
     }
   }
 };

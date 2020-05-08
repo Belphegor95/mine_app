@@ -98,9 +98,6 @@ export default {
 .Advertising_box::-webkit-scrollbar {
   display: none;
 }
-ul {
-  /* justify-content: space-around; */
-}
 .fuxuan_box {
   width: 100%;
   display: flex;

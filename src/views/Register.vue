@@ -74,6 +74,10 @@
           <span>银行卡账号</span>
           <img src="../assets/img/moreimg.png" />
         </div>
+        <div style="margin-top: 0.15rem" @click="password(25)">
+          <span>实名认证</span>
+          <img src="../assets/img/moreimg.png" />
+        </div>
       </div>
     </div>
     <!-- 更改登录密码 -->
@@ -88,7 +92,7 @@
       </li>
       <li>
         <span>短信验证</span>
-        <van-field v-model="us_tel" />
+        <van-field v-model="code" />
         <van-button class="fasongbtn" type="info">发送</van-button>
       </li>
     </ul>
@@ -104,7 +108,7 @@
       </li>
       <li>
         <span>短信验证</span>
-        <van-field v-model="us_tel" />
+        <van-field v-model="code" />
         <van-button class="fasongbtn" type="info">发送</van-button>
       </li>
     </ul>
@@ -144,6 +148,29 @@
         <van-button class="fasongbtn" type="info">发送</van-button>
       </li>
     </ul>
+    <!-- 实名认证 -->
+    <ul class="shiming" v-else-if="$store.getters.get_typeid === 25">
+      <li>
+        <span>真实姓名</span>
+        <van-field v-model="text" placeholder="13666666666" />
+      </li>
+      <li style="margin-bottom: 0.5rem">
+        <span>联系电话</span>
+        <van-field v-model="text" placeholder="13666666666" />
+      </li>
+      <div class="shenfen_box">
+        <van-uploader>
+          <div class="upimg"></div>
+        </van-uploader>
+        <p>身份证正面</p>
+      </div>
+      <div class="shenfen_box">
+        <van-uploader>
+          <div class="upimg"></div>
+        </van-uploader>
+        <p>身份证反面</p>
+      </div>
+    </ul>
     <ul class="kefu" v-else-if="$store.getters.get_typeid === 7">
       <li>
         <span>联系电话</span>
@@ -154,6 +181,7 @@
         <van-field v-model="text" placeholder="13666666666" />
       </li>
     </ul>
+
     <div class="queding_box" v-if="$store.getters.get_typeid != 7">
       <van-button @click="determine" class="quedingbtn" type="info">确定</van-button>
     </div>
@@ -189,29 +217,91 @@ export default {
       // 确定
       let type = this.$store.getters.get_typeid;
       if (type === 1) {
+        if (this.us_tel.trim() === "") {
+          this.$toast("手机号输入有误");
+          return;
+        } else if (this.us_nickname.trim() === "") {
+          this.$toast("昵称输入有误");
+          return;
+        } else if (this.us_pwd.trim() === "" || this.us_pwd_.trim() === "") {
+          this.$toast("两次密码输入有误");
+          return;
+        } else if (this.us_pwd.trim() != this.us_pwd_.trim()) {
+          this.$toast("两次密码输入有误");
+          return;
+        }
         this.register();
       } else if (type === 21) {
+        if (this.us_pwd.trim() != this.us_pwd_.trim()) {
+          this.$toast("两次密码输入有误");
+          return;
+        } else if (this.us_pwd.trim() === "" || this.us_pwd_.trim() === "") {
+          this.$toast("密码输入有误");
+          return;
+        } else if (this.code.trim() === "") {
+          this.$toast("验证码输入有误");
+          return;
+        }
         this.changePwd();
       } else if (type === 22) {
         this.changeSafe();
       } else if (type === 23) {
+        if (this.ali_account.trim() === "") {
+          this.$toast("支付宝账号输入有误");
+          return;
+        } else if (this.code.trim() === "") {
+          this.$toast("验证码输入有误");
+          return;
+        }
         this.bindAlipay();
       } else if (type === 24) {
+        if (this.us_bank.trim() === "") {
+          this.$toast("银行名称输入有误");
+          return;
+        } else if (this.bank_place.trim() === "") {
+          this.$toast("开户行地址输入有误");
+          return;
+        } else if (this.us_bank_person.trim() === "") {
+          this.$toast("持卡人输入有误");
+          return;
+        } else if (this.bank_account.trim() === "") {
+          this.$toast("银行卡号输入有误");
+          return;
+        } else if (this.code.trim() === "") {
+          this.$toast("验证码输入有误");
+          return;
+        }
         this.blindBank();
       }
     },
     register: function() {
       // 注册账号
-      this.token_post(this.$api.every_register, {
-        us_pwd: this.us_pwd,
-        us_tel: this.us_tel,
-        ptel: this.ptel,
-        code: this.code,
-        us_nickname: this.nickname
-      })
+      let obj = {};
+      if (this.ptel === "") {
+        obj = {
+          us_pwd: this.us_pwd,
+          us_tel: this.us_tel,
+          code: this.code,
+          us_nickname: this.us_nickname
+        };
+      } else {
+        obj = {
+          us_pwd: this.us_pwd,
+          us_tel: this.us_tel,
+          ptel: this.ptel,
+          code: this.code,
+          us_nickname: this.us_nickname
+        };
+      }
+      this.token_post(this.$api.every_register, obj)
         .then(data => {
           if (data.code === 200) {
-            this.$toast(data.msg);
+            this.$toast({
+              message: data.msg,
+              onOpened: () => {
+                this.$router.push("/");
+              }
+            });
           } else {
             this.$toast(data.msg);
           }
@@ -226,7 +316,12 @@ export default {
       })
         .then(data => {
           if (data.code === 200) {
-            this.$toast(data.msg);
+            this.$toast({
+              message: data.msg,
+              onOpened: () => {
+                this.$router.push("/");
+              }
+            });
           } else {
             this.$toast(data.msg);
           }
@@ -241,7 +336,12 @@ export default {
       })
         .then(data => {
           if (data.code === 200) {
-            this.$toast(data.msg);
+            this.$toast({
+              message: data.msg,
+              onOpened: () => {
+                this.$router.push("/personal/personal");
+              }
+            });
           } else {
             this.$toast(data.msg);
           }
@@ -256,7 +356,12 @@ export default {
       })
         .then(data => {
           if (data.code === 200) {
-            this.$toast(data.msg);
+            this.$toast({
+              message: data.msg,
+              onOpened: () => {
+                this.$router.push("/personal/personal");
+              }
+            });
           } else {
             this.$toast(data.msg);
           }
@@ -274,7 +379,12 @@ export default {
       })
         .then(data => {
           if (data.code === 200) {
-            this.$toast(data.msg);
+            this.$toast({
+              message: data.msg,
+              onOpened: () => {
+                this.$router.push("/personal/personal");
+              }
+            });
           } else {
             this.$toast(data.msg);
           }
@@ -283,6 +393,7 @@ export default {
     },
     password: function(id) {
       this.$store.commit("show_typeid", id);
+      this.code = "";
     }
   }
 };
@@ -310,10 +421,11 @@ ul {
 .geren {
   padding-bottom: 0.6rem;
 }
-.geren_box {
+/* .geren_box {
   background: #fff;
-}
+} */
 .geren_box > div {
+  background: #fff;
   border-top: 1px solid #f7f7f7;
   height: 1rem;
   padding: 0 0.3rem 0 0.31rem;
@@ -361,6 +473,23 @@ i {
   width: 6rem;
   height: 0.7rem;
   border-radius: 0.35rem;
+}
+
+.shenfen_box {
+  font-size: 0.26rem;
+  font-family: Microsoft YaHei;
+  font-weight: 400;
+  color: rgba(51, 51, 51, 1);
+  line-height: 0.7rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 0.5rem;
+}
+.upimg {
+  width: 2.9rem;
+  height: 1.9rem;
+  background: rgba(246, 246, 246, 1);
 }
 </style>
 
