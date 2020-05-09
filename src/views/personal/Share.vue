@@ -1,7 +1,7 @@
 <!-- 分享 -->
 <template>
   <div class="share_box">
-    <breadcrumb :typeid="104"></breadcrumb>
+    <breadcrumb :typeid="104" :transparent="true"></breadcrumb>
     <div></div>
     <p>
       http://www.baidu.com
@@ -23,7 +23,9 @@ export default {
   data() {
     return {};
   },
-  mounted() {}
+  mounted() {
+    this.$store.commit("show_typeid", 104);
+  }
 };
 </script>
 <style scoped>
@@ -55,6 +57,7 @@ export default {
 .fuzhibtn {
   width: 3rem;
   height: 0.8rem;
+  line-height: 0.8rem;
   font-size: 0.36rem;
   font-family: Adobe Heiti Std;
   font-weight: normal;

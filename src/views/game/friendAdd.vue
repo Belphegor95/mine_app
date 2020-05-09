@@ -1,4 +1,4 @@
-<!-- 广告视频区 -->
+<!-- 添加好友 -->
 <template>
   <div class="AdvertisingHome_box">
     <breadcrumb></breadcrumb>
@@ -9,7 +9,7 @@
     </van-search>
     <div class="searchEnd">搜索结果</div>
     <!-- <van-empty style="background-color: #fff;"  description="暂无数据" /> -->
-    <ul class="contentList" v-if="Object.keys(adduser).length != 0" >
+    <ul class="contentList" v-if="Object.keys(adduser).length != 0">
       <li>
         <div>
           <img :src="$api.baseUrl + adduser.us_head_pic" alt />
@@ -48,6 +48,11 @@ export default {
   mounted() {},
   methods: {
     addfriend: function(id) {
+      this.$toast.loading({
+        duration: 0, // 持续展示 toast
+        message: "加载中...",
+        forbidClick: true
+      });
       this.token_post(this.$api.user_addfriend, { id: id })
         .then(data => {
           if (data.code === 200) {
@@ -67,6 +72,11 @@ export default {
         this.$toast("搜索关键词输入有误");
         return;
       }
+      this.$toast.loading({
+        duration: 0, // 持续展示 toast
+        message: "加载中...",
+        forbidClick: true
+      });
       this.axios
         .post(this.$api.index_search, {
           id: this.searchValue
@@ -74,6 +84,7 @@ export default {
         .then(data => {
           if (data.code === 200) {
             this.adduser = data.data;
+            this.$toast(data.msg);
           } else {
             this.$toast(data.msg);
           }
@@ -178,4 +189,10 @@ export default {
 .van-search__action {
   margin-right: 0.2rem;
 }
+</style>
+
+<style>
+ .AdvertisingHome_box .van-field__body {
+    width: 100%;
+  }
 </style>

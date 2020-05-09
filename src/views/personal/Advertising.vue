@@ -167,6 +167,7 @@ li {
 .quedingbtn {
   width: 6rem;
   height: 0.7rem;
+  line-height: 0.7rem;
   border-radius: 0.35rem;
 }
 

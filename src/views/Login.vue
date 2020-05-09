@@ -84,6 +84,11 @@ export default {
         this.$toast("验证码未输入");
         return;
       }
+      this.$toast.loading({
+        duration: 0, // 持续展示 toast
+        message: "加载中...",
+        forbidClick: true
+      });
       localStorage.clear();
       window.localStorage.account = this.account;
       window.localStorage.password = this.password;
@@ -92,8 +97,10 @@ export default {
           if (data.code == 200) {
             this.$store.commit("show_user", data.data);
             this.$toast({
+              type: 'success',
               message: data.msg,
-              onOpened: () => {
+              forbidClick: true,
+              onClose: () => {
                 this.$router.push("/home");
               }
             });

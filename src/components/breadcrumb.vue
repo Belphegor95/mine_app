@@ -1,6 +1,6 @@
 <template>
   <div class="boxFather">
-    <div class="box" :style="{'background':transparent?'transparent':'#fff'}">
+    <div class="box" :class="transparent?'touming_':''">
       <div class="left_box">
         <img @click="back" src="@/assets/img/backimg.png" alt />
         <p v-text="getTitle($store.getters.get_typeid)"></p>
@@ -108,6 +108,10 @@ export default {
   box-sizing: border-box;
   background: #fff;
   border-bottom: 1px solid #f7f7f7;
+}
+.touming_ {
+  background: transparent;
+  border-bottom: none !important;
 }
 .left_box {
   display: flex;

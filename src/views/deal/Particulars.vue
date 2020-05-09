@@ -66,9 +66,13 @@ export default {
   },
   methods: {
     upvoucher: function() {
-      console.info(this.fileList[0].content)
-      let arr = []
-      arr.push(this.fileList[0].content)
+      let arr = [];
+      arr.push(this.fileList[0].content);
+      this.$toast.loading({
+        duration: 0, // 持续展示 toast
+        message: "加载中...",
+        forbidClick: true
+      });
       this.token_post(this.$api.trade_edit_voucher, {
         id: this.$route.query.id,
         voucher: this.fileList[0].content

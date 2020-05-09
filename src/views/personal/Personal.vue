@@ -80,6 +80,9 @@ export default {
       modal_money: false
     };
   },
+  mounted() {
+    this.$store.commit("show_typeid", 107);
+  },
   methods: {
     rut_push: function(is, rut, typeid) {
       if (is) {

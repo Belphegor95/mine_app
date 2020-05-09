@@ -106,6 +106,7 @@ export default {
 .quedingbtn {
   width: 6rem;
   height: 0.8rem;
+  line-height: 0.8rem;
   font-size: 0.3rem;
   font-family: Adobe Heiti Std;
   font-weight: normal;

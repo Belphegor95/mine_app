@@ -92,11 +92,6 @@ export default {
       })
         .then(data => {
           if (data.code === 200) {
-            // if (data.data.ito_money) {
-            //   this.headerMsg[0].value = data.data.ito_money
-            // } else {
-
-            // }
             this.headerMsg[0].value = data.data.ito_money ? data.data.ito_money :  0.0000
             this.headerMsg[1].value = data.data.today_money
             this.headerMsg[2].value = data.data.ito

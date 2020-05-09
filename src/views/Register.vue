@@ -183,7 +183,10 @@
       </li>
     </ul>
 
-    <div class="queding_box" v-if="$store.getters.get_typeid != 7">
+    <div
+      class="queding_box"
+      v-if="$store.getters.get_typeid != 7 && $store.getters.get_typeid != 2"
+    >
       <van-button @click="determine" class="quedingbtn" type="info">确定</van-button>
     </div>
   </div>
@@ -295,12 +298,17 @@ export default {
           us_nickname: this.us_nickname
         };
       }
+      this.$toast.loading({
+        duration: 0, // 持续展示 toast
+        message: "加载中...",
+        forbidClick: true
+      });
       this.token_post(this.$api.every_register, obj)
         .then(data => {
           if (data.code === 200) {
             this.$toast({
               message: data.msg,
-              onOpened: () => {
+              onClose: () => {
                 this.$router.push("/");
               }
             });
@@ -312,6 +320,11 @@ export default {
     },
     changePwd: function() {
       // 修改密码
+      this.$toast.loading({
+        duration: 0, // 持续展示 toast
+        message: "加载中...",
+        forbidClick: true
+      });
       this.token_post(this.$api.user_changePwd, {
         us_pwd: this.us_pwd,
         us_tel: this.us_tel
@@ -320,7 +333,7 @@ export default {
           if (data.code === 200) {
             this.$toast({
               message: data.msg,
-              onOpened: () => {
+              onClose: () => {
                 this.$router.push("/");
               }
             });
@@ -332,6 +345,11 @@ export default {
     },
     changeSafe: function() {
       // 修改支付密码
+      this.$toast.loading({
+        duration: 0, // 持续展示 toast
+        message: "加载中...",
+        forbidClick: true
+      });
       this.token_post(this.$api.user_changeSafe, {
         us_safe_pwd: this.us_safe_pwd,
         us_tel: this.us_tel
@@ -342,7 +360,7 @@ export default {
             user.us_safe_pwd = this.us_safe_pwd;
             this.$toast({
               message: data.msg,
-              onOpened: () => {
+              onClose: () => {
                 this.$store.commit("show_typeid", 2);
               }
             });
@@ -354,9 +372,14 @@ export default {
     },
     bindAlipay: function() {
       // 绑定支付宝账号
+      this.$toast.loading({
+        duration: 0, // 持续展示 toast
+        message: "加载中...",
+        forbidClick: true
+      });
       this.token_post(this.$api.user_bindAlipay, {
         code: this.code,
-        ali_account: this.ali_account
+        account: this.ali_account
       })
         .then(data => {
           if (data.code === 200) {
@@ -364,7 +387,7 @@ export default {
             user.ali_account = this.ali_account;
             this.$toast({
               message: data.msg,
-              onOpened: () => {
+              onClose: () => {
                 this.$store.commit("show_typeid", 2);
               }
             });
@@ -376,6 +399,11 @@ export default {
     },
     blindBank: function() {
       // 绑定银行卡
+      this.$toast.loading({
+        duration: 0, // 持续展示 toast
+        message: "加载中...",
+        forbidClick: true
+      });
       this.token_post(this.$api.user_blindBank, {
         code: this.code,
         us_bank: this.us_bank,
@@ -392,7 +420,7 @@ export default {
             user.bank_account = this.bank_account;
             this.$toast({
               message: data.msg,
-              onOpened: () => {
+              onClose: () => {
                 this.$store.commit("show_typeid", 2);
               }
             });

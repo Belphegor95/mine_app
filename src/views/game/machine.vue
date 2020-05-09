@@ -88,7 +88,8 @@ export default {
         .then(data => {
           if (data.code === 200) {
             this.itolist = data.data;
-            // this.$toast(data)
+          } else {
+            this.$toast(data.msg);
           }
         })
         .catch(() => {});
@@ -101,6 +102,11 @@ export default {
         this.$toast("支付密码输入有误");
         return;
       }
+      this.$toast.loading({
+        duration: 0, // 持续展示 toast
+        message: "加载中...",
+        forbidClick: true
+      });
       this.token_post(this.$api.game_buyito, {
         num: this.buyNumber,
         us_safe_pwd: this.pwd,

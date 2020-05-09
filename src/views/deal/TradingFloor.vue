@@ -29,12 +29,12 @@
         <li v-for="(item,index) in tradelist" :key="index">
           <span>{{ item.num }}</span>
           <span>{{ item.price }}</span>
-          <span class="yellow" @click="modal_buy = true">购买</span>
+          <span class="yellow" @click="openModal(false)">购买</span>
         </li>
       </ul>
     </div>
     <div class="maichu_box">
-      <van-button @click="modal = true;" class="maichubtn" type="info">卖出</van-button>
+      <van-button @click="openModal(true)" class="maichubtn" type="info">卖出</van-button>
     </div>
     <van-popup class="modal_box" round v-model="modal">
       <div class="mima_box">
@@ -94,6 +94,20 @@ export default {
     this.gettrade();
   },
   methods: {
+    openModal: function(is) {
+      if (is) {
+        this.modal = true;
+      } else {
+        this.modal_buy = true;
+      }
+      this.num = "";
+      this.us_safe_pwd = "";
+      this.real = {
+        fee: 0,
+        price: 0,
+        real_num: 0
+      };
+    },
     gettrade: function() {
       this.token_post(this.$api.trade_index)
         .then(data => {
@@ -131,6 +145,11 @@ export default {
         this.$toast("交易密码输入有误");
         return;
       }
+      this.$toast.loading({
+        duration: 0, // 持续展示 toast
+        message: "加载中...",
+        forbidClick: true
+      });
       this.token_post(this.$api.trade_sale, {
         num: this.num,
         us_safe_pwd: this.us_safe_pwd
@@ -159,6 +178,11 @@ export default {
         this.$toast("支付密码输入有误");
         return;
       }
+      this.$toast.loading({
+        duration: 0, // 持续展示 toast
+        message: "加载中...",
+        forbidClick: true
+      });
       this.token_post(this.$api.trade_buy, {
         us_safe_pwd: this.us_safe_pwd
       }).then(data => {
@@ -166,7 +190,7 @@ export default {
           this.modal_buy = false;
           this.$toast({
             message: data.msg,
-            onOpened: () => {
+            onClose: () => {
               this.$store.commit("show_typeid", 202);
               this.$router.push("/deal/particulars");
             }
@@ -401,6 +425,7 @@ li > span {
 .quedingbtn {
   width: 6rem;
   height: 0.8rem;
+  line-height: 0.8rem;
   margin-bottom: 0.5rem;
   /* background: rgba(57, 142, 245, 1); */
 }
