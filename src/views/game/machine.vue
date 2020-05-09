@@ -1,4 +1,4 @@
-<!-- 广告视频区 -->
+<!-- 矿机市场 -->
 <template>
   <div class="MachineHome_box">
     <header class="header">
@@ -6,23 +6,24 @@
       <span @click="goBack">矿机市场</span>
     </header>
     <div style="padding: 0.3rem 0.27rem;height:0.46rem"></div>
-    <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-      <van-cell>
-        <ul class="contentList">
-          <li v-for="(ito,index)  in itolist" :key="index" @click="()=>popupShow=true">
-            <span>
-              <img src="../../assets/img/game/text1.png" alt />
-            </span>
-            <div>
-              <p>等级：{{ ito.name }}</p>
-              <p>算力：{{ ito.computing }}</p>
-              <p>采矿时间：{{ ito.valid_time }}天</p>
-              <p>投入产出比：{{ ito.roi }}</p>
-            </div>
-          </li>
-        </ul>
-      </van-cell>
-    </van-list>
+    <!-- <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
+    <van-cell>-->
+    <van-empty v-if="itolist.length === 0" description="暂无数据" />
+    <ul v-else class="contentList">
+      <li v-for="(ito,index)  in itolist" :key="index" @click="onito(ito.id)">
+        <span>
+          <img src="../../assets/img/game/text1.png" alt />
+        </span>
+        <div>
+          <p>等级：{{ ito.name }}</p>
+          <p>算力：{{ ito.computing }}</p>
+          <p>采矿时间：{{ ito.valid_time }}天</p>
+          <p>投入产出比：{{ ito.roi }}</p>
+        </div>
+      </li>
+    </ul>
+    <!-- </van-cell>
+    </van-list>-->
     <van-popup v-model="popupShow">
       <div class="machineMsg">
         <div class="msgTop">
@@ -41,17 +42,18 @@
             <span>购买数量</span>
             <van-field v-model="buyNumber" placeholder="请输入购买数量" />
           </li>
-          <li>
+          <!-- <li>
             <span>购买价格</span>
             <van-field v-model="buyPrc" placeholder="请输入购买价格" />
-          </li>
+          </li>-->
           <li>
             <span>支付密码</span>
-            <van-field v-model="pwd" placeholder="请输入支付密码" />
+            <van-field v-model="pwd" type="password" placeholder="请输入支付密码" />
           </li>
         </ul>
-        <p>我的商务钱包：1232.00</p>
-        <button>
+        <p v-if="user.business_money">我的商务钱包：{{ user.business_money }}</p>
+        <p v-else>我的商务钱包：0.0000</p>
+        <button @click="buyito">
           <span>确 认</span>
         </button>
       </div>
@@ -63,21 +65,21 @@
 export default {
   data() {
     return {
+      user: this.$store.state.user,
       buyNumber: "",
       buyPrc: "",
       pwd: "",
+      id: 0,
       popupShow: false,
       nextTo: false,
-      itolist: [],
-      loading: false,
-      finished: false
+      itolist: []
     };
   },
   created() {
     this.$store.commit("show_typeid", 17804);
   },
   mounted() {
-    this.getito()
+    this.getito();
   },
   methods: {
     getito: function() {
@@ -85,8 +87,31 @@ export default {
         .get(this.$api.index_ito)
         .then(data => {
           if (data.code === 200) {
-            this.itolist = data.data
+            this.itolist = data.data;
             // this.$toast(data)
+          }
+        })
+        .catch(() => {});
+    },
+    buyito: function() {
+      if (this.buyNumber.trim() === "") {
+        this.$toast("数量输入有误");
+        return;
+      } else if (this.pwd.trim() === "") {
+        this.$toast("支付密码输入有误");
+        return;
+      }
+      this.token_post(this.$api.game_buyito, {
+        num: this.buyNumber,
+        us_safe_pwd: this.pwd,
+        id: this.id
+      })
+        .then(data => {
+          if (data.code === 200) {
+            this.popupShow = false;
+            this.$toast(data.msg);
+          } else {
+            this.$toast(data.msg);
           }
         })
         .catch(() => {});
@@ -97,20 +122,11 @@ export default {
     pushTo(type) {
       this.$router.push(`/gameHome?tarbar=${type}`);
     },
-    onLoad() {
-      // setTimeout(() => {
-      //   for (let i = 0; i < 10; i++) {
-      //     this.list.push(this.list.length + 1);
-      //   }
-
-      //   // 加载状态结束
-      //   this.loading = false;
-
-      //   // 数据全部加载完成
-      //   if (this.list.length >= 20) {
-      //     this.finished = true;
-      //   }
-      // }, 1000);
+    onito: function(id) {
+      this.buyNumber = "";
+      this.pwd = "";
+      this.popupShow = true;
+      this.id = id;
     }
   }
 };

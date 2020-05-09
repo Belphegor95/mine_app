@@ -8,36 +8,23 @@
       </template>
     </van-search>
     <div class="searchEnd">搜索结果</div>
-    <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-      <van-cell>
-        <ul class="contentList" v-if="Object.keys(adduser) != 0">
-          <li>
-            <div>
-              <img :src="$api.baseUrl + adduser.us_head_pic" alt />
-              <div>
-                <span>{{ adduser.us_nickname }}</span>
-                <i>ID：{{ adduser.id }}</i>
-              </div>
-            </div>
-            <button @click="addfriend(adduser.id)">
-              <span>添 加</span>
-            </button>
-          </li>
-          <!-- <li v-for="value  in list" :key="value">
-            <div>
-              <img src="../../assets/img/game/manFriend.png" alt />
-              <div>
-                <span>雷厉风行</span>
-                <i>ID：215472</i>
-              </div>
-            </div>
-            <button>
-              <span>添 加</span>
-            </button>
-          </li>-->
-        </ul>
-      </van-cell>
-    </van-list>
+    <!-- <van-empty style="background-color: #fff;"  description="暂无数据" /> -->
+    <ul class="contentList" v-if="Object.keys(adduser).length != 0" >
+      <li>
+        <div>
+          <img :src="$api.baseUrl + adduser.us_head_pic" alt />
+          <div>
+            <span>{{ adduser.us_nickname }}</span>
+            <i>ID：{{ adduser.id }}</i>
+          </div>
+        </div>
+        <button @click="addfriend(adduser.id)">
+          <span>添 加</span>
+        </button>
+      </li>
+    </ul>
+    <!-- </van-cell>
+    </van-list>-->
   </div>
 </template>
 
@@ -52,19 +39,16 @@ export default {
       user: this.$store.state.user,
       searchValue: "",
       list: [],
-      loading: false,
-      finished: false,
       adduser: {}
     };
   },
   created() {
     this.$store.commit("show_typeid", 17802);
   },
-  mounted() {
-  },
+  mounted() {},
   methods: {
-    addfriend: function (id) {
-      this.token_post(this.$api.user_addfriend,{id: id})
+    addfriend: function(id) {
+      this.token_post(this.$api.user_addfriend, { id: id })
         .then(data => {
           if (data.code === 200) {
             this.$toast(data.msg);
@@ -77,25 +61,10 @@ export default {
     pushTo(type) {
       this.$router.push(`/gameHome?tarbar=${type}`);
     },
-    onLoad() {
-      setTimeout(() => {
-        for (let i = 0; i < 5; i++) {
-          this.list.push(this.list.length + 1);
-        }
-
-        // 加载状态结束
-        this.loading = false;
-
-        // 数据全部加载完成
-        if (this.list.length >= 20) {
-          this.finished = true;
-        }
-      }, 1000);
-    },
     // 搜索
     onSearch() {
       if (this.searchValue === "") {
-        this.$toast("搜索为空");
+        this.$toast("搜索关键词输入有误");
         return;
       }
       this.axios
@@ -104,14 +73,12 @@ export default {
         })
         .then(data => {
           if (data.code === 200) {
-            this.adduser = data.data
+            this.adduser = data.data;
           } else {
             this.$toast(data.msg);
           }
         })
         .catch(() => {});
-      console.log(this.searchValue);
-      console.log("点击搜索");
     }
   }
 };

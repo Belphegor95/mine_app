@@ -9,16 +9,18 @@
     <div class="swipe_box">
       <van-swipe class="my-swipe" @change="onChange" :autoplay="3000" :show-indicators="false">
         <van-swipe-item v-for="(image, index) in shuffling" :key="index">
-          <img  :src="$api.baseUrl + image"  />
+          <img :src="$api.baseUrl + image" />
         </van-swipe-item>
       </van-swipe>
     </div>
     <div class="swipe_bottom">
       <ul>
         <li
+          v-for="(image, index) in shuffling"
+          :key="index"
           :style="{width:current == 0?'.3rem':'.15rem',background:current == 0?'#0BAAFD':'#E3E3E3'}"
         ></li>
-        <li
+        <!-- <li
           :style="{width:current == 1?'.3rem':'.15rem',background:current == 1?'#0BAAFD':'#E3E3E3'}"
         ></li>
         <li
@@ -26,7 +28,7 @@
         ></li>
         <li
           :style="{width:current == 3?'.3rem':'.15rem',background:current == 3?'#0BAAFD':'#E3E3E3'}"
-        ></li>
+        ></li>-->
       </ul>
     </div>
     <div class="news">
@@ -77,6 +79,14 @@
         <p>我的</p>
       </div>
     </div>
+    <van-popup class="modal_box" v-model="modal_money">
+      <h4>个人信息</h4>
+      <p>请完善您的银行和支付信息</p>
+      <div class="btn_box">
+        <span @click="modal_money = false">取消</span>
+        <span @click="rut_register(2,'register')">确定</span>
+      </div>
+    </van-popup>
   </div>
 </template>
 
@@ -85,13 +95,19 @@ export default {
   components: {},
   data() {
     return {
+      user: this.$store.state.user,
       shuffling: [], //轮播图地址
       notice: "", // 走马灯
-      current: 0 // 当亲轮播图下标
+      current: 0, // 当亲轮播图下标
+      is_money: false,
+      modal_money: false
     };
   },
   mounted() {
     this.getSwipeImg();
+    if (this.user.us_bank && this.user.us_safe_pwd) {
+      this.is_money = true;
+    }
   },
   methods: {
     getSwipeImg: function() {
@@ -100,7 +116,7 @@ export default {
         .then(data => {
           if (data.code == 200) {
             // console.info(data)
-            this.notice = data.data.news
+            this.notice = data.data.news;
             this.shuffling = data.data.shuffling;
           } else {
             this.$toast(data.msg);
@@ -125,11 +141,28 @@ export default {
     //   this.$router.push("/deal/trading_floor");
     // },
     rut_push: function(id, rut) {
+      if (id === 201) {
+        if (this.is_money) {
+          this.$store.commit("show_typeid", id);
+          this.$router.push(rut);
+        } else {
+          this.modal_money = true;
+        }
+      } else {
+        this.$store.commit("show_typeid", id);
+        this.$router.push(rut);
+      }
+    },
+    rut_register: function(id, rut) {
       this.$store.commit("show_typeid", id);
       this.$router.push(rut);
     },
     GameHome: function() {
-      this.$router.push("/gameHome");
+      if (this.is_money) {
+        this.$router.push("/gameHome");
+      } else {
+        this.modal_money = true;
+      }
     }
   }
 };
@@ -173,6 +206,9 @@ export default {
   margin: 0 auto;
   overflow: hidden;
   border-radius: 0.2rem;
+}
+.swipe_box img {
+  height: 3rem;
 }
 .swipe_bottom {
   width: 100%;

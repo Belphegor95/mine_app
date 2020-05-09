@@ -92,17 +92,25 @@ export default {
   methods: {
     upload: function(file) {
       // 上传
-      console.info(file.file);
-      // this.axios
-      //   .post(this.$api.every_upload, {
-      //     file: file.file
-      //   })
-      //   .then(data => {
-      //     if (data.code === 200) {
-      //       console.log(data);
-      //     }
-      //   })
-      //   .catch(() => {});
+      const formData = new FormData();
+      formData.append("file", file.file);
+      console.info(file);
+      this.axios
+        .post(
+          this.$api.every_upload,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data;"
+            }
+          }
+        )
+        .then(data => {
+          if (data.code === 200) {
+            console.log(data);
+          }
+        })
+        .catch(() => {});
     },
     addadvert: function() {
       this.token_post(this.$api.advert_add, {

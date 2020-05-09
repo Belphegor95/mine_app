@@ -2,20 +2,20 @@
 <template>
   <div class="Group">
     <breadcrumb :typeid="101"></breadcrumb>
-    <!-- <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad"> -->
-    <!-- <van-cell> -->
-    <div class="biaoge_box">
-      <span>会员账号</span>
-      <span>级别</span>
-      <span>直推人数</span>
-      <span>团队人数</span>
-    </div>
-    <!-- </van-cell> -->
-    <div class="biaoge_box" v-for="(item,index) in myTeamlist" :key="index">
-      <span>{{ item.us_account }}</span>
-      <span>{{ item.us_nickname }}</span>
-      <span>{{ item.first }}</span>
-      <span>{{ item.teams }}</span>
+    <van-empty v-if="myTeamlist.length === 0" description="暂无数据" />
+    <div v-else>
+      <div class="biaoge_box">
+        <span>会员账号</span>
+        <span>级别</span>
+        <span>直推人数</span>
+        <span>团队人数</span>
+      </div>
+      <div class="biaoge_box" v-for="(item,index) in myTeamlist" :key="index">
+        <span>{{ item.us_account }}</span>
+        <span>{{ item.us_nickname }}</span>
+        <span>{{ item.first }}</span>
+        <span>{{ item.teams }}</span>
+      </div>
     </div>
   </div>
 </template>

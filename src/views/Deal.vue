@@ -1,5 +1,5 @@
 <template>
-  <div class="register">
+  <div class="deal">
     <breadcrumb></breadcrumb>
     <!-- 广告押金 -->
     <ul class="guanggao" v-if="typeid === 2">
@@ -83,7 +83,7 @@ export default {
 </script>
 
 <style scoped>
-.register {
+.deal {
   background: #f7f7f7;
   position: relative;
   height: 100%;
@@ -137,6 +137,7 @@ li > p {
   width: 1.8rem;
   height: 0.7rem;
   margin-left: 0.4rem;
+  line-height: 0.7rem!important;
 }
 i {
   color: #fd1a1a;
@@ -153,17 +154,21 @@ i {
 .quedingbtn {
   width: 6rem;
   height: 0.8rem;
+  line-height: 0.8rem;
   margin-bottom: 0.5rem;
 }
 </style>
 
 <style>
-.register .van-cell {
+.deal .van-cell {
   background: #f6f6f6;
-  height: 0.7rem;
+  padding: 0 16px!important;
 }
-.register .van-cell {
+.deal .van-cell {
   flex: auto;
   width: 0px !important;
+}
+.deal .van-cell > div {
+  display: flex;
 }
 </style>

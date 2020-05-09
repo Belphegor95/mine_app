@@ -19,17 +19,30 @@ export default {
   data() {
     return {};
   },
-  methods: {}
+  mounted() {
+    this.getnewsDetail()
+  },
+  methods: {
+    getnewsDetail: function() {
+      this.axios.post(this.$api.index_newsDetail).then(data => {
+        if (data.code === 200) {
+          console.info(data);
+        } else {
+          this.$toast(data.msg);
+        }
+      });
+    }
+  }
 };
 </script>
 <style scoped>
-.Details{
+.Details {
   width: 100%;
   height: 100%;
   background: #fff;
   overflow-y: scroll;
 }
-.Details::-webkit-scrollbar{
+.Details::-webkit-scrollbar {
   display: none;
 }
 .xiangqing {

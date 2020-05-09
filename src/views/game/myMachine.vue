@@ -6,57 +6,21 @@
     </header>
     <div></div>
     <main>
-      <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-        <van-cell>
-          <ul class="contentList">
-            <li v-for="(item,index)  in usitolist" :key="index" @click="()=>popupShow=true">
-              <span>
-                <img src="../../assets/img/game/text1.png" alt />
-              </span>
-              <div>
-                <p>等级：{{ item.name }}</p>
-                <p>算力：{{ item.computing }}</p>
-                <p>采矿时间：{{ item.valid_time }}天</p>
-                <p>投入产出比：{{ item.roi }}</p>
-              </div>
-            </li>
-          </ul>
-        </van-cell>
-      </van-list>
-    </main>
-    <!-- <van-popup v-model="popupShow">
-      <div class="machineMsg">
-        <div class="msgTop">
+      <van-empty v-if="usitolist.length === 0" description="暂无数据" />
+      <ul v-else class="contentList">
+        <li v-for="(item,index)  in usitolist" :key="index" @click="()=>popupShow=true">
           <span>
             <img src="../../assets/img/game/text1.png" alt />
           </span>
           <div>
-            <p>等级：微矿</p>
-            <p>算力：0.01</p>
-            <p>采矿时间：30天</p>
-            <p>投入产出比：10/11</p>
+            <p>等级：{{ item.name }}</p>
+            <p>算力：{{ item.computing }}</p>
+            <p>采矿时间：{{ item.valid_time }}天</p>
+            <p>投入产出比：{{ item.roi }}</p>
           </div>
-        </div>
-        <ul class="zhifumima">
-          <li>
-            <span>购买数量</span>
-            <van-field v-model="buyNumber" placeholder="请输入购买数量" />
-          </li>
-          <li>
-            <span>购买价格</span>
-            <van-field v-model="buyPrc" placeholder="请输入购买价格" />
-          </li>
-          <li>
-            <span>支付密码</span>
-            <van-field v-model="pwd" placeholder="请输入支付密码" />
-          </li>
-        </ul>
-        <p>我的商务钱包：1232.00</p>
-        <button>
-          <span>确 认</span>
-        </button>
-      </div>
-    </van-popup>-->
+        </li>
+      </ul>
+    </main>
   </div>
 </template>
 
@@ -69,9 +33,9 @@ export default {
       // pwd: "",
       // popupShow: false,
       nextTo: false,
-      usitolist: [],
-      loading: false,
-      finished: false
+      usitolist: []
+      // loading: false,
+      // finished: false
     };
   },
   created() {

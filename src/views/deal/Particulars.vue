@@ -37,12 +37,9 @@
         <span>北京市朝阳路支行</span>
       </li>
     </ul>
-    <!-- </div> -->
-    <!-- <van-uploader :after-read="afterRead" /> -->
-
     <div class="up_box">
       <div class="upbtn_box">
-        <van-uploader>
+        <van-uploader v-model="fileList" :preview-image="false" :after-read="upvoucher">
           <img src="../../assets/img/deal/uploadingimg.png" alt />
           <p>请上传转账凭证</p>
         </van-uploader>
@@ -63,9 +60,29 @@ export default {
     breadcrumb
   },
   data() {
-    return {};
+    return {
+      fileList: []
+    };
   },
-  methods: {}
+  methods: {
+    upvoucher: function() {
+      console.info(this.fileList[0].content)
+      let arr = []
+      arr.push(this.fileList[0].content)
+      this.token_post(this.$api.trade_edit_voucher, {
+        id: this.$route.query.id,
+        voucher: this.fileList[0].content
+      })
+        .then(data => {
+          if (data.code === 200) {
+            this.$toast(data.msg);
+          } else {
+            this.$toast(data.msg);
+          }
+        })
+        .catch(() => {});
+    }
+  }
 };
 </script>
 <style scoped>
@@ -130,13 +147,13 @@ li {
   position: relative;
   margin-bottom: 0.31rem;
 }
-.upbtn_box  img {
+.upbtn_box img {
   width: 3rem;
   height: 3.6rem;
   background: rgba(224, 233, 248, 1);
   border-radius: 10px;
 }
-.upbtn_box  p {
+.upbtn_box p {
   font-size: 0.3rem;
   font-family: Adobe Heiti Std;
   font-weight: normal;

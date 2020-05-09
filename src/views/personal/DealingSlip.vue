@@ -2,9 +2,10 @@
 <template>
   <div class="DealingSlip_box">
     <breadcrumb></breadcrumb>
-    <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
+    <van-empty v-if="mytradelist.length === 0" description="暂无数据" />
+    <van-list v-else v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
       <van-cell v-for="(item,index) in mytradelist" :key="index">
-        <div class="liebiao_box">
+        <div class="liebiao_box" @click="rut(item)">
           <div class="zhuangtai_box">
             <p>状态</p>
             <p>对方ID</p>
@@ -64,6 +65,15 @@ export default {
         })
         .catch(() => {});
     },
+    rut: function(item) {
+      console.info(item);
+      this.$router.push({
+        path: "/deal/particulars",
+        query: {
+          id: item.id
+        }
+      });
+    },
     onLoad() {
       this.page++;
       this.getmytrade();
@@ -74,6 +84,7 @@ export default {
 <style scoped>
 .liebiao_box {
   display: flex;
+  width: 100%;
 }
 .liebiao_box > div {
   flex: 0 0 50%;

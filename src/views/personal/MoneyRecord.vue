@@ -2,7 +2,8 @@
 <template>
   <div class="moneyrecord">
     <breadcrumb></breadcrumb>
-    <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
+    <van-empty v-if="mycashlist.length === 0" description="暂无数据" />
+    <van-list v-else v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
       <van-cell>
         <div class="biaoge_box">
           <span>收益时间</span>

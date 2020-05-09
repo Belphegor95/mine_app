@@ -42,19 +42,19 @@
       <ul class="geren">
         <li>
           <span>推荐人</span>
-          <van-field v-model="text" placeholder="请输入推荐人" />
+          <van-field v-model="user.ptel" placeholder="暂无" readonly />
         </li>
         <li>
           <span>
             <i>*</i>手机号
           </span>
-          <van-field v-model="text" placeholder="请输入您的手机号" />
+          <van-field v-model="user.us_tel" placeholder="暂无" readonly />
         </li>
         <li>
           <span>
             <i>*</i>昵称
           </span>
-          <van-field v-model="text" placeholder="请输入您的昵称" />
+          <van-field v-model="user.us_name" placeholder="暂无" readonly />
         </li>
       </ul>
       <div class="geren_box">
@@ -171,14 +171,15 @@
         <p>身份证反面</p>
       </div>
     </ul>
+    <!-- 联系客服 -->
     <ul class="kefu" v-else-if="$store.getters.get_typeid === 7">
       <li>
         <span>联系电话</span>
-        <van-field v-model="text" placeholder="13666666666" />
+        <van-field v-model="text" placeholder="13666666666" readonly />
       </li>
       <li>
         <span>微信</span>
-        <van-field v-model="text" placeholder="13666666666" />
+        <van-field v-model="text" placeholder="13666666666" readonly />
       </li>
     </ul>
 
@@ -196,6 +197,7 @@ export default {
   },
   data() {
     return {
+      user: this.$store.state.user,
       text: "",
       ptel: "", // 推荐人手机号或账号
       code: "", // 验证码 （测试期间可以随机填数字）
@@ -258,14 +260,14 @@ export default {
         if (this.us_bank.trim() === "") {
           this.$toast("银行名称输入有误");
           return;
-        } else if (this.bank_place.trim() === "") {
-          this.$toast("开户行地址输入有误");
-          return;
         } else if (this.us_bank_person.trim() === "") {
           this.$toast("持卡人输入有误");
           return;
         } else if (this.bank_account.trim() === "") {
           this.$toast("银行卡号输入有误");
+          return;
+        } else if (this.bank_place.trim() === "") {
+          this.$toast("开户行地址输入有误");
           return;
         } else if (this.code.trim() === "") {
           this.$toast("验证码输入有误");
@@ -336,10 +338,12 @@ export default {
       })
         .then(data => {
           if (data.code === 200) {
+            let user = this.$store.state.user;
+            user.us_safe_pwd = this.us_safe_pwd;
             this.$toast({
               message: data.msg,
               onOpened: () => {
-                this.$router.push("/personal/personal");
+                this.$store.commit("show_typeid", 2);
               }
             });
           } else {
@@ -356,10 +360,12 @@ export default {
       })
         .then(data => {
           if (data.code === 200) {
+            let user = this.$store.state.user;
+            user.ali_account = this.ali_account;
             this.$toast({
               message: data.msg,
               onOpened: () => {
-                this.$router.push("/personal/personal");
+                this.$store.commit("show_typeid", 2);
               }
             });
           } else {
@@ -379,10 +385,15 @@ export default {
       })
         .then(data => {
           if (data.code === 200) {
+            let user = this.$store.state.user;
+            user.us_bank = this.us_bank;
+            user.bank_place = this.bank_place;
+            user.us_bank_person = this.us_bank_person;
+            user.bank_account = this.bank_account;
             this.$toast({
               message: data.msg,
               onOpened: () => {
-                this.$router.push("/personal/personal");
+                this.$store.commit("show_typeid", 2);
               }
             });
           } else {
@@ -440,6 +451,7 @@ li {
   display: flex;
   padding-top: 0.3rem;
   padding-right: 0.3rem;
+  height: 0.7rem;
 }
 li > span {
   width: 2rem;
@@ -453,6 +465,7 @@ li > span {
   width: 1.8rem;
   height: 0.7rem;
   margin-left: 0.4rem;
+  line-height: 0.7rem !important;
 }
 i {
   color: #fd1a1a;
@@ -472,6 +485,7 @@ i {
 .quedingbtn {
   width: 6rem;
   height: 0.7rem;
+  line-height: 0.7rem;
   border-radius: 0.35rem;
 }
 
@@ -496,10 +510,13 @@ i {
 <style>
 .register .van-cell {
   background: #f6f6f6;
-  height: 0.7rem;
+  padding: 0 16px !important;
 }
 .register .van-cell {
   flex: auto;
   width: 0px !important;
+}
+.register .van-cell > div {
+  display: flex;
 }
 </style>

@@ -46,6 +46,14 @@
         <p>退出</p>
       </li>
     </ul>
+    <van-popup class="modal_box" v-model="modal_money">
+      <h4>个人信息</h4>
+      <p>请完善您的银行和支付信息</p>
+      <div class="btn_box">
+        <span @click="modal_money = false">取消</span>
+        <span @click="rut_push(false,'register',2)">确定</span>
+      </div>
+    </van-popup>
     <van-popup class="modal_box" v-model="modal">
       <h4>退出登录</h4>
       <p>您真的要退出登录吗</p>
@@ -67,13 +75,23 @@ export default {
   },
   data() {
     return {
-      modal: false
+      user: this.$store.state.user,
+      modal: false,
+      modal_money: false
     };
   },
   methods: {
     rut_push: function(is, rut, typeid) {
       if (is) {
-        this.$router.push("/personal/" + rut);
+        if (rut === "advertising") {
+          if (this.user.us_bank && this.user.us_safe_pwd) {
+            this.$router.push("/personal/" + rut);
+          } else {
+            this.modal_money = true
+          }
+        } else {
+          this.$router.push("/personal/" + rut);
+        }
       } else {
         this.$store.commit("show_typeid", typeid);
         this.$router.push("/" + rut);
@@ -145,6 +163,9 @@ li > img {
   margin: 0 0.49rem 0 0.61rem;
 }
 
+
+</style>
+<style>
 .modal_box {
   width: 80%;
   padding: 0 0.5rem;

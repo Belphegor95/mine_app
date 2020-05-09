@@ -18,9 +18,10 @@
         <img src="../../assets/img/game/go.png" alt />
       </li>
     </ul>
-    <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-      <van-cell>
-        <ul class="contentList">
+    <!-- <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad"> -->
+      <!-- <van-cell> -->
+        <van-empty style="background-color: #fff" v-if="myfriendslist.length === 0" description="暂无数据" />
+        <ul v-else class="contentList">
           <li v-for="(item,index)  in myfriendslist" :key="index">
             <div>
               <img :src="$api.baseUrl + item.us_head_pic" alt />
@@ -32,8 +33,8 @@
             <img src="../../assets/img/game/gameTar5.png" alt />
           </li>
         </ul>
-      </van-cell>
-    </van-list>
+      <!-- </van-cell>
+    </van-list> -->
   </div>
 </template>
 
@@ -47,8 +48,8 @@ export default {
     return {
       nextTo:false,
       myfriendslist: [],
-      loading: false,
-      finished: false
+      // loading: false,
+      // finished: false
     };
   },
   created() {

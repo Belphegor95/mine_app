@@ -2,25 +2,24 @@
 <template>
   <div class="AdvertisingHome_box">
     <breadcrumb></breadcrumb>
-    <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-      <van-cell>
-        <ul class="contentList">
-          <li v-for="(item,index)  in recommendlist" :key="index">
-            <div>
-              <!-- <img src="../../assets/img/game/manFriend.png" alt /> -->
-              <img :src="$api.baseUrl + item.us_head_pic" alt />
-              <div>
-                <span>{{ item.us_nickname }}</span>
-                <i>ID：{{ item.id }}</i>
-              </div>
-            </div>
-            <button>
-              <span>添 加</span>
-            </button>
-          </li>
-        </ul>
-      </van-cell>
-    </van-list>
+    <van-empty style="background-color: #fff" v-if="recommendlist.length === 0" description="暂无数据" />
+    <ul v-else class="contentList">
+      <li v-for="(item,index)  in recommendlist" :key="index">
+        <div>
+          <!-- <img src="../../assets/img/game/manFriend.png" alt /> -->
+          <img :src="$api.baseUrl + item.us_head_pic" alt />
+          <div>
+            <span>{{ item.us_nickname }}</span>
+            <i>ID：{{ item.id }}</i>
+          </div>
+        </div>
+        <button @click="addfriend(item.id)">
+          <span>添 加</span>
+        </button>
+      </li>
+    </ul>
+    <!-- </van-cell>
+    </van-list>-->
   </div>
 </template>
 
@@ -33,25 +32,39 @@ export default {
   data() {
     return {
       nextTo: false,
-      recommendlist: [],
-      loading: false,
-      finished: false
+      recommendlist: []
+      // loading: false,
+      // finished: false
     };
   },
   created() {
     this.$store.commit("show_typeid", 17801);
   },
   mounted() {
-    this.getrecommend()
+    this.getrecommend();
   },
   methods: {
-    getrecommend: function () {
+    getrecommend: function() {
       this.token_post(this.$api.index_recommend)
         .then(data => {
           if (data.code === 200) {
-            this.recommendlist = this.recommendlist.concat(data.data)
+            this.recommendlist = this.recommendlist.concat(data.data);
           } else {
-            this.$toast(data.msg)
+            this.$toast(data.msg);
+          }
+        })
+        .catch(() => {});
+    },
+    addfriend: function(id) {
+      this.token_post(this.$api.user_addfriend, {
+        id: id
+      })
+        .then(data => {
+          if (data.code === 200) {
+            this.$toast(data.msg);
+            this.getrecommend();
+          } else {
+            this.$toast(data.msg);
           }
         })
         .catch(() => {});
@@ -60,7 +73,7 @@ export default {
       this.$router.push(`/gameHome?tarbar=${type}`);
     },
     onLoad() {
-      this.getrecommend()
+      this.getrecommend();
     }
   }
 };

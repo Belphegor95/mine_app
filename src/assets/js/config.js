@@ -4,14 +4,17 @@ api.monmsg = "网络遇到问题,请重试!";
 
 api.baseUrl = "http://121.89.215.118:8001"
 
-// 1.4.1 系统登录
+// 1登录接口
 api.user_login = "/index/user/login";
+// 2，首页接口
 api.index_index = "/index/index/index";
-// 4,新闻详情
+// 3,新闻详情
 api.index_newslist = "/index/index/newslist";
+// 4,新闻详情接口
+api.index_newsDetail = "/index/index/newsDetail";
 // 5,矿机市场
 api.index_ito = "/index/index/ito";
-// 6，获取用户的某一字段值
+// 6，获取用户的某一字段值(暂未使用)
 api.user_getmyinfo = "/index/user/getmyinfo";
 // 7,我的团队
 api.user_myTeam = "/index/user/myTeam";
@@ -25,11 +28,11 @@ api.trade_getreal = "/index/trade/getreal";
 api.trade_mytrade = "/index/trade/mytrade";
 // 12，买入矿币
 api.trade_buy = "/index/trade/buy";
-// 13,上传支付凭证
+// 13,上传支付凭证 (暂未使用)
 api.trade_edit_voucher = "/index/trade/edit_voucher";
 // 14 签到
 api.user_sign = "/index/user/sign";
-// 15 道具商城（防偷）
+// 15 道具商城（防偷）(暂未使用)
 api.index_tools = "/index/index/tools";
 // 16 推荐好友
 api.index_recommend = "/index/index/recommend";
@@ -40,9 +43,12 @@ api.user_myfriends = "/index/user/myfriends";
 // 19，添加好友
 api.user_addfriend = "/index/user/addfriend";
 // 20，游戏首页
+// 21，我的矿机首页
 api.game_index = "/index/game/index";
-
-
+// 22，购买矿机 
+api.game_buyito = "/index/game/buyito";
+// 23,购买道具（防偷道具）(暂未使用)
+api.game_buytool = "/index/game/buytool";
 
 // 24,账户明细
 api.user_mycash = "/index/user/mycash";
@@ -68,19 +74,19 @@ api.advert_index = "/index/advert/index";
 api.every_upload = "/index/every/upload";
 // 35,添加广告
 api.advert_add = "/index/advert/add";
-// 36,获取广告押金额度
+// 36,获取广告押金额度 (暂未使用)
 api.index_showconfig = "/index/index/showconfig";
-// 37，交押金
+// 37，交押金(暂未使用)
 api.advert_deposit = "/index/advert/deposit";
-// 38,退押金
+// 38,退押金(暂未使用)
 api.advert_backdeposit = "/index/advert/backdeposit";
-// 39,删除广告
+// 39,删除广告(暂未使用)
 api.advert_delete = "/index/advert/delete";
 // 40,我的朋友圈
 api.friend_index = "/index/friend/index";
 // 41，发布朋友圈
 api.friend_add = "/index/friend/add";
-// 42，评论朋友圈
+// 42，评论朋友圈(暂未使用)
 api.friend_comment = "/index/friend/comment";
 // 43,点赞
 api.friend_thumb = "/index/friend/thumb";

@@ -15,9 +15,9 @@
     </div>
     <div class="head_box">
       <div>出售</div>
-      <!-- <div></div> -->
     </div>
-    <ul class="liebiaoHead">
+    <van-empty style="background-color: #fff" v-if="tradelist.length === 0" description="暂无数据" />
+    <ul v-else-if="tradelist.length != 0" class="liebiaoHead">
       <li>
         <span>出售数量</span>
         <span>价格</span>
@@ -26,9 +26,9 @@
     </ul>
     <div class="liebiao_box">
       <ul>
-        <li v-for="(item,index) in tradelist" :key="index" >
-          <span @click="particulars">{{ item.num }}</span>
-          <span @click="particulars">{{ item.price }}</span>
+        <li v-for="(item,index) in tradelist" :key="index">
+          <span>{{ item.num }}</span>
+          <span>{{ item.price }}</span>
           <span class="yellow" @click="modal_buy = true">购买</span>
         </li>
       </ul>
@@ -52,7 +52,7 @@
         </div>
         <div>
           <img src="../../assets/img/pigeon.png" alt />
-          <van-field v-model="us_safe_pwd" placeholder="请输入交易密码" />
+          <van-field v-model="us_safe_pwd" type="password" placeholder="请输入交易密码" />
         </div>
       </div>
       <van-button @click="show" class="quedingbtn" type="info">确定</van-button>
@@ -61,7 +61,7 @@
       <div class="mima_box">
         <div>
           <img src="../../assets/img/pigeon.png" alt />
-          <van-field v-model="us_safe_pwd" placeholder="请输入交易密码" />
+          <van-field v-model="us_safe_pwd" type="password" placeholder="请输入交易密码" />
         </div>
       </div>
       <van-button @click="buy" class="quedingbtn" type="info">确定</van-button>
@@ -92,8 +92,6 @@ export default {
   },
   mounted() {
     this.gettrade();
-    
-    
   },
   methods: {
     gettrade: function() {
@@ -102,22 +100,22 @@ export default {
           if (data.code === 200) {
             this.tradelist = data.msg.trade;
             this.mydata = data.msg;
-            this.mydata.date = []
-            this.mydata.list = []
+            this.mydata.date = [];
+            this.mydata.list = [];
             for (let i = 0; i < this.mydata.flot.length; i++) {
               let item = this.mydata.flot[i];
               let date = new Date(item.update_time);
-              
+
               let yue = date.getMonth() + 1 + "";
-              let ri = date.getDate() + ""
+              let ri = date.getDate() + "";
               if (yue.length === 1) {
                 yue = 0 + yue;
               }
               if (ri.length === 1) {
                 ri = 0 + ri;
               }
-              this.mydata.date.push(yue + "/" + ri)
-              this.mydata.list.push(Number(item.price))
+              this.mydata.date.push(yue + "/" + ri);
+              this.mydata.list.push(Number(item.price));
             }
           }
           this.my();
@@ -126,6 +124,13 @@ export default {
     },
     //
     show: function() {
+      if (this.num.trim() === "") {
+        this.$toast("出售数量输入有误");
+        return;
+      } else if (this.us_safe_pwd.trim() === "") {
+        this.$toast("交易密码输入有误");
+        return;
+      }
       this.token_post(this.$api.trade_sale, {
         num: this.num,
         us_safe_pwd: this.us_safe_pwd
@@ -149,21 +154,23 @@ export default {
         }
       });
     },
-    particulars: function() {
-      this.$store.commit("show_typeid", 202);
-      this.$router.push("/deal/particulars");
-    },
-    buy: function () {
+    buy: function() {
       if (this.us_safe_pwd.trim() === "") {
         this.$toast("支付密码输入有误");
-        return
+        return;
       }
       this.token_post(this.$api.trade_buy, {
         us_safe_pwd: this.us_safe_pwd
       }).then(data => {
         if (data.code === 200) {
           this.modal_buy = false;
-          this.$toast(data.msg);
+          this.$toast({
+            message: data.msg,
+            onOpened: () => {
+              this.$store.commit("show_typeid", 202);
+              this.$router.push("/deal/particulars");
+            }
+          });
         } else {
           this.$toast(data.msg);
         }
@@ -257,6 +264,7 @@ export default {
   display: flex;
   flex-direction: column;
   background-color: #f1f1f1;
+  overflow: hidden;
 }
 .my_box {
   background-color: #fff;
