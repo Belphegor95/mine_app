@@ -120,7 +120,7 @@ export default {
     },
     // 一键收取
     collect() {
-      console.log("点击一键收取了");
+      // console.log("点击一键收取了");
     }
   },
   watch: {

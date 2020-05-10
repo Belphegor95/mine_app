@@ -508,7 +508,6 @@ export default {
     // 开始播放
     playvideo() {
       let video = document.querySelectorAll("video")[this.current];
-      console.log("playvideo：" + this.current);
       this.isVideoShow = false;
       this.iconPlayShow = false;
       this.showShareBox = false;

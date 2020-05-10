@@ -44,7 +44,6 @@ axios.interceptors.response.use(
 axios.defaults.baseURL = api.baseUrl;
 
 function headers(url) {
-  console.log(url)
   let account = window.localStorage.account
   let password = window.localStorage.password
   return {
