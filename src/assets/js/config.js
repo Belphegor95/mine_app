@@ -28,7 +28,7 @@ api.trade_getreal = "/index/trade/getreal";
 api.trade_mytrade = "/index/trade/mytrade";
 // 12，买入矿币
 api.trade_buy = "/index/trade/buy";
-// 13,上传支付凭证 (暂未使用)
+// 13,上传支付凭证 
 api.trade_edit_voucher = "/index/trade/edit_voucher";
 // 14 签到
 api.user_sign = "/index/user/sign";
@@ -74,13 +74,13 @@ api.advert_index = "/index/advert/index";
 api.every_upload = "/index/every/upload";
 // 35,添加广告
 api.advert_add = "/index/advert/add";
-// 36,获取广告押金额度 (暂未使用)
+// 36,获取广告押金额度 
 api.index_showconfig = "/index/index/showconfig";
-// 37，交押金(暂未使用)
+// 37，交押金
 api.advert_deposit = "/index/advert/deposit";
 // 38,退押金(暂未使用)
 api.advert_backdeposit = "/index/advert/backdeposit";
-// 39,删除广告(暂未使用)
+// 39,删除广告
 api.advert_delete = "/index/advert/delete";
 // 40,我的朋友圈
 api.friend_index = "/index/friend/index";

@@ -2,14 +2,16 @@
 <template>
   <div class="Advertising_box">
     <breadcrumb @is_manage="manage"></breadcrumb>
-    <ul>
-      <van-checkbox-group v-model="result" class="fuxuan_box">
-        <li v-for="value  in 5" :key="value">
-          <div class="img_"></div>
+    <van-empty v-if="advertlist.length === 0" description="暂无数据" />
+    <ul v-else>
+      <van-radio-group v-model="result" class="fuxuan_box">
+        <li v-for="(item,index)  in advertlist" :key="index">
+          <!-- <div class="img_"></div> -->
+          <img :src="$api.baseUrl + item.ad_head_pic" style="height: 3.5rem;" />
           <div class="xinxi_box">
-            <p>奥克斯净水器</p>
+            <p>{{ item.ad_name }}</p>
             <div class="jilv_box">
-              <van-checkbox v-if="!is_delet" :name="value"></van-checkbox>
+              <van-radio v-if="!is_delet" :name="item.id"></van-radio>
               <div></div>
               <div class="shu_box">
                 <img src="../../assets/img/personal/eyeimg.png" alt />
@@ -18,10 +20,10 @@
             </div>
           </div>
         </li>
-      </van-checkbox-group>
+      </van-radio-group>
     </ul>
     <div style="height:1.2rem;"></div>
-    <div class="queding_box">
+    <div class="queding_box" v-if="is_delet">
       <van-button @click="rut_upadvertising" class="quedingbtn" type="info">上传广告</van-button>
     </div>
     <van-popup class="modal_box" v-model="modal">
@@ -44,31 +46,36 @@ export default {
   data() {
     return {
       user: this.$store.state.user,
-      result: [1],
+      result: 0,
       is_delet: true,
-      modal: false
+      modal: false,
+      advertlist: []
     };
   },
   created() {
-    this.getadvert()
-    
+    this.getadvert();
+
     this.$store.commit("show_typeid", 103);
   },
   methods: {
-    getadvert: function () {
-      this.token_post(this.$api.advert_index,{
+    getadvert: function() {
+      this.token_post(this.$api.advert_index, {
         code: 222,
-        us_bank: this.user.us_bank,
-        bank_place: this.user.bank_place,
-        us_bank_person: this.user.us_bank_person,
-        bank_account: this.user.bank_account
-      }).then((data) => {
-        if (data.code === 200) {
-          console.info(data)
-        }
-      }).catch(() => {
-
+        us_bank: this.user.us_bank ? this.user.us_bank : null,
+        bank_place: this.user.bank_place ? this.user.bank_place : null,
+        us_bank_person: this.user.us_bank_person
+          ? this.user.us_bank_person
+          : null,
+        bank_account: this.user.bank_account ? this.user.bank_account : null
       })
+        .then(data => {
+          if (data.code === 200) {
+            this.advertlist = data.data;
+          } else {
+            this.$toast(data.msg);
+          }
+        })
+        .catch(() => {this.$toast.fail(this.$api.monmsg)});
     },
     rut_upadvertising: function() {
       this.$store.commit("show_typeid", 105);
@@ -79,11 +86,25 @@ export default {
         this.is_delet = is;
       } else {
         this.modal = true;
-        // this.is_delet = is;
+        this.is_delet = is;
       }
     },
     quit: function() {
-      this.modal = false;
+      if (this.result === 0) {
+        this.$toast("广告未选择");
+      }
+      this.token_post(this.$api.advert_delete, {
+        id: this.result ? this.result : null
+      })
+        .then(data => {
+          if (data.code === 200) {
+            this.getadvert();
+            this.modal = false;
+          } else {
+            this.$toast(data.msg);
+          }
+        })
+        .catch(() => {this.$toast.fail(this.$api.monmsg)});
     }
   }
 };

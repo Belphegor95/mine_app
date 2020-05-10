@@ -123,7 +123,7 @@ export default {
           }
         })
         .catch(() => {
-          this.$toast(this.$api.monmsg);
+          this.$toast.fail(this.$api.monmsg);
         });
     },
     // 轮播图id回调

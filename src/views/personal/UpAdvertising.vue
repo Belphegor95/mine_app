@@ -4,9 +4,7 @@
     <breadcrumb></breadcrumb>
     <ul class="ullist">
       <li>
-        <span>
-          <i>*</i>视频名称
-        </span>
+        <span>视频名称</span>
         <van-field v-model="ad_name" placeholder="请输入视频名称" />
       </li>
       <li>
@@ -41,17 +39,11 @@
         <span>封面图片</span>
         <span>建议比例统一为1:1</span>
         <van-uploader style="float: right;" accept="image/*" :after-read="uploadImg" />
-        <!-- <van-uploader style="float: right;">
-          <img src="../../assets/img/personal/upimg.png" alt />
-        </van-uploader>-->
       </div>
       <div>
         <span>上传视频</span>
         <span>MP4格式，大小不得超过10M</span>
         <van-uploader style="float: right;" accept="video/*" :after-read="uploadVideo" />
-        <!-- <van-uploader style="float: right;">
-          <img src="../../assets/img/personal/upimg.png" alt />
-        </van-uploader>-->
       </div>
     </div>
     <div class="upadvertising_box">
@@ -76,12 +68,13 @@ export default {
         { text: "箱包礼品", value: 4 },
         { text: "家居家装", value: 5 }
       ],
+      data: [],
       text: "",
       typeid: this.$store.getters.get_typeid,
       ad_name: "", // "舞蹈",
       company_name: "", // "芭蕾公司",  //公司名称
       ca_id: 0, // 1,
-      ad_head_pic: "", // "",
+      ad_head_pic: "", // "上传的图片",
       tel: "", //联系电话
       total: "", //总佣金
       single: "", //单一佣金
@@ -89,29 +82,27 @@ export default {
       content: "" // "好的舞蹈，好的公司"  //简介
     };
   },
+  mounted() {
+    this.getcates();
+  },
   methods: {
-    // upload: function(file) {
-    //   // 上传
-    //   const formData = new FormData();
-    //   formData.append("file", file.file);
-    //   console.info(file);
-    //   this.axios
-    //     .post(
-    //       this.$api.every_upload,
-    //       formData,
-    //       {
-    //         headers: {
-    //           "Content-Type": "multipart/form-data;"
-    //         }
-    //       }
-    //     )
-    //     .then(data => {
-    //       if (data.code === 200) {
-    //         console.log(data);
-    //       }
-    //     })
-    //     .catch(() => {});
-    // },
+    getcates: function() {
+      this.axios
+        .get(this.$api.index_cates)
+        .then(data => {
+          if (data.code === 200) {
+            this.option1 = data.data.cates;
+            for (let i = 0; i < this.option1.length; i++) {
+              let item = this.option1[i];
+              item.text = item.ca_name;
+              item.value = item.id;
+            }
+          } else {
+            this.$toast(data.msg);
+          }
+        })
+        .catch(() => {this.$toast.fail(this.$api.monmsg)});
+    },
     uploadImg: function(file) {
       // 上传
       this.ad_head_pic = file.content;
@@ -124,6 +115,11 @@ export default {
       if (file.file.size > 10000000) {
         return this.$toast.fail("请上传10M以内视频");
       }
+      this.$toast.loading({
+        duration: 0, // 持续展示 toast
+        message: "加载中...",
+        forbidClick: true
+      });
       const formData = new FormData();
       formData.append("file", file.file);
       this.axios
@@ -134,29 +130,80 @@ export default {
         })
         .then(data => {
           if (data.code === 200) {
-            console.log(data);
+            this.video = data.data;
+            this.$toast(data.msg);
+          } else {
+            this.$toast(data.msg);
           }
         })
-        .catch(() => {});
+        .catch(() => {this.$toast.fail(this.$api.monmsg)});
     },
     addadvert: function() {
+      if (this.ad_name.trim() === "") {
+        this.$toast("视频名称输入有误");
+        return;
+      } else if (this.company_name.trim() === "") {
+        this.$toast("视频名称输入有误");
+        return;
+      } else if (this.ca_id === 0) {
+        this.$toast("广告分类未选择");
+        return;
+      } else if (this.ad_head_pic.trim() === "") {
+        this.$toast("封面图片未上传");
+        return;
+      } else if (this.tel.trim() === "") {
+        this.$toast("联系电话输入有误");
+        return;
+      } else if (this.total.trim() === "") {
+        this.$toast("总佣金池输入有误");
+        return;
+      } else if (this.single.trim() === "") {
+        this.$toast("单次佣金输入有误");
+        return;
+      } else if (this.video.trim() === "") {
+        this.$toast("视频未上传");
+        return;
+      } else if (this.content.trim() === "") {
+        this.$toast("简介输入有误");
+        return;
+      }
+      this.$toast.loading({
+        duration: 0, // 持续展示 toast
+        message: "加载中...",
+        forbidClick: true
+      });
       this.token_post(this.$api.advert_add, {
-        ad_name: this.ad_name,
-        company_name: this.company_name,
-        ca_id: this.ca_id,
-        ad_head_pic: this.ad_head_pic,
-        tel: this.tel,
-        total: this.total,
-        single: this.single,
-        video: this.video,
-        content: this.content
+        ad_name: this.ad_name ? this.ad_name : null,
+        company_name: this.company_name ? this.company_name : null,
+        ca_id: this.ca_id ? this.ca_id : null,
+        ad_head_pic: this.ad_head_pic ? this.ad_head_pic : null,
+        tel: this.tel ? this.tel : null,
+        total: this.total ? this.total : null,
+        single: this.single ? this.single : null,
+        video: this.video ? this.video : null,
+        content: this.content ? this.content : null
       })
         .then(data => {
           if (data.code === 200) {
-            console.log(data);
+            this.$toast({
+              message: data.msg,
+              onClose: () => {
+                this.$router.go(-1);
+              }
+            });
+          } else if (data.code === 405) {
+            this.$toast({
+              message: data.msg,
+              onClose: () => {
+                this.$store.commit("show_typeid", 17701);
+                this.$router.push("/deal");
+              }
+            });
+          } else {
+            this.$toast(data.msg);
           }
         })
-        .catch(() => {});
+        .catch(() => {this.$toast.fail(this.$api.monmsg)});
     }
   }
 };

@@ -101,7 +101,7 @@ export default {
             this.$toast(data.msg);
           }
         })
-        .catch(() => {});
+        .catch(() => {this.$toast.fail(this.$api.monmsg)});
     },
     //根据tarbar弹出不同的内容
     tarPush(type) {

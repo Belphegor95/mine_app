@@ -48,7 +48,7 @@ export default {
             this.$toast(data.msg)
           }
         })
-        .catch(() => {});
+        .catch(() => {this.$toast.fail(this.$api.monmsg)});
     },
     rut_push: function() {
       this.$router.push("/journalism/details");

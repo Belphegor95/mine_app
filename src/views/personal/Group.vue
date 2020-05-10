@@ -48,7 +48,7 @@ export default {
             this.myTeamlist = data.data;
           }
         })
-        .catch(() => {});
+        .catch(() => {this.$toast.fail(this.$api.monmsg)});
     },
     onLoad() {
       // 异步更新数据

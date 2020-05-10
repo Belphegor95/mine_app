@@ -2,13 +2,12 @@
 <template>
   <div class="personalimg_box">
     <breadcrumb></breadcrumb>
-    <!-- <head_></head_> -->
     <div class="geren_box">
       <div class="geren">
-        <img src="../../assets/img/personal/portraitimg.png" />
+        <img :src="$api.baseUrl + user.us_head_pic" />
         <div>
-          <p>雷厉风行</p>
-          <p>ID:654123</p>
+          <p>{{ user.us_name }}</p>
+          <p>ID:{{ user.id }}</p>
         </div>
       </div>
     </div>
@@ -90,7 +89,7 @@ export default {
           if (this.user.us_bank && this.user.us_safe_pwd) {
             this.$router.push("/personal/" + rut);
           } else {
-            this.modal_money = true
+            this.modal_money = true;
           }
         } else {
           this.$router.push("/personal/" + rut);
@@ -165,8 +164,6 @@ li > img {
   height: 0.5rem;
   margin: 0 0.49rem 0 0.61rem;
 }
-
-
 </style>
 <style>
 .modal_box {

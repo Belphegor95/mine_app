@@ -63,15 +63,15 @@ export default {
             this.$toast(data.msg);
           }
         })
-        .catch(() => {});
+        .catch(() => {
+          this.$toast.fail(this.$api.monmsg);
+        });
     },
     rut: function(item) {
       console.info(item);
       this.$router.push({
         path: "/deal/particulars",
-        query: {
-          id: item.id
-        }
+        query: item
       });
     },
     onLoad() {

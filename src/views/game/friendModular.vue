@@ -69,7 +69,7 @@ export default {
             this.$toast(data.msg);
           }
         })
-        .catch(() => {});
+        .catch(() => {this.$toast.fail(this.$api.monmsg)});
     },
     pushTo(type){
        this.$router.push(`/gameHome?tarbar=${type}`);

@@ -10,31 +10,31 @@
     <ul>
       <li>
         <span>对方ID</span>
-        <span>{{ buydata.id }}</span>
+        <span>{{ buydata.id?buydata.id: "暂无" }}</span>
       </li>
       <li>
         <span>手机号</span>
-        <span>{{ buydata.us_tel }}</span>
+        <span>{{ buydata.us_tel?buydata.us_tel: "暂无" }}</span>
       </li>
       <li>
         <span>支付宝账号</span>
-        <span>{{ buydata.ali_account }}</span>
+        <span>{{ buydata.ali_account?buydata.ali_account: "暂无" }}</span>
       </li>
       <li>
         <span>开户银行</span>
-        <span>{{ buydata.us_bank }}</span>
+        <span>{{ buydata.us_bank?buydata.us_bank: "暂无" }}</span>
       </li>
       <li>
         <span>持卡人姓名</span>
-        <span>{{ buydata.us_bank_person }}</span>
+        <span>{{ buydata.us_bank_person?buydata.us_bank_person: "暂无" }}</span>
       </li>
       <li>
         <span>银行卡号</span>
-        <span>{{ buydata.bank_account }}</span>
+        <span>{{ buydata.bank_account?buydata.bank_account: "暂无" }}</span>
       </li>
       <li>
         <span>开户地址</span>
-        <span>{{ buydata.bank_place }}</span>
+        <span>{{ buydata.bank_place?buydata.bank_place: "暂无" }}</span>
       </li>
     </ul>
     <div class="up_box">
@@ -47,8 +47,11 @@
       <p>温馨提示：请在2小时内完成支付，否者会封号处理</p>
     </div>
 
-    <div class="zhifu_box">
+    <div v-if="buydata.status === 1" class="zhifu_box">
       <van-button class="zhifubtn" type="info">我已支付</van-button>
+    </div>
+    <div v- v-else-if="buydata.status === 2" class="zhifu_box">
+      <van-button class="zhifubtn" type="info">交易完成</van-button>
     </div>
   </div>
 </template>
@@ -88,7 +91,7 @@ export default {
             this.$toast(data.msg);
           }
         })
-        .catch(() => {});
+        .catch(() => {this.$toast.fail(this.$api.monmsg)});
     }
   }
 };

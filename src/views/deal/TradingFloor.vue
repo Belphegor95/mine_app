@@ -137,7 +137,7 @@ export default {
           }
           this.my();
         })
-        .catch(() => {});
+        .catch(() => {this.$toast.fail(this.$api.monmsg)});
     },
     //
     show: function() {

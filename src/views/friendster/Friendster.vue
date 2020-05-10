@@ -87,7 +87,7 @@ export default {
             this.$toast(data.msg);
           }
         })
-        .catch(() => {});
+        .catch(() => {this.$toast.fail(this.$api.monmsg)});
     },
     manage: function() {
       this.$store.commit("show_typeid", 302);

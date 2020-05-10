@@ -2,22 +2,22 @@
   <div class="deal">
     <breadcrumb></breadcrumb>
     <!-- 广告押金 -->
-    <ul class="guanggao" v-if="typeid === 2">
+    <ul class="guanggao" v-if="typeid === 17701">
       <li>
         <span>押金金额</span>
-        <van-field v-model="text" placeholder="103164" />
+        <van-field v-model="showconfig" readonly placeholder="请输入押金" />
       </li>
       <li>
         <span>支付密码</span>
-        <van-field v-model="text" placeholder="请输入支付密码" />
+        <van-field v-model="us_safe_pwd" type="password" placeholder="请输入支付密码" />
       </li>
       <li>
         <span></span>
-        <p>发布广告要缴纳95.00押金，押金可退还。</p>
+        <p>发布广告要缴纳{{ showconfig }}押金，押金可退还。</p>
       </li>
     </ul>
     <!-- 退还押金 -->
-    <ul class="tuihuan" v-else-if="typeid=== 10602">
+    <ul class="tuihuan" v-else-if="typeid=== 17702">
       <li>
         <span>押金金额</span>
         <van-field v-model="text" placeholder="100.00" />
@@ -39,7 +39,7 @@
       </li>
     </ul>
     <!-- 提现 -->
-    <ul class="tuihuan" v-else-if="typeid=== 10601">
+    <ul class="tuihuan" v-else-if="typeid=== 17703">
       <li>
         <span>提现金额</span>
         <van-field v-model="text" placeholder="100.00" />
@@ -61,7 +61,7 @@
       </li>
     </ul>
     <div class="queding_box">
-      <van-button class="quedingbtn" type="info">确定</van-button>
+      <van-button @click="onbtnok" class="quedingbtn" type="info">确定</van-button>
     </div>
   </div>
 </template>
@@ -76,8 +76,62 @@ export default {
     return {
       text: "",
       radio: "1",
-      typeid: this.$store.getters.get_typeid
+      typeid: this.$store.getters.get_typeid,
+      showconfig: 0,
+      us_safe_pwd: ""
     };
+  },
+  mounted() {
+    this.getshowconfig();
+  },
+  methods: {
+    getshowconfig: function() {
+      this.axios
+        .post(this.$api.index_showconfig, {
+          key: "deposit"
+        })
+        .then(data => {
+          if (data.code === 200) {
+            // this.$toast(data.msg);
+            this.showconfig = Number(data.data);
+          } else {
+            this.$toast(data.msg);
+          }
+        })
+        .catch(() => {this.$toast.fail(this.$api.monmsg)});
+    },
+    deposit: function() {
+      if (this.us_safe_pwd.trim() === "") {
+        this.$toast("支付密码输入有误");
+        return;
+      }
+      this.$toast.loading({
+        duration: 0, // 持续展示 toast
+        message: "加载中...",
+        forbidClick: true
+      });
+      this.token_post(this.$api.advert_deposit, {
+        us_safe_pwd: this.us_safe_pwd
+      })
+        .then(data => {
+          if (data.code === 200) {
+            this.$toast({
+              message: data.msg,
+              onClose: () => {
+                this.$router.go(-1);
+              }
+            });
+          } else {
+            this.$toast(data.msg);
+          }
+        })
+        .catch(() => {this.$toast.fail(this.$api.monmsg)});
+    },
+    onbtnok: function() {
+      if (this.typeid === 17701) {
+        this.deposit();
+      }
+    }
   }
 };
 </script>
@@ -137,7 +191,7 @@ li > p {
   width: 1.8rem;
   height: 0.7rem;
   margin-left: 0.4rem;
-  line-height: 0.7rem!important;
+  line-height: 0.7rem !important;
 }
 i {
   color: #fd1a1a;
@@ -162,7 +216,7 @@ i {
 <style>
 .deal .van-cell {
   background: #f6f6f6;
-  padding: 0 16px!important;
+  padding: 0 16px !important;
 }
 .deal .van-cell {
   flex: auto;
