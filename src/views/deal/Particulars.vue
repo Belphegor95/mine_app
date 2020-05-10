@@ -4,37 +4,37 @@
     <breadcrumb></breadcrumb>
     <div class="jine_box">
       <p>支付金额</p>
-      <p>888.00</p>
+      <p>{{ buydata.price }}</p>
     </div>
     <!-- <div class="xinxi_box"> -->
     <ul>
       <li>
         <span>对方ID</span>
-        <span>542164</span>
+        <span>{{ buydata.id }}</span>
       </li>
       <li>
         <span>手机号</span>
-        <span>13655555555</span>
+        <span>{{ buydata.us_tel }}</span>
       </li>
       <li>
         <span>支付宝账号</span>
-        <span>13655555555</span>
+        <span>{{ buydata.ali_account }}</span>
       </li>
       <li>
         <span>开户银行</span>
-        <span>中国银行</span>
+        <span>{{ buydata.us_bank }}</span>
       </li>
       <li>
         <span>持卡人姓名</span>
-        <span>张三三</span>
+        <span>{{ buydata.us_bank_person }}</span>
       </li>
       <li>
         <span>银行卡号</span>
-        <span>13246579801234</span>
+        <span>{{ buydata.bank_account }}</span>
       </li>
       <li>
         <span>开户地址</span>
-        <span>北京市朝阳路支行</span>
+        <span>{{ buydata.bank_place }}</span>
       </li>
     </ul>
     <div class="up_box">
@@ -61,8 +61,12 @@ export default {
   },
   data() {
     return {
-      fileList: []
+      fileList: [],
+      buydata: this.$route.query
     };
+  },
+  mounted() {
+    // console.info(this.buydata)
   },
   methods: {
     upvoucher: function() {

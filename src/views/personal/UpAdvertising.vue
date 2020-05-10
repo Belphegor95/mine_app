@@ -40,7 +40,7 @@
       <div>
         <span>封面图片</span>
         <span>建议比例统一为1:1</span>
-        <van-uploader style="float: right;" :after-read="upload" />
+        <van-uploader style="float: right;" accept="image/*" :after-read="uploadImg" />
         <!-- <van-uploader style="float: right;">
           <img src="../../assets/img/personal/upimg.png" alt />
         </van-uploader>-->
@@ -48,7 +48,7 @@
       <div>
         <span>上传视频</span>
         <span>MP4格式，大小不得超过10M</span>
-        <van-uploader style="float: right;" :after-read="upload" />
+        <van-uploader style="float: right;" accept="video/*" :after-read="uploadVideo" />
         <!-- <van-uploader style="float: right;">
           <img src="../../assets/img/personal/upimg.png" alt />
         </van-uploader>-->
@@ -90,21 +90,48 @@ export default {
     };
   },
   methods: {
-    upload: function(file) {
+    // upload: function(file) {
+    //   // 上传
+    //   const formData = new FormData();
+    //   formData.append("file", file.file);
+    //   console.info(file);
+    //   this.axios
+    //     .post(
+    //       this.$api.every_upload,
+    //       formData,
+    //       {
+    //         headers: {
+    //           "Content-Type": "multipart/form-data;"
+    //         }
+    //       }
+    //     )
+    //     .then(data => {
+    //       if (data.code === 200) {
+    //         console.log(data);
+    //       }
+    //     })
+    //     .catch(() => {});
+    // },
+    uploadImg: function(file) {
       // 上传
+      this.ad_head_pic = file.content;
+    },
+    uploadVideo: function(file) {
+      // 上传
+      if (file.file.type.indexOf("mp4") == -1) {
+        return this.$toast.fail("只支持上传mp4格式");
+      }
+      if (file.file.size > 10000000) {
+        return this.$toast.fail("请上传10M以内视频");
+      }
       const formData = new FormData();
       formData.append("file", file.file);
-      console.info(file);
       this.axios
-        .post(
-          this.$api.every_upload,
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data;"
-            }
+        .post(this.$api.every_upload, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data;"
           }
-        )
+        })
         .then(data => {
           if (data.code === 200) {
             console.log(data);

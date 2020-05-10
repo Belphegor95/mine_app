@@ -29,12 +29,12 @@
         <li v-for="(item,index) in tradelist" :key="index">
           <span>{{ item.num }}</span>
           <span>{{ item.price }}</span>
-          <span class="yellow" @click="openModal(false)">购买</span>
+          <span class="yellow" @click="openModal(false,item)">购买</span>
         </li>
       </ul>
     </div>
     <div class="maichu_box">
-      <van-button @click="openModal(true)" class="maichubtn" type="info">卖出</van-button>
+      <van-button @click="openModal(true,item)" class="maichubtn" type="info">卖出</van-button>
     </div>
     <van-popup class="modal_box" round v-model="modal">
       <div class="mima_box">
@@ -83,6 +83,7 @@ export default {
       mydata: {},
       num: "",
       us_safe_pwd: "",
+      t_id: 0,
       real: {
         fee: 0,
         price: 0,
@@ -94,7 +95,9 @@ export default {
     this.gettrade();
   },
   methods: {
-    openModal: function(is) {
+    openModal: function(is,item) {
+      // console.info(item)
+      this.t_id = item.id
       if (is) {
         this.modal = true;
       } else {
@@ -184,6 +187,7 @@ export default {
         forbidClick: true
       });
       this.token_post(this.$api.trade_buy, {
+        t_id: this.t_id,
         us_safe_pwd: this.us_safe_pwd
       }).then(data => {
         if (data.code === 200) {
@@ -192,7 +196,10 @@ export default {
             message: data.msg,
             onClose: () => {
               this.$store.commit("show_typeid", 202);
-              this.$router.push("/deal/particulars");
+              this.$router.push({
+                path: "/deal/particulars",
+                query: data.data
+              });
             }
           });
         } else {
