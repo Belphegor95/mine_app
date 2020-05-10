@@ -42,7 +42,7 @@ export default {
       this.axios
         .get(this.$api.index_newslist, {})
         .then((data) => {
-          if (data.code === 200) {
+          if (data.code == 200) {
             this.newslist = data.data
           } else {
             this.$toast(data.msg)

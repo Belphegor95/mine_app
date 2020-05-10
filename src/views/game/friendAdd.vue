@@ -50,7 +50,7 @@ export default {
     addfriend: function(id) {
       this.token_post(this.$api.user_addfriend, { id: id })
         .then(data => {
-          if (data.code === 200) {
+          if (data.code == 200) {
             this.$toast(data.msg);
           } else {
             this.$toast(data.msg);
@@ -63,7 +63,7 @@ export default {
     },
     // 搜索
     onSearch() {
-      if (this.searchValue === "") {
+      if (this.searchValue == "") {
         this.$toast("搜索关键词输入有误");
         return;
       }
@@ -72,7 +72,7 @@ export default {
           id: this.searchValue
         })
         .then(data => {
-          if (data.code === 200) {
+          if (data.code == 200) {
             this.adduser = data.data;
           } else {
             this.$toast(data.msg);

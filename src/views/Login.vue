@@ -74,13 +74,13 @@ export default {
       this.originalCode = originalCode;
     },
     home: function() {
-      if (this.account === "") {
+      if (this.account == "") {
         this.$toast("账号未输入");
         return;
-      } else if (this.password === "") {
+      } else if (this.password == "") {
         this.$toast("密码未输入");
         return;
-      } else if (this.verification === "") {
+      } else if (this.verification == "") {
         this.$toast("验证码未输入");
         return;
       }

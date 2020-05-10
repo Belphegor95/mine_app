@@ -53,7 +53,7 @@ export default {
       this.axios
         .get(this.$api.index_cates)
         .then(data => {
-          if (data.code === 200) {
+          if (data.code == 200) {
             this.cates = data.data.cates;
             this.getadvertDetail()
           } else {
@@ -68,7 +68,7 @@ export default {
           id: this.cates[this.cate_index].id
         })
         .then(data => {
-          if (data.code === 200) {
+          if (data.code == 200) {
             // this.cates = data.data.cates
           } else {
             this.$toast(data.msg);

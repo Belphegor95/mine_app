@@ -141,7 +141,7 @@ export default {
     //   this.$router.push("/deal/trading_floor");
     // },
     rut_push: function(id, rut) {
-      if (id === 201) {
+      if (id == 201) {
         if (this.is_money) {
           this.$store.commit("show_typeid", id);
           this.$router.push(rut);

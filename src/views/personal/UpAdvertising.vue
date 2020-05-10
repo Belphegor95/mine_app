@@ -90,7 +90,7 @@ export default {
       this.axios
         .get(this.$api.index_cates)
         .then(data => {
-          if (data.code === 200) {
+          if (data.code == 200) {
             this.option1 = data.data.cates;
             for (let i = 0; i < this.option1.length; i++) {
               let item = this.option1[i];
@@ -129,7 +129,7 @@ export default {
           }
         })
         .then(data => {
-          if (data.code === 200) {
+          if (data.code == 200) {
             this.video = data.data;
             this.$toast(data.msg);
           } else {
@@ -139,31 +139,31 @@ export default {
         .catch(() => {this.$toast.fail(this.$api.monmsg)});
     },
     addadvert: function() {
-      if (this.ad_name.trim() === "") {
+      if (this.ad_name.trim() == "") {
         this.$toast("视频名称输入有误");
         return;
-      } else if (this.company_name.trim() === "") {
+      } else if (this.company_name.trim() == "") {
         this.$toast("视频名称输入有误");
         return;
-      } else if (this.ca_id === 0) {
+      } else if (this.ca_id == 0) {
         this.$toast("广告分类未选择");
         return;
-      } else if (this.ad_head_pic.trim() === "") {
+      } else if (this.ad_head_pic.trim() == "") {
         this.$toast("封面图片未上传");
         return;
-      } else if (this.tel.trim() === "") {
+      } else if (this.tel.trim() == "") {
         this.$toast("联系电话输入有误");
         return;
-      } else if (this.total.trim() === "") {
+      } else if (this.total.trim() == "") {
         this.$toast("总佣金池输入有误");
         return;
-      } else if (this.single.trim() === "") {
+      } else if (this.single.trim() == "") {
         this.$toast("单次佣金输入有误");
         return;
-      } else if (this.video.trim() === "") {
+      } else if (this.video.trim() == "") {
         this.$toast("视频未上传");
         return;
-      } else if (this.content.trim() === "") {
+      } else if (this.content.trim() == "") {
         this.$toast("简介输入有误");
         return;
       }
@@ -184,14 +184,14 @@ export default {
         content: this.content ? this.content : null
       })
         .then(data => {
-          if (data.code === 200) {
+          if (data.code == 200) {
             this.$toast({
               message: data.msg,
               onClose: () => {
                 this.$router.go(-1);
               }
             });
-          } else if (data.code === 405) {
+          } else if (data.code == 405) {
             this.$toast({
               message: data.msg,
               onClose: () => {
@@ -288,6 +288,9 @@ i {
 .UpAdvertising li > .van-cell {
   background: #f6f6f6;
   height: 0.7rem;
+}
+.UpAdvertising li > .van-cell > div {
+  display: flex;
 }
 .UpAdvertising li > .van-cell {
   flex: auto;

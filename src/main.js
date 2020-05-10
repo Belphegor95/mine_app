@@ -24,7 +24,7 @@ axios.interceptors.request.use(function (config) {
   //   // var token = cryptoJs.MD5(`${window.localStorage.password}:${config.url}`).toString();
   //   // config.headers.authtoken = `${window.localStorage.account}:${window.localStorage.password}:${token}`
   // }
-  if (config.method === "post" && (config.url + '').indexOf('index/every/upload') != 1) {
+  if (config.method == "post" && (config.url + '').indexOf('index/every/upload') != 1) {
     config.data = qs.stringify(config.data);
   }
   return config;

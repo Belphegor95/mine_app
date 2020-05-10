@@ -2,7 +2,7 @@
   <div class="deal">
     <breadcrumb></breadcrumb>
     <!-- 广告押金 -->
-    <ul class="guanggao" v-if="typeid === 17701">
+    <ul class="guanggao" v-if="typeid == 17701">
       <li>
         <span>押金金额</span>
         <van-field v-model="showconfig" readonly placeholder="请输入押金" />
@@ -91,7 +91,7 @@ export default {
           key: "deposit"
         })
         .then(data => {
-          if (data.code === 200) {
+          if (data.code == 200) {
             // this.$toast(data.msg);
             this.showconfig = Number(data.data);
           } else {
@@ -101,7 +101,7 @@ export default {
         .catch(() => {this.$toast.fail(this.$api.monmsg)});
     },
     deposit: function() {
-      if (this.us_safe_pwd.trim() === "") {
+      if (this.us_safe_pwd.trim() == "") {
         this.$toast("支付密码输入有误");
         return;
       }
@@ -114,7 +114,7 @@ export default {
         us_safe_pwd: this.us_safe_pwd
       })
         .then(data => {
-          if (data.code === 200) {
+          if (data.code == 200) {
             this.$toast({
               message: data.msg,
               onClose: () => {
@@ -128,7 +128,7 @@ export default {
         .catch(() => {this.$toast.fail(this.$api.monmsg)});
     },
     onbtnok: function() {
-      if (this.typeid === 17701) {
+      if (this.typeid == 17701) {
         this.deposit();
       }
     }

@@ -52,7 +52,7 @@ export default {
     sign: function () {
       this.token_post(this.$api.user_sign)
         .then(data => {
-          if (data.code === 200) {
+          if (data.code == 200) {
             this.$toast(data.msg)
             // console.log(data);
           } else {

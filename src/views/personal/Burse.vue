@@ -47,13 +47,13 @@ export default {
   },
   methods: {
     rut_moneyrecord: function(id) {
-      if (id === 1) {
+      if (id == 1) {
         this.$store.commit("show_typeid", 10601);
         this.$router.push("/deal");
-      } else if (id === 2) {
+      } else if (id == 2) {
         this.$store.commit("show_typeid", 10602);
         this.$router.push("/personal/money_record");
-      } else if (id === 3) {
+      } else if (id == 3) {
         this.$store.commit("show_typeid", 10603);
         this.$router.push("/personal/money_record");
       }

@@ -20,7 +20,7 @@
     </ul>
     <!-- <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad"> -->
       <!-- <van-cell> -->
-        <van-empty style="background-color: #fff" v-if="myfriendslist.length === 0" description="暂无数据" />
+        <van-empty style="background-color: #fff" v-if="myfriendslist.length == 0" description="暂无数据" />
         <ul v-else class="contentList">
           <li v-for="(item,index)  in myfriendslist" :key="index">
             <div>
@@ -62,7 +62,7 @@ export default {
     getmyfriends: function () {
       this.token_post(this.$api.user_myfriends)
         .then(data => {
-          if (data.code === 200) {
+          if (data.code == 200) {
             // console.log(data);
             this.myfriendslist = data.data
           } else {

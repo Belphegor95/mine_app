@@ -93,7 +93,7 @@ export default {
         type: 1
       })
         .then(data => {
-          if (data.code === 200) {
+          if (data.code == 200) {
             // if (data.data.ito_money) {
             //   this.headerMsg[0].value = data.data.ito_money
             // } else {

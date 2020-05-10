@@ -16,7 +16,7 @@
     <div class="head_box">
       <div>出售</div>
     </div>
-    <van-empty style="background-color: #fff" v-if="tradelist.length === 0" description="暂无数据" />
+    <van-empty style="background-color: #fff" v-if="tradelist.length == 0" description="暂无数据" />
     <ul v-else-if="tradelist.length != 0" class="liebiaoHead">
       <li>
         <span>出售数量</span>
@@ -34,7 +34,7 @@
       </ul>
     </div>
     <div class="maichu_box">
-      <van-button @click="openModal(true,item)" class="maichubtn" type="info">卖出</van-button>
+      <van-button @click="openModal(true)" class="maichubtn" type="info">卖出</van-button>
     </div>
     <van-popup class="modal_box" round v-model="modal">
       <div class="mima_box">
@@ -96,12 +96,11 @@ export default {
   },
   methods: {
     openModal: function(is,item) {
-      // console.info(item)
-      this.t_id = item.id
       if (is) {
         this.modal = true;
       } else {
         this.modal_buy = true;
+        this.t_id = item.id
       }
       this.num = "";
       this.us_safe_pwd = "";
@@ -114,7 +113,7 @@ export default {
     gettrade: function() {
       this.token_post(this.$api.trade_index)
         .then(data => {
-          if (data.code === 200) {
+          if (data.code == 200) {
             this.tradelist = data.msg.trade;
             this.mydata = data.msg;
             this.mydata.date = [];
@@ -125,10 +124,10 @@ export default {
 
               let yue = date.getMonth() + 1 + "";
               let ri = date.getDate() + "";
-              if (yue.length === 1) {
+              if (yue.length == 1) {
                 yue = 0 + yue;
               }
-              if (ri.length === 1) {
+              if (ri.length == 1) {
                 ri = 0 + ri;
               }
               this.mydata.date.push(yue + "/" + ri);
@@ -141,10 +140,10 @@ export default {
     },
     //
     show: function() {
-      if (this.num.trim() === "") {
+      if (this.num.trim() == "") {
         this.$toast("出售数量输入有误");
         return;
-      } else if (this.us_safe_pwd.trim() === "") {
+      } else if (this.us_safe_pwd.trim() == "") {
         this.$toast("交易密码输入有误");
         return;
       }
@@ -157,7 +156,7 @@ export default {
         num: this.num,
         us_safe_pwd: this.us_safe_pwd
       }).then(data => {
-        if (data.code === 200) {
+        if (data.code == 200) {
           this.modal = false;
           this.$toast(data.msg);
         } else {
@@ -169,7 +168,7 @@ export default {
       this.token_post(this.$api.trade_getreal, {
         num: this.num
       }).then(data => {
-        if (data.code === 200) {
+        if (data.code == 200) {
           this.real = data.data;
         } else {
           this.$toast(data.msg);
@@ -177,7 +176,7 @@ export default {
       });
     },
     buy: function() {
-      if (this.us_safe_pwd.trim() === "") {
+      if (this.us_safe_pwd.trim() == "") {
         this.$toast("支付密码输入有误");
         return;
       }
@@ -190,7 +189,7 @@ export default {
         t_id: this.t_id,
         us_safe_pwd: this.us_safe_pwd
       }).then(data => {
-        if (data.code === 200) {
+        if (data.code == 200) {
           this.modal_buy = false;
           let data_ = data.data
           data_.status = 1
@@ -461,6 +460,9 @@ li > span {
 .TradingFloor .van-cell {
   background: #f6f6f6;
   height: 0.7rem;
+}
+.TradingFloor .van-cell > div {
+  display: flex;
 }
 /* .TradingFloor .van-cell {
   flex: auto;

@@ -2,12 +2,11 @@
 <template>
   <div class="Advertising_box">
     <breadcrumb @is_manage="manage"></breadcrumb>
-    <van-empty v-if="advertlist.length === 0" description="暂无数据" />
+    <van-empty v-if="advertlist.length == 0" description="暂无数据" />
     <ul v-else>
       <van-radio-group v-model="result" class="fuxuan_box">
-        <li v-for="(item,index)  in advertlist" :key="index">
-          <!-- <div class="img_"></div> -->
-          <img :src="$api.baseUrl + item.ad_head_pic" style="height: 3.5rem;" />
+        <li v-for="(item,index)  in advertlist" :key="index" @click="onvideo(item)">
+          <img :src="$api.baseUrl + item.ad_head_pic" class="tupian" />
           <div class="xinxi_box">
             <p>{{ item.ad_name }}</p>
             <div class="jilv_box">
@@ -69,7 +68,7 @@ export default {
         bank_account: this.user.bank_account ? this.user.bank_account : null
       })
         .then(data => {
-          if (data.code === 200) {
+          if (data.code == 200) {
             this.advertlist = data.data;
           } else {
             this.$toast(data.msg);
@@ -90,14 +89,14 @@ export default {
       }
     },
     quit: function() {
-      if (this.result === 0) {
+      if (this.result == 0) {
         this.$toast("广告未选择");
       }
       this.token_post(this.$api.advert_delete, {
         id: this.result ? this.result : null
       })
         .then(data => {
-          if (data.code === 200) {
+          if (data.code == 200) {
             this.getadvert();
             this.modal = false;
           } else {
@@ -105,11 +104,22 @@ export default {
           }
         })
         .catch(() => {this.$toast.fail(this.$api.monmsg)});
+    },
+    onvideo: function (item) {
+      this.$router.push({
+        path: "/videoPlayback",
+        query: item
+      })
     }
   }
 };
 </script>
 <style scoped>
+.tupian {
+  width: 100%;
+  height: 3.5rem;
+  display: flex;
+}
 .Advertising_box {
   width: 100%;
   height: 100%;

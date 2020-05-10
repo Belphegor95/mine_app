@@ -12,7 +12,7 @@
       placeholder="请输入留言"
     />
     <div class="tu_box">
-      <van-uploader v-model="fileList" multiple />
+      <van-uploader v-model="fileList" multiple accept="image/*" />
       <!-- <img src="../../assets/img/friendster/____1.png" alt />
       <img src="../../assets/img/friendster/____1.png" alt />
       <img src="../../assets/img/friendster/____1.png" alt />
@@ -40,7 +40,7 @@ export default {
         let item = this.fileList[i].content;
         arr.push(item);
       }
-      if (this.content.trim() === "") {
+      if (this.content.trim() == "") {
         this.$toast("留言输入有误");
         return
       }

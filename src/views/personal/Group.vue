@@ -2,7 +2,7 @@
 <template>
   <div class="Group">
     <breadcrumb :typeid="101"></breadcrumb>
-    <van-empty v-if="myTeamlist.length === 0" description="暂无数据" />
+    <van-empty v-if="myTeamlist.length == 0" description="暂无数据" />
     <div v-else>
       <div class="biaoge_box">
         <span>会员账号</span>
@@ -43,7 +43,7 @@ export default {
     getmyTeam: function() {
       this.token_post(this.$api.user_myTeam)
         .then(data => {
-          if (data.code === 200) {
+          if (data.code == 200) {
             // console.info(data)
             this.myTeamlist = data.data;
           }

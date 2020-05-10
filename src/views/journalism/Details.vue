@@ -25,7 +25,7 @@ export default {
   methods: {
     getnewsDetail: function() {
       this.axios.post(this.$api.index_newsDetail).then(data => {
-        if (data.code === 200) {
+        if (data.code == 200) {
           console.info(data);
         } else {
           this.$toast(data.msg);

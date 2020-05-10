@@ -2,11 +2,11 @@
 <template>
   <div class="Friends">
     <breadcrumb @is_manage="manage"></breadcrumb>
-    <div class="topbtn_box">
+    <!-- <div class="topbtn_box">
       <span class="blue">文字</span>
       <span>视频</span>
-    </div>
-    <van-empty v-if="friendlist.length === 0" description="暂无数据" />
+    </div> -->
+    <van-empty v-if="friendlist.length == 0" description="暂无数据" />
     <ul v-else>
       <li v-for="(item,index) in friendlist" :key="index">
         <img :src="$api.baseUrl + item.us_head_pic" alt />
@@ -44,7 +44,7 @@
               <span></span>
               <span></span>
               <transition name="show1">
-                <div v-if="active === index" class="tooltip">
+                <div v-if="active == index" class="tooltip">
                   <span @click="thumb(item.id)">点赞</span>
                   <span>评论</span>
                   <!-- <span>转发</span> -->
@@ -77,7 +77,7 @@ export default {
     getfriend: function() {
       this.token_post(this.$api.friend_index)
         .then(data => {
-          if (data.code === 200) {
+          if (data.code == 200) {
             this.friendlist = data.data;
             for (let i = 0; i < this.friendlist.length; i++) {
               let item = this.friendlist[i].pic + "";
@@ -98,7 +98,7 @@ export default {
       this.token_post(this.$api.friend_thumb, {
         id: id
       }).then(data => {
-        if (data.code === 200) {
+        if (data.code == 200) {
           this.$toast(data.msg);
           this.getfriend()
         } else {

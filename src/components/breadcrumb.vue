@@ -74,11 +74,11 @@ export default {
     },
     back: function() {
       let id = this.$store.getters.get_typeid;
-      if (id === 21 || id === 22 || id === 23 || id === 24 || id === 25) {
+      if (id == 21 || id == 22 || id == 23 || id == 24 || id == 25) {
         this.$store.commit("show_typeid", 2);
-      } else if (id === 301) {
+      } else if (id == 301) {
         this.$router.go(-1);
-      } else if (id === 302) {
+      } else if (id == 302) {
         this.$store.commit("show_typeid", 301);
         this.$router.go(-1);
       } else {

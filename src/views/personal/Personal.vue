@@ -85,7 +85,7 @@ export default {
   methods: {
     rut_push: function(is, rut, typeid) {
       if (is) {
-        if (rut === "advertising") {
+        if (rut == "advertising") {
           if (this.user.us_bank && this.user.us_safe_pwd) {
             this.$router.push("/personal/" + rut);
           } else {

@@ -2,7 +2,7 @@
 <template>
   <div class="moneyrecord">
     <breadcrumb></breadcrumb>
-    <van-empty v-if="mycashlist.length === 0" description="暂无数据" />
+    <van-empty v-if="mycashlist.length == 0" description="暂无数据" />
     <van-list v-else v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
       <van-cell>
         <div class="biaoge_box">
@@ -38,9 +38,9 @@ export default {
     };
   },
   mounted() {
-    if (this.$store.getters.get_typeid === 10602) {
+    if (this.$store.getters.get_typeid == 10602) {
       this.type = 1;
-    } else if (this.$store.getters.get_typeid === 10603) {
+    } else if (this.$store.getters.get_typeid == 10603) {
       this.type = 2;
     }
     this.getmycash();
@@ -53,7 +53,7 @@ export default {
         page: this.page
       })
         .then(data => {
-          if (data.code === 200) {
+          if (data.code == 200) {
             this.loading = false;
             this.mycashlist = this.mycashlist.concat(data.data);
             if (data.data.length != 10) {

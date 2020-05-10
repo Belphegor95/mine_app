@@ -2,7 +2,7 @@
   <div class="register">
     <breadcrumb></breadcrumb>
     <!-- 注册信息 -->
-    <ul class="zhuce" v-if="$store.getters.get_typeid === 1">
+    <ul class="zhuce" v-if="$store.getters.get_typeid == 1">
       <li>
         <span>推荐人</span>
         <van-field v-model="ptel" placeholder="请输入推荐人" />
@@ -38,7 +38,7 @@
       </li>
     </ul>
     <!-- 个人资料 -->
-    <div v-else-if="$store.getters.get_typeid === 2" style="width:100%;height:100%">
+    <div v-else-if="$store.getters.get_typeid == 2" style="width:100%;height:100%">
       <ul class="geren">
         <li>
           <span>推荐人</span>
@@ -81,7 +81,7 @@
       </div>
     </div>
     <!-- 更改登录密码 -->
-    <ul class="mima" v-else-if="$store.getters.get_typeid === 21">
+    <ul class="mima" v-else-if="$store.getters.get_typeid == 21">
       <li>
         <span>新登录密码</span>
         <van-field v-model="us_pwd" type="password" placeholder="请输入登录密码" />
@@ -97,7 +97,7 @@
       </li>
     </ul>
     <!-- 更改支付密码 -->
-    <ul class="zhifumima" v-else-if="$store.getters.get_typeid === 22">
+    <ul class="zhifumima" v-else-if="$store.getters.get_typeid == 22">
       <li>
         <span>新支付密码</span>
         <van-field v-model="us_safe_pwd" type="password" placeholder="请输入支付密码" />
@@ -113,7 +113,7 @@
       </li>
     </ul>
     <!-- 绑定支付宝账号 -->
-    <ul class="zhifuzhanghao" v-else-if="$store.getters.get_typeid === 23">
+    <ul class="zhifuzhanghao" v-else-if="$store.getters.get_typeid == 23">
       <li>
         <span>支付宝账号</span>
         <van-field v-model="ali_account" placeholder="请输入支付宝账号" />
@@ -125,7 +125,7 @@
       </li>
     </ul>
     <!-- 绑定银行卡账号 -->
-    <ul class="yinhangzhanghao" v-else-if="$store.getters.get_typeid === 24">
+    <ul class="yinhangzhanghao" v-else-if="$store.getters.get_typeid == 24">
       <li>
         <span>开户银行</span>
         <van-field v-model="us_bank" placeholder="请输入银行名称" />
@@ -149,7 +149,7 @@
       </li>
     </ul>
     <!-- 实名认证 -->
-    <ul class="shiming" v-else-if="$store.getters.get_typeid === 25">
+    <ul class="shiming" v-else-if="$store.getters.get_typeid == 25">
       <li>
         <span>真实姓名</span>
         <van-field v-model="text" placeholder="请输入真实姓名" />
@@ -172,7 +172,7 @@
       </div>
     </ul>
     <!-- 联系客服 -->
-    <ul class="kefu" v-else-if="$store.getters.get_typeid === 7">
+    <ul class="kefu" v-else-if="$store.getters.get_typeid == 7">
       <li>
         <span>联系电话</span>
         <van-field v-model="text" placeholder="13666666666" readonly />
@@ -221,14 +221,14 @@ export default {
     determine: function() {
       // 确定
       let type = this.$store.getters.get_typeid;
-      if (type === 1) {
-        if (this.us_tel.trim() === "") {
+      if (type == 1) {
+        if (this.us_tel.trim() == "") {
           this.$toast("手机号输入有误");
           return;
-        } else if (this.us_nickname.trim() === "") {
+        } else if (this.us_nickname.trim() == "") {
           this.$toast("昵称输入有误");
           return;
-        } else if (this.us_pwd.trim() === "" || this.us_pwd_.trim() === "") {
+        } else if (this.us_pwd.trim() == "" || this.us_pwd_.trim() == "") {
           this.$toast("两次密码输入有误");
           return;
         } else if (this.us_pwd.trim() != this.us_pwd_.trim()) {
@@ -236,43 +236,43 @@ export default {
           return;
         }
         this.register();
-      } else if (type === 21) {
+      } else if (type == 21) {
         if (this.us_pwd.trim() != this.us_pwd_.trim()) {
           this.$toast("两次密码输入有误");
           return;
-        } else if (this.us_pwd.trim() === "" || this.us_pwd_.trim() === "") {
+        } else if (this.us_pwd.trim() == "" || this.us_pwd_.trim() == "") {
           this.$toast("密码输入有误");
           return;
-        } else if (this.code.trim() === "") {
+        } else if (this.code.trim() == "") {
           this.$toast("验证码输入有误");
           return;
         }
         this.changePwd();
-      } else if (type === 22) {
+      } else if (type == 22) {
         this.changeSafe();
-      } else if (type === 23) {
-        if (this.ali_account.trim() === "") {
+      } else if (type == 23) {
+        if (this.ali_account.trim() == "") {
           this.$toast("支付宝账号输入有误");
           return;
-        } else if (this.code.trim() === "") {
+        } else if (this.code.trim() == "") {
           this.$toast("验证码输入有误");
           return;
         }
         this.bindAlipay();
-      } else if (type === 24) {
-        if (this.us_bank.trim() === "") {
+      } else if (type == 24) {
+        if (this.us_bank.trim() == "") {
           this.$toast("银行名称输入有误");
           return;
-        } else if (this.us_bank_person.trim() === "") {
+        } else if (this.us_bank_person.trim() == "") {
           this.$toast("持卡人输入有误");
           return;
-        } else if (this.bank_account.trim() === "") {
+        } else if (this.bank_account.trim() == "") {
           this.$toast("银行卡号输入有误");
           return;
-        } else if (this.bank_place.trim() === "") {
+        } else if (this.bank_place.trim() == "") {
           this.$toast("开户行地址输入有误");
           return;
-        } else if (this.code.trim() === "") {
+        } else if (this.code.trim() == "") {
           this.$toast("验证码输入有误");
           return;
         }
@@ -282,7 +282,7 @@ export default {
     register: function() {
       // 注册账号
       let obj = {};
-      if (this.ptel === "") {
+      if (this.ptel == "") {
         obj = {
           us_pwd: this.us_pwd,
           us_tel: this.us_tel,
@@ -305,7 +305,7 @@ export default {
       });
       this.token_post(this.$api.every_register, obj)
         .then(data => {
-          if (data.code === 200) {
+          if (data.code == 200) {
             this.$toast({
               message: data.msg,
               onClose: () => {
@@ -330,7 +330,7 @@ export default {
         us_tel: this.us_tel
       })
         .then(data => {
-          if (data.code === 200) {
+          if (data.code == 200) {
             this.$toast({
               message: data.msg,
               onClose: () => {
@@ -355,7 +355,7 @@ export default {
         us_tel: this.us_tel
       })
         .then(data => {
-          if (data.code === 200) {
+          if (data.code == 200) {
             let user = this.$store.state.user;
             user.us_safe_pwd = this.us_safe_pwd;
             this.$toast({
@@ -382,7 +382,7 @@ export default {
         account: this.ali_account
       })
         .then(data => {
-          if (data.code === 200) {
+          if (data.code == 200) {
             let user = this.$store.state.user;
             user.ali_account = this.ali_account;
             this.$toast({
@@ -412,7 +412,7 @@ export default {
         bank_account: this.bank_account
       })
         .then(data => {
-          if (data.code === 200) {
+          if (data.code == 200) {
             let user = this.$store.state.user;
             user.us_bank = this.us_bank;
             user.bank_place = this.bank_place;

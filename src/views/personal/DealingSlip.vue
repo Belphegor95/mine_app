@@ -2,7 +2,7 @@
 <template>
   <div class="DealingSlip_box">
     <breadcrumb></breadcrumb>
-    <van-empty v-if="mytradelist.length === 0" description="暂无数据" />
+    <van-empty v-if="mytradelist.length == 0" description="暂无数据" />
     <van-list v-else v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
       <van-cell v-for="(item,index) in mytradelist" :key="index">
         <div class="liebiao_box" @click="rut(item)">
@@ -13,10 +13,10 @@
             <p>交易时间</p>
           </div>
           <div class="xinxi_box">
-            <p v-if="item.status === 0 && user.id === item.st_id" class="gray">待交易</p>
-            <p v-else-if="item.status === 1 " class="red">{{ user.id === item.st_id?"待对方付款":"待上传凭证" }}</p>
-            <p v-else-if="item.status === 2" class="blue">{{ user.id === item.st_id?"待您审核":"待对方审核" }}</p>
-            <p v-else-if="item.status === 3">交易完成</p>
+            <p v-if="item.status == 0 && user.id == item.st_id" class="gray">待交易</p>
+            <p v-else-if="item.status == 1 " class="red">{{ user.id == item.st_id?"待对方付款":"待上传凭证" }}</p>
+            <p v-else-if="item.status == 2" class="blue">{{ user.id == item.st_id?"待您审核":"待对方审核" }}</p>
+            <p v-else-if="item.status == 3">交易完成</p>
             <p v-if="item.us_id ">{{ item.us_id }}</p>
             <p v-else>暂无</p>
             <p>{{ item.price }}</p>
@@ -54,7 +54,7 @@ export default {
       this.loading = true;
       this.token_post(this.$api.trade_mytrade, { Page: this.page })
         .then(data => {
-          if (data.code === 200) {
+          if (data.code == 200) {
             this.mytradelist = this.mytradelist.concat(data.data);
             this.loading = false;
             if (data.data.length != 10) {
