@@ -332,7 +332,7 @@ export default {
   font-weight: 700;
 }
 .liebiao_box {
-  /* flex: auto; */
+  flex: 1;
   overflow-y: scroll;
   /* margin-top: 0.18rem; */
 }
@@ -399,7 +399,7 @@ li > span {
 
 .maichu_box {
   width: 100%;
-  height: 1.2rem;
+  height: 0.8rem;
   background: #fff;
   display: flex;
   justify-content: center;

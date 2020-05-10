@@ -90,6 +90,7 @@ api.friend_add = "/index/friend/add";
 api.friend_comment = "/index/friend/comment";
 // 43,点赞
 api.friend_thumb = "/index/friend/thumb";
+
 //   交易详情   参数 id  
 api.trade_detail = "/index/trade/detail";
 //   确认完成  参数id

@@ -45,7 +45,7 @@
         <FriendRecommend v-else-if="tarbarType == 102" />
         <Machine v-else-if="tarbarType == 2" />
         <MyMachine v-else-if="tarbarType == 3" />
-        <Machine v-else-if="tarbarType == 4" />
+        <Defense v-else-if="tarbarType == 4" />
       </div>
     </van-popup>
   </div>
@@ -56,6 +56,7 @@ import FriendModular from "./friendModular";
 import FriendAdd from "./friendAdd";
 import FriendRecommend from "./friendRecommend";
 import Machine from "./machine";
+import Defense from "./defense";
 import MyMachine from "./myMachine";
 
 
@@ -66,6 +67,7 @@ export default {
     FriendAdd,
     FriendRecommend,
     Machine,
+    Defense,
     MyMachine
   },
   data() {
@@ -74,10 +76,10 @@ export default {
       tarbarType: false, //  弹出那一个模块
       friends: 0, // 好友数量
       headerMsg: [
-        { key: "矿机钱包", value: "888888" },
-        { key: "今日收益", value: "888888" },
-        { key: "有效矿机", value: "3" },
-        { key: "算力", value: "21" }
+        { key: "矿机钱包", value: "0" },
+        { key: "今日收益", value: "0" },
+        { key: "有效矿机", value: "0" },
+        { key: "算力", value: "0" }
       ]
     };
   },
@@ -92,6 +94,11 @@ export default {
       })
         .then(data => {
           if (data.code === 200) {
+            // if (data.data.ito_money) {
+            //   this.headerMsg[0].value = data.data.ito_money
+            // } else {
+
+            // }
             this.headerMsg[0].value = data.data.ito_money ? data.data.ito_money :  0.0000
             this.headerMsg[1].value = data.data.today_money
             this.headerMsg[2].value = data.data.ito
@@ -101,7 +108,7 @@ export default {
             this.$toast(data.msg);
           }
         })
-        .catch(() => {this.$toast.fail(this.$api.monmsg)});
+        .catch(() => {});
     },
     //根据tarbar弹出不同的内容
     tarPush(type) {

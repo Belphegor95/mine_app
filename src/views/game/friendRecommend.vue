@@ -53,14 +53,9 @@ export default {
             this.$toast(data.msg);
           }
         })
-        .catch(() => {this.$toast.fail(this.$api.monmsg)});
+        .catch(() => {});
     },
     addfriend: function(id) {
-      this.$toast.loading({
-        duration: 0, // 持续展示 toast
-        message: "加载中...",
-        forbidClick: true
-      });
       this.token_post(this.$api.user_addfriend, {
         id: id
       })
@@ -72,7 +67,7 @@ export default {
             this.$toast(data.msg);
           }
         })
-        .catch(() => {this.$toast.fail(this.$api.monmsg)});
+        .catch(() => {});
     },
     pushTo(type) {
       this.$router.push(`/gameHome?tarbar=${type}`);

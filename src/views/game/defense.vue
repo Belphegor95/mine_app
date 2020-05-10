@@ -3,7 +3,7 @@
   <div class="MachineHome_box">
     <header class="header">
       <img src="../../assets/img/game/end.png" alt @click="goBack" />
-      <span @click="goBack">矿机市场</span>
+      <span @click="goBack">防偷管理</span>
     </header>
     <div style="padding: 0.3rem 0.27rem;height:0.46rem"></div>
     <!-- <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
@@ -12,38 +12,34 @@
     <ul v-else class="contentList">
       <li v-for="(ito,index)  in itolist" :key="index" @click="onito(ito)">
         <span>
-          <img v-if="ito.pic"  :src="$api.baseUrl+ito.pic" alt />
+          <img v-if="ito.pic" :src="this.baseUrl+ito.pic" alt />
           <img v-else src="../../assets/img/game/text1.png" alt />
         </span>
         <div>
           <p>等级：{{ ito.name }}</p>
-          <p>算力：{{ ito.computing }}</p>
-          <p>采矿时间：{{ ito.valid_time }}天</p>
-          <p>投入产出比：{{ ito.roi }}</p>
+          <p>防御：{{ ito.prevent }}</p>
+          <p>价格：{{ ito.price }}天</p>
+          <p>时间：{{ ito.viod_time }}</p>
         </div>
       </li>
     </ul>
     <!-- </van-cell>
     </van-list>-->
     <van-popup v-model="popupShow">
-      <div class="machineMsg"  v-if="store" >
+      <div class="machineMsg" v-if="store">
         <div class="msgTop">
           <span>
-            <img v-if="store" :src="$api.baseUrl+store.pic" alt="">
+            <img v-if="store.pic" :src="this.baseUrl+store.pic" alt />
             <img v-else src="../../assets/img/game/text1.png" alt />
           </span>
           <div>
             <p>等级：{{ store.name }}</p>
-          <p>算力：{{ store.computing }}</p>
-          <p>采矿时间：{{ store.valid_time }}天</p>
-          <p>投入产出比：{{ store.roi }}</p>
+            <p>防御：{{ store.prevent }}</p>
+            <p>价格：{{ store.price }}天</p>
+            <p>时间：{{ store.viod_time }}</p>
           </div>
         </div>
         <ul class="zhifumima">
-          <li>
-            <span>购买数量</span>
-            <van-field v-model="buyNumber" placeholder="请输入购买数量" />
-          </li>
           <!-- <li>
             <span>购买价格</span>
             <van-field v-model="buyPrc" placeholder="请输入购买价格" />
@@ -53,8 +49,7 @@
             <van-field v-model="pwd" type="password" placeholder="请输入支付密码" />
           </li>
         </ul>
-        <p v-if="user.business_money">我的商务钱包：{{ user.business_money }}</p>
-        <p v-else>我的商务钱包：0.0000</p>
+        <p style="marginTop:2.4rem;" >我的商务钱包：{{ user.business_money?user.business_money:'0.0000' }}</p>
         <button @click="buyito">
           <span>确 认</span>
         </button>
@@ -72,10 +67,10 @@ export default {
       buyPrc: "",
       pwd: "",
       id: 0,
+      store: undefined,
       popupShow: false,
       nextTo: false,
-      itolist: [],
-      store:{},   //选中的商品信息
+      itolist: []
     };
   },
   created() {
@@ -87,7 +82,7 @@ export default {
   methods: {
     getito: function() {
       this.axios
-        .get(this.$api.index_ito)
+        .get(this.$api.index_tools)
         .then(data => {
           if (data.code === 200) {
             this.itolist = data.data;
@@ -97,17 +92,13 @@ export default {
         .catch(() => {});
     },
     buyito: function() {
-      if (this.buyNumber.trim() === "") {
-        this.$toast("数量输入有误");
-        return;
-      } else if (this.pwd.trim() === "") {
+      if (this.pwd.trim() === "") {
         this.$toast("支付密码输入有误");
         return;
       }
-      this.token_post(this.$api.game_buyito, {
-        num: this.buyNumber,
+      this.token_post(this.$api.game_buytool, {
         us_safe_pwd: this.pwd,
-        id: this.id
+        id: this.store.id
       })
         .then(data => {
           if (data.code === 200) {

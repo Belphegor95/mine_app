@@ -56,7 +56,7 @@ export default {
             this.$toast(data.msg);
           }
         })
-        .catch(() => {this.$toast.fail(this.$api.monmsg)});
+        .catch(() => {});
     },
     goBack() {
       this.$router.go(-1);

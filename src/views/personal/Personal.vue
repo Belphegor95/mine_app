@@ -6,7 +6,7 @@
       <div class="geren">
         <img :src="$api.baseUrl + user.us_head_pic" />
         <div>
-          <p>{{ user.us_name }}</p>
+          <p>{{ user.us_name?user.us_name : "佚名" }}</p>
           <p>ID:{{ user.id }}</p>
         </div>
       </div>
