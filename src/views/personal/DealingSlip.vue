@@ -13,9 +13,9 @@
             <p>交易时间</p>
           </div>
           <div class="xinxi_box">
-            <p v-if="item.status === 0" class="gray">待交易</p>
-            <p v-else-if="item.status === 1" class="red">待对方付款</p>
-            <p v-else-if="item.status === 2" class="blue">待您付款</p>
+            <p v-if="item.status === 0 && user.id === item.st_id" class="gray">待交易</p>
+            <p v-else-if="item.status === 1 " class="red">{{ user.id === item.st_id?"待对方付款":"待上传凭证" }}</p>
+            <p v-else-if="item.status === 2" class="blue">{{ user.id === item.st_id?"待您审核":"待对方审核" }}</p>
             <p v-else-if="item.status === 3">交易完成</p>
             <p v-if="item.us_id ">{{ item.us_id }}</p>
             <p v-else>暂无</p>
@@ -36,6 +36,7 @@ export default {
   },
   data() {
     return {
+      user: this.$store.state.user,
       mytradelist: [],
       page: 1,
       loading: false,
@@ -68,7 +69,6 @@ export default {
         });
     },
     rut: function(item) {
-      console.info(item);
       this.$router.push({
         path: "/deal/particulars",
         query: item

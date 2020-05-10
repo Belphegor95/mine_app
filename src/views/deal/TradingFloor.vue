@@ -192,13 +192,15 @@ export default {
       }).then(data => {
         if (data.code === 200) {
           this.modal_buy = false;
+          let data_ = data.data
+          data_.status = 1
           this.$toast({
             message: data.msg,
             onClose: () => {
               this.$store.commit("show_typeid", 202);
               this.$router.push({
                 path: "/deal/particulars",
-                query: data.data
+                query: data_
               });
             }
           });

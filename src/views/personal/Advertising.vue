@@ -27,8 +27,8 @@
       <van-button @click="rut_upadvertising" class="quedingbtn" type="info">上传广告</van-button>
     </div>
     <van-popup class="modal_box" v-model="modal">
-      <h4>退出登录</h4>
-      <p>您真的要退出登录吗</p>
+      <h4>删除广告</h4>
+      <p>您确定要删除广告吗</p>
       <div class="btn_box">
         <span @click="modal = false">取消</span>
         <span @click="quit">确定</span>

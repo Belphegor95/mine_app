@@ -4,7 +4,7 @@
     <breadcrumb></breadcrumb>
     <div class="jine_box">
       <p>支付金额</p>
-      <p>{{ buydata.price }}</p>
+      <p>{{ buydata.price?buydata.id: "暂无" }}</p>
     </div>
     <!-- <div class="xinxi_box"> -->
     <ul>
@@ -38,20 +38,22 @@
       </li>
     </ul>
     <div class="up_box">
-      <div class="upbtn_box">
+      <div class="upbtn_box" v-if="querydata.status === 1">
         <van-uploader v-model="fileList" :preview-image="false" :after-read="upvoucher">
           <img src="../../assets/img/deal/uploadingimg.png" alt />
           <p>请上传转账凭证</p>
         </van-uploader>
       </div>
-      <p>温馨提示：请在2小时内完成支付，否者会封号处理</p>
+      <p v-if="querydata.status === 1">温馨提示：请在2小时内完成支付，否者会封号处理</p>
     </div>
-
-    <div v-if="buydata.status === 1" class="zhifu_box">
-      <van-button class="zhifubtn" type="info">我已支付</van-button>
+    <div v-if="querydata.status === 0" class="zhifu_box">
+      <van-button @click="back" class="zhifubtn" type="info">取消交易</van-button>
     </div>
-    <div v- v-else-if="buydata.status === 2" class="zhifu_box">
-      <van-button class="zhifubtn" type="info">交易完成</van-button>
+    <div v-if="querydata.status === 1" class="zhifu_box">
+      <van-button @click="rut" class="zhifubtn" type="info">我已支付</van-button>
+    </div>
+    <div v-else-if="querydata.status === 2" class="zhifu_box">
+      <van-button @click="confirm" class="zhifubtn" type="info">交易完成</van-button>
     </div>
   </div>
 </template>
@@ -65,13 +67,31 @@ export default {
   data() {
     return {
       fileList: [],
-      buydata: this.$route.query
+      querydata: this.$route.query,
+      buydata: {}
     };
   },
   mounted() {
     // console.info(this.buydata)
+    this.getdetail();
   },
   methods: {
+    getdetail: function() {
+      this.token_post(this.$api.trade_detail, {
+        id: this.querydata.id
+      })
+        .then(data => {
+          if (data.code === 200) {
+            // this.$toast(data.msg);
+            this.buydata = data.data;
+          } else {
+            this.$toast(data.msg);
+          }
+        })
+        .catch(() => {
+          this.$toast.fail(this.$api.monmsg);
+        });
+    },
     upvoucher: function() {
       let arr = [];
       arr.push(this.fileList[0].content);
@@ -91,7 +111,64 @@ export default {
             this.$toast(data.msg);
           }
         })
-        .catch(() => {this.$toast.fail(this.$api.monmsg)});
+        .catch(() => {
+          this.$toast.fail(this.$api.monmsg);
+        });
+    },
+    back: function() {
+      // 取消
+      this.$toast.loading({
+        duration: 0, // 持续展示 toast
+        message: "加载中...",
+        forbidClick: true
+      });
+      this.token_post(this.$api.trade_back, {
+        id: this.$route.query.id
+      })
+        .then(data => {
+          if (data.code === 200) {
+            this.$toast({
+              message: data.msg,
+              onClose: () => {
+                this.$router.go(-1);
+              }
+            });
+          } else {
+            this.$toast(data.msg);
+          }
+        })
+        .catch(() => {
+          this.$toast.fail(this.$api.monmsg);
+        });
+    },
+    confirm: function() {
+      // 确认交易
+      this.$toast.loading({
+        duration: 0, // 持续展示 toast
+        message: "加载中...",
+        forbidClick: true
+      });
+      this.token_post(this.$api.trade_confirm, {
+        id: this.$route.query.id
+      })
+        .then(data => {
+          if (data.code === 200) {
+            this.$toast({
+              message: data.msg,
+              onClose: () => {
+                this.$router.go(-1);
+              }
+            });
+          } else {
+            this.$toast(data.msg);
+          }
+        })
+        .catch(() => {
+          this.$toast.fail(this.$api.monmsg);
+        });
+    },
+    rut:function () {
+      this.$router.push("/personal/dealing_slip")
     }
   }
 };
