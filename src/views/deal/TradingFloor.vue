@@ -159,6 +159,7 @@ export default {
         if (data.code == 200) {
           this.modal = false;
           this.$toast(data.msg);
+          this.gettrade()
         } else {
           this.$toast(data.msg);
         }

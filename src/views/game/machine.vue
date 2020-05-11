@@ -8,7 +8,7 @@
     <div style="padding: 0.3rem 0.27rem;height:0.46rem"></div>
     <!-- <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
     <van-cell>-->
-    <van-empty v-if="itolist.length == 0" description="暂无数据" />
+    <van-empty v-if="itolist.length === 0" description="暂无数据" />
     <ul v-else class="contentList">
       <li v-for="(ito,index)  in itolist" :key="index" @click="onito(ito)">
         <span>
@@ -89,7 +89,7 @@ export default {
       this.axios
         .get(this.$api.index_ito)
         .then(data => {
-          if (data.code == 200) {
+          if (data.code === 200) {
             this.itolist = data.data;
             // this.$toast(data)
           }
@@ -97,10 +97,10 @@ export default {
         .catch(() => {});
     },
     buyito: function() {
-      if (this.buyNumber.trim() == "") {
+      if (this.buyNumber.trim() === "") {
         this.$toast("数量输入有误");
         return;
-      } else if (this.pwd.trim() == "") {
+      } else if (this.pwd.trim() === "") {
         this.$toast("支付密码输入有误");
         return;
       }
@@ -110,7 +110,7 @@ export default {
         id: this.id
       })
         .then(data => {
-          if (data.code == 200) {
+          if (data.code === 200) {
             this.popupShow = false;
             this.$toast(data.msg);
           } else {

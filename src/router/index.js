@@ -1,5 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+// const VueRouterPush = VueRouter.prototype.push
+// VueRouter.prototype.push = function push(to) {
+//   return VueRouterPush.call(this, to).catch(err => err)
+// }
 import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'

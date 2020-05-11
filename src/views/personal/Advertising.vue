@@ -22,7 +22,7 @@
       </van-radio-group>
     </ul>
     <div style="height:1.2rem;"></div>
-    <div class="queding_box" v-if="is_delet">
+    <div class="queding_box" v-if="!modal">
       <van-button @click="rut_upadvertising" class="quedingbtn" type="info">上传广告</van-button>
     </div>
     <van-popup class="modal_box" v-model="modal">
@@ -46,7 +46,6 @@ export default {
     return {
       user: this.$store.state.user,
       result: 0,
-      is_delet: true,
       modal: false,
       advertlist: []
     };
@@ -74,23 +73,24 @@ export default {
             this.$toast(data.msg);
           }
         })
-        .catch(() => {this.$toast.fail(this.$api.monmsg)});
+        .catch(() => {
+          this.$toast.fail(this.$api.monmsg);
+        });
     },
     rut_upadvertising: function() {
       this.$store.commit("show_typeid", 105);
       this.$router.push("/personal/up_advertising");
     },
     manage: function(is) {
-      if (!is) {
-        this.is_delet = is;
-      } else {
-        this.modal = true;
-        this.is_delet = is;
-      }
+      console.info(is)
+      // if (is) {
+      //   this.modal = true;
+      // }
     },
     quit: function() {
       if (this.result == 0) {
         this.$toast("广告未选择");
+        return;
       }
       this.token_post(this.$api.advert_delete, {
         id: this.result ? this.result : null
@@ -103,13 +103,15 @@ export default {
             this.$toast(data.msg);
           }
         })
-        .catch(() => {this.$toast.fail(this.$api.monmsg)});
+        .catch(() => {
+          this.$toast.fail(this.$api.monmsg);
+        });
     },
-    onvideo: function (item) {
+    onvideo: function(item) {
       this.$router.push({
         path: "/videoPlayback",
         query: item
-      })
+      });
     }
   }
 };

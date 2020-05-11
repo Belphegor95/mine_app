@@ -97,5 +97,12 @@ api.trade_detail = "/index/trade/detail";
 api.trade_confirm = "/index/trade/confirm";
 //   取消挂单  参数id
 api.trade_back = "/index/trade/back";
-
+// 47,收取矿币   参数 id  
+api.game_harvest = "/index/game/harvest";
+// 48,获取朋友的矿币信息   参数 id  
+api.game_showfriends = "/index/game/showfriends";
+// 49,偷矿币   参数 id  
+api.game_steal = "/index/game/steal";
+//   签到信息的接口
+api.user_signinfo = "/index/user/signinfo";
 export { api };

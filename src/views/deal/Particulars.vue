@@ -14,39 +14,47 @@
       </li>
       <li>
         <span>手机号</span>
-        <span>{{ buydata.us_info&&buydata.us_info.us_tel?buydata.us_info.us_tel: "暂无" }}</span>
+        <span>{{ buydata.st_info&&buydata.st_info.us_tel?buydata.st_info.us_tel: "暂无" }}</span>
       </li>
       <li>
         <span>支付宝账号</span>
-        <span>{{ buydata.us_info&&buydata.us_info.ali_account?buydata.us_info.ali_account: "暂无" }}</span>
+        <span>{{ buydata.st_info&&buydata.st_info.ali_account?buydata.st_info.ali_account: "暂无" }}</span>
       </li>
       <li>
         <span>开户银行</span>
-        <span>{{ buydata.us_info&&buydata.us_info.us_bank?buydata.us_info.us_bank: "暂无" }}</span>
+        <span>{{ buydata.st_info&&buydata.st_info.us_bank?buydata.st_info.us_bank: "暂无" }}</span>
       </li>
       <li>
         <span>持卡人姓名</span>
-        <span>{{ buydata.us_info&&buydata.us_info.us_bank_person?buydata.us_info.us_bank_person: "暂无" }}</span>
+        <span>{{ buydata.st_info&&buydata.st_info.us_bank_person?buydata.st_info.us_bank_person: "暂无" }}</span>
       </li>
       <li>
         <span>银行卡号</span>
-        <span>{{ buydata.us_info&&buydata.us_info.bank_account?buydata.us_info.bank_account: "暂无" }}</span>
+        <span>{{ buydata.st_info&&buydata.st_info.bank_account?buydata.st_info.bank_account: "暂无" }}</span>
       </li>
       <li>
         <span>开户地址</span>
-        <span>{{ buydata.us_info&&buydata.us_info.bank_place?buydata.us_info.bank_place: "暂无" }}</span>
+        <span>{{ buydata.st_info&&buydata.st_info.bank_place?buydata.st_info.bank_place: "暂无" }}</span>
       </li>
     </ul>
-    <div class="up_box">
+    <div class="up_box" v-if="user.id === buydata.trade_info.st_id">
+      <!-- 123 -->
       <div
         class="upbtn_box"
-        v-if=" buydata.trade_info.status != 0"
+        v-if=" buydata.trade_info.status != 1 && buydata.trade_info.status != 0"
       >
+        <div>
+          <img :src="$api.baseUrl + buydata.trade_info.voucher" />
+        </div>
+      </div>
+    </div>
+    <div class="up_box" v-else>
+      <div class="upbtn_box" v-if=" buydata.trade_info.status != 0">
         <van-uploader
           v-model="fileList"
           :preview-image="false"
           :after-read="upvoucher"
-          v-if="buydata.trade_info.status == 1"
+          v-if="buydata.trade_info.status == 1 "
         >
           <img src="../../assets/img/deal/uploadingimg.png" />
         </van-uploader>
@@ -58,6 +66,7 @@
         v-if="buydata.trade_info.status == 1 || buydata.trade_info.status == 2"
       >温馨提示：请在2小时内完成支付，否者会封号处理</p>
     </div>
+
     <div v-if="buydata.trade_info.status == 0" class="zhifu_box">
       <van-button @click="back" class="zhifubtn" type="info">取消交易</van-button>
     </div>

@@ -2,7 +2,7 @@
 <template>
   <div class="AdvertisingHome_box">
     <breadcrumb></breadcrumb>
-    <van-empty style="background-color: #fff" v-if="recommendlist.length == 0" description="暂无数据" />
+    <van-empty style="background-color: #fff" v-if="recommendlist.length === 0" description="暂无数据" />
     <ul v-else class="contentList">
       <li v-for="(item,index)  in recommendlist" :key="index">
         <div>
@@ -47,7 +47,7 @@ export default {
     getrecommend: function() {
       this.token_post(this.$api.index_recommend)
         .then(data => {
-          if (data.code == 200) {
+          if (data.code === 200) {
             this.recommendlist = this.recommendlist.concat(data.data);
           } else {
             this.$toast(data.msg);
@@ -60,7 +60,7 @@ export default {
         id: id
       })
         .then(data => {
-          if (data.code == 200) {
+          if (data.code === 200) {
             this.$toast(data.msg);
             this.getrecommend();
           } else {

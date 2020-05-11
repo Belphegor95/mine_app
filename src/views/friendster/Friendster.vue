@@ -5,7 +5,7 @@
     <!-- <div class="topbtn_box">
       <span class="blue">文字</span>
       <span>视频</span>
-    </div> -->
+    </div>-->
     <van-empty v-if="friendlist.length == 0" description="暂无数据" />
     <ul v-else>
       <li v-for="(item,index) in friendlist" :key="index">
@@ -46,7 +46,7 @@
               <transition name="show1">
                 <div v-if="active == index" class="tooltip">
                   <span @click="thumb(item.id)">点赞</span>
-                  <span>评论</span>
+                  <span @click="show = true">评论</span>
                   <!-- <span>转发</span> -->
                 </div>
               </transition>
@@ -55,6 +55,10 @@
         </div>
       </li>
     </ul>
+    <van-popup v-model="show" position="bottom" :style="{ height: '8%' }">
+      <van-field v-model="content" />
+      <van-button class="quedingbtn" type="info">确定</van-button>
+    </van-popup>
   </div>
 </template>
 
@@ -67,6 +71,8 @@ export default {
   data() {
     return {
       friendlist: [],
+      show: false,
+      content: "",
       active: undefined
     };
   },
@@ -87,7 +93,9 @@ export default {
             this.$toast(data.msg);
           }
         })
-        .catch(() => {this.$toast.fail(this.$api.monmsg)});
+        .catch(() => {
+          this.$toast.fail(this.$api.monmsg);
+        });
     },
     manage: function() {
       this.$store.commit("show_typeid", 302);
@@ -100,7 +108,7 @@ export default {
       }).then(data => {
         if (data.code == 200) {
           this.$toast(data.msg);
-          this.getfriend()
+          this.getfriend();
         } else {
           this.$toast(data.msg);
         }
@@ -283,5 +291,11 @@ li > img {
 .blue {
   background: rgba(57, 142, 245, 1);
   color: rgba(255, 255, 255, 1) !important;
+}
+</style>
+<style>
+.Friends .van-popup {
+  display: flex;
+  background: transparent!important;
 }
 </style>

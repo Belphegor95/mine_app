@@ -4,22 +4,20 @@
     <breadcrumb></breadcrumb>
     <van-tabs v-model="cate_index" @click="getadvertDetail">
       <van-tab v-for="(item,index) in cates" :key="index" :title="item.ca_name">
-        <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-          <van-cell>
-            <ul class="list">
-              <li v-for="value  in list" :key="value">
-                <div class="img_"></div>
-                <div class="xinxi_box">
-                  <p>奥克斯净水器</p>
-                  <div class="jilv_box">
-                    <img src="../../assets/img/personal/eyeimg.png" alt />
-                    <p>12</p>
-                  </div>
-                </div>
-              </li>
-            </ul>
-          </van-cell>
-        </van-list>
+        <van-empty style="background-color: #fff" v-if="list.length == 0" description="暂无数据" />
+        <ul class="list">
+          <li v-for="(item,index)  in list" :key="index">
+            <!-- <div class="img_"></div> -->
+            <img class="img_" :src="$api.baseUrl + item.ad_head_pic" alt />
+            <div class="xinxi_box">
+              <p>{{ item.ad_name }}</p>
+              <div class="jilv_box">
+                <img src="../../assets/img/personal/eyeimg.png" alt />
+                <p>{{ item.skim? item.skim: 0 }}</p>
+              </div>
+            </div>
+          </li>
+        </ul>
       </van-tab>
     </van-tabs>
   </div>
@@ -39,7 +37,7 @@ export default {
       loading: false,
       finished: false,
       cates: [], //广告标签
-      cate_index: 0, //选中的广告标签
+      cate_index: 0 //选中的广告标签
     };
   },
   created() {
@@ -55,46 +53,41 @@ export default {
         .then(data => {
           if (data.code == 200) {
             this.cates = data.data.cates;
-            this.getadvertDetail()
+            this.getadvertDetail();
           } else {
             this.$toast(data.msg);
           }
         })
-        .catch(() => {this.$toast.fail(this.$api.monmsg)});
+        .catch(() => {
+          this.$toast.fail(this.$api.monmsg);
+        });
     },
-    getadvertDetail: function () {
+    getadvertDetail: function() {
       this.axios
-        .post(this.$api.index_advertDetail,{
-          id: this.cates[this.cate_index].id
+        .post(this.$api.index_advert, {
+          ca_id: this.cates[this.cate_index].id
         })
         .then(data => {
           if (data.code == 200) {
+            this.list = data.data;
             // this.cates = data.data.cates
           } else {
             this.$toast(data.msg);
           }
         })
-        .catch(() => {this.$toast.fail(this.$api.monmsg)});
+        .catch(() => {
+          this.$toast.fail(this.$api.monmsg);
+        });
     },
-    onLoad() {
-      setTimeout(() => {
-        for (let i = 0; i < 5; i++) {
-          this.list.push(this.list.length + 1);
-        }
-
-        // 加载状态结束
-        this.loading = false;
-
-        // 数据全部加载完成
-        if (this.list.length >= 20) {
-          this.finished = true;
-        }
-      }, 1000);
-    }
+    onLoad() {}
   }
 };
 </script>
 <style scoped >
+.AdvertisingHome_box {
+  height: 100%;
+  background-color: #f7f7f7;
+}
 .list {
   display: flex;
   flex-wrap: wrap;
@@ -111,6 +104,7 @@ export default {
   width: 100%;
   height: 3.5rem;
   background-color: #eeeeee;
+  display: flex;
 }
 .list .xinxi_box {
   height: 1.1rem;

@@ -113,8 +113,12 @@ export default {
   border-bottom: 1px solid #f7f7f7;
 }
 .touming_ {
+  
   background: transparent;
   border-bottom: none !important;
+}
+.touming_ p {
+  color: #fff!important;
 }
 .left_box {
   display: flex;

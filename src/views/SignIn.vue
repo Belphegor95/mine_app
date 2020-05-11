@@ -1,14 +1,15 @@
 <!-- 签到 -->
 <template>
   <div class="SignIn_box">
-    <breadcrumb></breadcrumb>
+    <breadcrumb :transparent="true"></breadcrumb>
     <div class="qiandao_box">
       <div class="qiandao">
-        <span class="yellow">
-          <p>1</p>
-          <img src="../assets/img/pigeon.png" alt />
+        <span :class=" item ? 'yellow': 'gray'" v-for="(item,index) in week" :key="index">
+          <p>{{ index + 1 }}</p>
+          <img v-if="item" src="../assets/img/pigeon.png" alt />
+          <img v-else src="../assets/img/gold.png" alt />
         </span>
-        <span class="gray">
+        <!-- <span class="gray">
           <p>2</p>
           <img src="../assets/img/gold.png" alt />
         </span>
@@ -31,7 +32,7 @@
         <span class="gray">
           <p>7</p>
           <img src="../assets/img/gold.png" alt />
-        </span>
+        </span>-->
       </div>
       <p>坚持每天签到，收获更多</p>
       <van-button @click="sign" class="quedingbtn" type="info">确定</van-button>
@@ -46,22 +47,104 @@ export default {
     breadcrumb
   },
   data() {
-    return {};
+    return {
+      weeks: [
+        {
+          is: false
+        },
+        {
+          is: false
+        },
+        {
+          is: false
+        },
+        {
+          is: false
+        },
+        {
+          is: false
+        },
+        {
+          is: false
+        },
+        {
+          is: false
+        }
+      ],
+      week: [false,false,false,false,false,false,false]
+    };
+  },
+  mounted() {
+    this.getsigninfo();
   },
   methods: {
-    sign: function () {
+    getsigninfo: function() {
+      this.token_post(this.$api.user_signinfo)
+        .then(data => {
+          if (data.code == 200) {
+            if (data.data.length != 0) {
+              let datas = data.data;
+              for (let i = 0; i < 7; i++) {
+                if (datas[i]) {
+                  let data_time = new Date(datas[i].add_time * 1000);
+                  // 判断是不是在本周
+                  if (this.isSameWeek(data_time)) {
+                    // 计算是本周的周几
+                    let week_index = this.get_day(new Date(datas[i].add_time));
+                    this.week[week_index - 1] = true;
+                    this.$forceUpdate()
+                  }
+                }
+              }
+            }
+          } else {
+            this.$toast(data.msg);
+          }
+        })
+        .catch(() => {
+          this.$toast.fail(this.$api.monmsg);
+        });
+    },
+    sign: function() {
       this.token_post(this.$api.user_sign)
         .then(data => {
           if (data.code == 200) {
-            this.$toast(data.msg)
-            // console.log(data);
+            this.$toast(data.msg);
+            this.getsigninfo();
           } else {
-            this.$toast(data.msg)
+            this.$toast(data.msg);
           }
         })
-        .catch(() => {this.$toast.fail(this.$api.monmsg)});
+        .catch(() => {
+          this.$toast.fail(this.$api.monmsg);
+        });
+    },
+    get_day: function(date) {
+      if (date.getDay() === 0) {
+        return 7;
+      } else {
+        return date.getDay();
+      }
+    },
+    isSameWeek: function(inDate) {
+      // inDate 是一个date对象
+      let inDateStr = inDate.toLocaleDateString(); // 获取如YYYY/MM/DD的日期
+      let nowDate = new Date();
+      let nowTime = nowDate.getTime();
+      let nowDay = nowDate.getDay() - 1;
+      for (let i = 0; i < 7; i++) {
+        if (
+          inDateStr ==
+          new Date(
+            nowTime + (i - nowDay) * 24 * 3600 * 1000
+          ).toLocaleDateString()
+        )
+          return true;
+      }
+      return false;
     }
-  }
+  },
+  computed: {}
 };
 </script>
 <style scoped>

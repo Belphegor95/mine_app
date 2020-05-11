@@ -6,7 +6,7 @@
     </header>
     <div></div>
     <main>
-      <van-empty v-if="usitolist.length == 0" description="暂无数据" />
+      <van-empty v-if="usitolist.length === 0" description="暂无数据" />
       <ul v-else class="contentList">
         <li v-for="(item,index)  in usitolist" :key="index" @click="()=>popupShow=true">
           <span>
@@ -50,7 +50,7 @@ export default {
         type: 2
       })
         .then(data => {
-          if (data.code == 200) {
+          if (data.code === 200) {
             this.usitolist = data.data.usito;
           } else {
             this.$toast(data.msg);

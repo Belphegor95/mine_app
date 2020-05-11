@@ -16,12 +16,15 @@
 
 <script>
 import breadcrumb from "@/components/breadcrumb";
+// import jrQrcode form "jr-qrcode";
 export default {
   components: {
     breadcrumb
   },
   data() {
-    return {};
+    return {
+      // jrQrcode
+    };
   },
   mounted() {
     this.$store.commit("show_typeid", 104);

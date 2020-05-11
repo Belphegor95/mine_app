@@ -52,7 +52,7 @@ export default {
   methods: {
     getmytrade: function() {
       this.loading = true;
-      this.token_post(this.$api.trade_mytrade, { Page: this.page })
+      this.token_post(this.$api.trade_mytrade, { page: this.page })
         .then(data => {
           if (data.code == 200) {
             this.mytradelist = this.mytradelist.concat(data.data);
