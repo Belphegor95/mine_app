@@ -86,7 +86,16 @@ export default {
       }
     },
     manage: function() {
-      this.is_delet = !this.is_delet;
+      if (!this.is_delet) {
+        if (this.$store.state.result != 0) {
+          this.is_delet = !this.is_delet;
+        } else {
+          this.$toast("广告未选择");
+        }
+      } else {
+        this.is_delet = !this.is_delet;
+      }
+
       this.$emit("is_manage", this.is_delet);
     }
   },
@@ -113,12 +122,11 @@ export default {
   border-bottom: 1px solid #f7f7f7;
 }
 .touming_ {
-  
   background: transparent;
   border-bottom: none !important;
 }
 .touming_ p {
-  color: #fff!important;
+  color: #fff !important;
 }
 .left_box {
   display: flex;

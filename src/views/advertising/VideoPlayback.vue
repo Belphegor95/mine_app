@@ -200,8 +200,6 @@
 <script>
 import Vue from "vue";
 import { Swipe, SwipeItem, Toast } from "vant";
-// 引入微信分享
-import wx from "weixin-js-sdk";
 
 Vue.use(Swipe, Toast).use(SwipeItem);
 
@@ -244,15 +242,6 @@ export default {
     // }
   },
   mounted() {
-    wx.config({
-      debug: false,
-      appId: "111",
-      timestamp: "111",
-      nonceStr: "111",
-      signature: "111",
-      jsApiList: [],
-      videoProcessInterval: null
-    });
   },
   beforeDestroy() {
     clearInterval(this.videoProcessInterval);
@@ -530,10 +519,6 @@ export default {
           this.iconPlayShow = true;
           clearInterval(this.videoProcessInterval);
         } else {
-          // wx.ready(() => {
-          //     // 在微信的ready中进行播放 不管成功配置与否 都会执行ready
-          //     video.play();
-          // })
           video.play();
           video.pause();
           setTimeout(() => {

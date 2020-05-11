@@ -5,7 +5,7 @@
     <ul class="zhuce" v-if="$store.getters.get_typeid == 1">
       <li>
         <span>推荐人</span>
-        <van-field maxlength="20" v-model="ptel" placeholder="请输入推荐人" />
+        <van-field maxlength="20" :readonly="is_ptel" v-model="ptel" placeholder="请输入推荐人" />
       </li>
       <li>
         <span>
@@ -215,7 +215,8 @@ export default {
       us_bank: "", // 银行名称
       bank_place: "", // 开户行地址
       us_bank_person: "", // 持卡人
-      bank_account: "" // 银行卡号
+      bank_account: "", // 银行卡号
+      is_ptel: false
     };
   },
   watch: {
@@ -234,6 +235,12 @@ export default {
       this.bank_place = ""; // 开户行地址
       this.us_bank_person = ""; // 持卡人
       this.bank_account = ""; // 银行卡号
+    }
+  },
+  mounted() {
+    if (this.$store.getters.get_typeid == 1) {
+      this.is_ptel = true;
+      this.ptel = this.$route.query.id ? this.$route.query.id : "";
     }
   },
   methods: {

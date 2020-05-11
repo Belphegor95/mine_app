@@ -4,7 +4,14 @@
     <header class="header">
       <img src="../../assets/img/game/end.png" alt @click="goBack" />
     </header>
-    <div></div>
+    
+    <div class="zhanwei"></div>
+    <div class="headerMsg">
+      <div v-for="(item,index) in headerMsg" :key="index">
+        <span v-text="item.value"></span>
+        <span v-text="item.key"></span>
+      </div>
+    </div>
     <main>
       <van-empty v-if="usitolist.length === 0" description="暂无数据" />
       <ul v-else class="contentList">
@@ -33,7 +40,13 @@ export default {
       // pwd: "",
       // popupShow: false,
       nextTo: false,
-      usitolist: []
+      usitolist: [],
+      headerMsg: [
+        { key: "矿机钱包", value: "0" },
+        { key: "今日收益", value: "0" },
+        { key: "有效矿机", value: "0" },
+        { key: "算力", value: "0" }
+      ],
       // loading: false,
       // finished: false
     };
@@ -43,8 +56,35 @@ export default {
   },
   mounted() {
     this.getgame();
+    this.getgame1();
   },
   methods: {
+         // 获取头部信息
+    getgame1: function() {
+      this.token_post(this.$api.game_index, {
+        type: 1
+      })
+        .then(data => {
+          if (data.code === 200) {
+            // if (data.data.ito_money) {
+            //   this.headerMsg[0].value = data.data.ito_money
+            // } else {
+
+            // }
+            this.headerMsg[0].value = data.data.ito_money
+              ? data.data.ito_money
+              : 0.0;
+            this.headerMsg[1].value = data.data.today_money;
+            this.headerMsg[2].value = data.data.ito;
+            this.headerMsg[3].value = data.data.computing;
+            this.friends = data.data.friends;
+            this.gameMsg = data.data;
+          } else {
+            this.$toast(data.msg);
+          }
+        })
+        .catch(() => {});
+    },
     getgame: function() {
       this.token_post(this.$api.game_index, {
         type: 2
@@ -90,7 +130,29 @@ export default {
   align-items: center;
   flex-direction: column;
 }
-.MyMachineHome_box > div {
+.headerMsg {
+  display: flex;
+  align-items: center;
+  width: 92%;
+  height: 1rem;
+  background: url("../../assets/img/game/gameheaderBgc.png") center center /
+    100% 100% no-repeat;
+}
+.headerMsg div {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  font-size: 0.22rem;
+  font-family: Adobe Heiti Std;
+  font-weight: normal;
+  color: rgba(51, 51, 51, 1);
+}
+.headerMsg div span:nth-child(1) {
+  margin-bottom: 0.1rem;
+}
+.MyMachineHome_box > .zhanwei {
   width: 100%;
   height: 4.8rem;
 }

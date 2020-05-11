@@ -7,7 +7,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     typeid: 1,
-    user: {}
+    user: {},
+    result: 0
   },
   getters: {
     get_typeid(state) {
@@ -23,7 +24,10 @@ export default new Vuex.Store({
     },
     show_user(state, payload) {
       state.user = payload;
-    }
+    },
+    show_result(state, payload) {
+      state.result = payload;
+    },
   },
   actions: {
   },

@@ -2,28 +2,26 @@
 <template>
   <div class="GameHome_box">
     <!-- 头部信息展示部分 -->
-    <header v-show="!isFriend" class="headerMsg">
+    <!-- <header v-show="!isFriend" class="headerMsg">
       <div v-for="(item,index) in headerMsg" :key="index">
         <span v-text="item.value"></span>
         <span v-text="item.key"></span>
       </div>
-    </header>
+    </header>-->
     <!-- 游戏内贴图 -->
     <main class="gameMsg">
       <!-- 返回 -->
-
       <img
         v-if="isFriend"
         src="../../assets/img/game/gameGoback.png"
         class="goBack"
         @click="()=>isFriend = false"
       />
-
       <img v-else src="../../assets/img/game/gameGoback.png" alt class="goBack" @click="goBack" />
 
       <ul class="gameBiMsg" v-if="isFriend">
         <li
-          v-for="(item,index) in friendBilist&&friendBilist.length>0?friendBilist:''"
+          v-for="(item,index) in friendBilist&&friendBilist.produce&&friendBilist.produce.length>0?friendBilist.produce:''"
           :key="index"
           :style="{left:listPosition[index].left,top:listPosition[index].top}"
           @click="toukuang(item.id,item.num)"
@@ -47,35 +45,92 @@
         src="../../assets/img/game/dog.png"
         class="dog"
       />
+      <img
+        v-show="isFriend"
+        v-if="friendBilist.prevent&&friendBilist.prevent.length>0"
+        src="../../assets/img/game/dog.png"
+        class="dog"
+      />
       <!-- 旷工带机器 -->
       <img
         v-if="lv == 1&&!isFriend"
-        src="../../assets/img/game/lv1.png"
-        style="left: 24%;top: 65%;height: 18%;}"
+        src="../../assets/img/game/alv1.gif"
+        style="left: 36%;
+    top: 61%;
+    height: 18%;"
         class="man"
       />
       <img
         v-else-if="lv == 2&&!isFriend"
-        src="../../assets/img/game/lv2.png"
-        style="left: 24%;top: 65%;height: 18%;}"
+        src="../../assets/img/game/alv2.gif"
+        style="    left: 38%;
+    top: 62%;
+    height: 18%;"
         class="man"
       />
       <img
         v-else-if="lv == 3&&!isFriend"
-        src="../../assets/img/game/lv3.png"
-        style="left: 16%;top: 65%;height: 18%;"
+        src="../../assets/img/game/alv3.gif"
+        style="left: 20%;
+    top: 66%;
+    height: 13%;"
         class="man"
       />
       <img
         v-else-if="lv == 4&&!isFriend"
-        src="../../assets/img/game/lv4.png"
-        style="left: 29%;top: 66%;height: 13%;"
+        src="../../assets/img/game/alv4.gif"
+        style="    left: 31%;
+    top: 62%;
+    height: 18%;"
         class="man"
       />
       <img
         v-else-if="lv == 5&&!isFriend"
-        src="../../assets/img/game/lv5.png"
-        style="left: 29%;top: 66%;height: 13%;"
+        src="../../assets/img/game/alv5.gif"
+        style="left: 15%;
+    top: 61%;
+    height: 18%;"
+        class="man"
+      />
+      <!-- 好友的旷工带机器 -->
+      <img
+        v-if="lv2 == 1&&isFriend"
+        src="../../assets/img/game/alv1.gif"
+        style="left: 36%;
+    top: 61%;
+    height: 18%;"
+        class="man"
+      />
+      <img
+        v-else-if="lv2 == 2&&isFriend"
+        src="../../assets/img/game/alv2.gif"
+        style="    left: 38%;
+    top: 62%;
+    height: 18%;"
+        class="man"
+      />
+      <img
+        v-else-if="lv2 == 3&&isFriend"
+        src="../../assets/img/game/alv3.gif"
+        style="left: 20%;
+    top: 66%;
+    height: 13%;"
+        class="man"
+      />
+      <img
+        v-else-if="lv2 == 4&&isFriend"
+        src="../../assets/img/game/alv4.gif"
+        style="    left: 31%;
+    top: 62%;
+    height: 18%;"
+        class="man"
+      />
+      <img
+        v-else-if="lv2 == 5&&isFriend"
+        src="../../assets/img/game/alv5.gif"
+        style="left: 15%;
+    top: 61%;
+    height: 18%;"
         class="man"
       />
     </main>
@@ -142,6 +197,7 @@ export default {
         { key: "算力", value: "0" }
       ],
       lv: 0,
+      lv2: 0,
       gameMsg: {}, // 游戏信息
       listPosition: [
         { left: 0, top: 0 },
@@ -168,7 +224,7 @@ export default {
     this.getgame2();
   },
   methods: {
-     // 获取头部信息
+    // 获取头部信息
     getgame: function() {
       this.token_post(this.$api.game_index, {
         type: 1
@@ -194,7 +250,7 @@ export default {
         })
         .catch(() => {});
     },
-     // 获取矿机等级
+    // 获取矿机等级
     getgame2: function() {
       this.token_post(this.$api.game_index, {
         type: 2
@@ -220,7 +276,7 @@ export default {
       if (res) {
         id = res.id;
         this.firednId = res.id;
-        this.$router.go(-1)
+        this.$router.go(-1);
       } else {
         id = this.firednId;
       }
@@ -231,7 +287,12 @@ export default {
           if (data.code === 200) {
             // 好友的币的列表
             this.friendBilist = data.data;
+            let lv2 = 0;
+            data.data&&data.data.usito&&data.data.usito.length>0?data.data.usito.forEach(item=>{
+              item.level > lv2 ? (lv2 = item.level) : null;
+            }):null
             // 是正常home页  还是好友的矿场页开关
+            this.lv2 = lv2;
             this.isFriend = true;
             this.tarbarType = false;
             this.popupShow = false;

@@ -55,7 +55,7 @@
         </div>
       </li>
     </ul>
-    <van-popup v-model="show" position="bottom" :style="{ height: '13%' }">
+    <van-popup v-model="show" position="bottom" :style="{ height: '2.1rem' }">
       <van-field maxlength="120" class="contentCass" v-model="content" type="textarea" />
       <van-button class="fasongbtn" @click="onfabu" type="info">发布</van-button>
     </van-popup>
@@ -333,6 +333,7 @@ li > img {
 }
 .contentCass {
   flex: auto;
+  /* display: flex; */
   margin: 0 0.1rem;
   border-radius: 0.2rem;
   background-color: #f2f2f2 !important;

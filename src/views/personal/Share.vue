@@ -2,32 +2,49 @@
 <template>
   <div class="share_box">
     <breadcrumb :typeid="104" :transparent="true"></breadcrumb>
-    <div></div>
-    <p>
-      http://www.baidu.com
-      <br />ajskdjfkasjdklfjasdklfjdasfkldasasf
-      <br />kjjskf
-    </p>
+    <img class="imgrcode" style="width: 62%;" :src="jrQrcode.getQrBase64(url)" alt />
+    <p id="biao1">{{url}}</p>
     <div class="fuzhi_box">
-      <van-button class="fuzhibtn" type="default">复制地址</van-button>
+      <van-button class="fuzhibtn" @click="doCopy" type="default">复制地址</van-button>
     </div>
+    <input id="fzlj" type="text" :value="url" readonly="readOnly" style=" opacity: 0 " />
   </div>
 </template>
 
 <script>
 import breadcrumb from "@/components/breadcrumb";
-// import jrQrcode form "jr-qrcode";
+import jrQrcode from "jr-qrcode";
 export default {
   components: {
     breadcrumb
   },
   data() {
     return {
-      // jrQrcode
+      jrQrcode,
+      url: `http://121.89.215.118:8080/register?id=${this.$store.state.user.us_tel}`,
+      message: "Copy These Text"
     };
   },
   mounted() {
     this.$store.commit("show_typeid", 104);
+  },
+  methods: {
+    doCopy: function() {
+      document.querySelector("#fzlj").select();
+      document.execCommand("Copy");
+      this.$toast.success("复制链接成功");
+      // this.dataProcessing(val);
+      // this.$copyText(this.message).then(
+      //   function(e) {
+      //     alert("Copied");
+      //     console.log(e);
+      //   },
+      //   function(e) {
+      //     alert("Can not copy");
+      //     console.log(e);
+      //   }
+      // );
+    }
   }
 };
 </script>
@@ -65,5 +82,10 @@ export default {
   font-family: Adobe Heiti Std;
   font-weight: normal;
   color: rgba(51, 51, 51, 1);
+}
+.imgrcode {
+  position: absolute;
+  top: 2.6rem;
+  left: 1.4rem;
 }
 </style>

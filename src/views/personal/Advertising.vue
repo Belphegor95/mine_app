@@ -5,12 +5,12 @@
     <van-empty v-if="advertlist.length == 0" description="暂无数据" />
     <ul v-else>
       <van-radio-group v-model="result" class="fuxuan_box">
-        <li v-for="(item,index)  in advertlist" :key="index" @click="onvideo(item)">
-          <img :src="$api.baseUrl + item.ad_head_pic" class="tupian" />
+        <li v-for="(item,index)  in advertlist" :key="index">
+          <img :src="$api.baseUrl + item.ad_head_pic" class="tupian" @click="onvideo(item)" />
           <div class="xinxi_box">
             <p>{{ item.ad_name }}</p>
             <div class="jilv_box">
-              <van-radio v-if="!is_delet" :name="item.id"></van-radio>
+              <van-radio v-if="is_delet" :name="item.id"></van-radio>
               <div></div>
               <div class="shu_box">
                 <img src="../../assets/img/personal/eyeimg.png" alt />
@@ -22,17 +22,17 @@
       </van-radio-group>
     </ul>
     <div style="height:1.2rem;"></div>
-    <div class="queding_box" v-if="!modal">
+    <div class="queding_box" v-if="!is_delet">
       <van-button @click="rut_upadvertising" class="quedingbtn" type="info">上传广告</van-button>
     </div>
-    <van-popup class="modal_box" v-model="modal">
+    <!-- <van-popup class="modal_box" v-model="modal">
       <h4>删除广告</h4>
       <p>您确定要删除广告吗</p>
       <div class="btn_box">
         <span @click="modal = false">取消</span>
         <span @click="quit">确定</span>
       </div>
-    </van-popup>
+    </van-popup>-->
   </div>
 </template>
 
@@ -46,14 +46,21 @@ export default {
     return {
       user: this.$store.state.user,
       result: 0,
-      modal: false,
+      is_delet: false,
       advertlist: []
     };
   },
+  watch: {
+    result: function() {
+      this.$store.commit("show_result", this.result);
+    }
+  },
   created() {
     this.getadvert();
-
     this.$store.commit("show_typeid", 103);
+  },
+  beforeDestroy() {
+    this.$store.commit("show_result", 0);
   },
   methods: {
     getadvert: function() {
@@ -82,23 +89,31 @@ export default {
       this.$router.push("/personal/up_advertising");
     },
     manage: function(is) {
-      console.info(is)
-      // if (is) {
-      //   this.modal = true;
-      // }
+      // console.info(is);
+      if (is) {
+        this.quit();
+      } else {
+        this.is_delet = true;
+      }
     },
     quit: function() {
       if (this.result == 0) {
         this.$toast("广告未选择");
         return;
       }
+      this.$toast.loading({
+        duration: 0, // 持续展示 toast
+        message: "加载中...",
+        forbidClick: true
+      });
       this.token_post(this.$api.advert_delete, {
         id: this.result ? this.result : null
       })
         .then(data => {
           if (data.code == 200) {
             this.getadvert();
-            this.modal = false;
+            this.is_delet = false;
+            this.$toast(data.msg);
           } else {
             this.$toast(data.msg);
           }
