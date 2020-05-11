@@ -46,7 +46,7 @@
               <transition name="show1">
                 <div v-if="active == index" class="tooltip">
                   <span @click="thumb(item.id)">点赞</span>
-                  <span @click="show = true">评论</span>
+                  <span @click="comments(item.id)">评论</span>
                   <!-- <span>转发</span> -->
                 </div>
               </transition>
@@ -55,9 +55,9 @@
         </div>
       </li>
     </ul>
-    <van-popup v-model="show" position="bottom" :style="{ height: '8%' }">
-      <van-field v-model="content" />
-      <van-button class="quedingbtn" type="info">确定</van-button>
+    <van-popup v-model="show" position="bottom" :style="{ height: '13%' }">
+      <van-field maxlength="120" class="contentCass" v-model="content" type="textarea" />
+      <van-button class="fasongbtn" @click="onfabu" type="info">发布</van-button>
     </van-popup>
   </div>
 </template>
@@ -73,6 +73,7 @@ export default {
       friendlist: [],
       show: false,
       content: "",
+      m_id: null,
       active: undefined
     };
   },
@@ -109,6 +110,34 @@ export default {
         if (data.code == 200) {
           this.$toast(data.msg);
           this.getfriend();
+        } else {
+          this.$toast(data.msg);
+        }
+      });
+    },
+    comments: function(id) {
+      this.show = true;
+      this.m_id = id;
+    },
+    onfabu: function() {
+      // 评论
+      if (this.content.trim() == "") {
+        this.$toast("评论输入有误");
+        return;
+      }
+      this.$toast.loading({
+        duration: 0, // 持续展示 toast
+        message: "加载中...",
+        forbidClick: true
+      });
+      this.token_post(this.$api.friend_comment, {
+        content: this.content,
+        m_id: this.m_id
+      }).then(data => {
+        if (data.code == 200) {
+          this.show = false;
+          this.getfriend();
+          this.$toast(data.msg);
         } else {
           this.$toast(data.msg);
         }
@@ -296,6 +325,16 @@ li > img {
 <style>
 .Friends .van-popup {
   display: flex;
-  background: transparent!important;
+  align-items: center;
+}
+.fasongbtn {
+  width: 2rem;
+  margin-right: 0.2rem !important;
+}
+.contentCass {
+  flex: auto;
+  margin: 0 0.1rem;
+  border-radius: 0.2rem;
+  background-color: #f2f2f2 !important;
 }
 </style>
