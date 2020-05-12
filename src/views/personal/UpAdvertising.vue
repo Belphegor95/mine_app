@@ -25,14 +25,19 @@
           <van-dropdown-item v-model="ca_id" :options="option1" />
         </van-dropdown-menu>
       </li>
-      <li>
-        <span>总佣金池</span>
-        <van-field v-model="total" placeholder="设置广告总佣金池" />
-      </li>
-      <li>
+       <li>
         <span>单次佣金</span>
         <van-field v-model="single" placeholder="单次观看广告佣金" />
       </li>
+      <li>
+        <span>任务次数</span>
+        <van-field v-model="total" placeholder="设置任务次数" />
+      </li>
+      <li>
+        <span>预付赏金</span>
+        <div style="padding: 10px 16px;color: #aaa;font-size: 0.3rem">1000</div>
+      </li>
+     <!-- <span style="">: </span> -->
     </ul>
     <div class="up_box">
       <div>
@@ -214,12 +219,12 @@ export default {
 }
 .ullist {
   background-color: #fff;
-  padding-bottom: 0.52rem;
+  padding-bottom: 0.2rem;
   margin-bottom: 0.2rem;
 }
 .ullist > li {
   display: flex;
-  padding-top: 0.3rem;
+  padding-top: 0.2rem;
   padding-right: 0.3rem;
 }
 .ullist > li > span {
@@ -239,7 +244,7 @@ i {
 .up_box > div {
   /* display: flex; */
   height: 1.4rem;
-  padding: 0.4rem 0.3rem 0.15rem 0.3rem;
+  padding: 0.3rem 0.3rem 0.15rem 0.3rem;
 }
 .up_box > div:nth-child(2) {
   padding-top: 0.15rem !important;

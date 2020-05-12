@@ -54,7 +54,7 @@
           <span>
             <i>*</i>昵称
           </span>
-          <van-field maxlength="20" v-model="user.us_name" placeholder="暂无" readonly />
+          <van-field maxlength="20" v-model="user.us_nickname" placeholder="暂无" readonly />
         </li>
       </ul>
       <div class="geren_box">
@@ -230,11 +230,16 @@ export default {
       this.us_tel = ""; // 手机号码
       this.us_safe_pwd = ""; // 支付密码
       this.us_safe_pwd_ = ""; // 确认支付密码
-      this.ali_account = ""; // 支付宝账号
-      this.us_bank = ""; // 银行名称
-      this.bank_place = ""; // 开户行地址
-      this.us_bank_person = ""; // 持卡人
-      this.bank_account = ""; // 银行卡号
+      // this.ali_account = ""; // 支付宝账号
+      // this.us_bank = ""; // 银行名称
+      // this.bank_place = ""; // 开户行地址
+      // this.us_bank_person = ""; // 持卡人
+      // this.bank_account = ""; // 银行卡号
+      this.ali_account = this.user.ali_account;
+      this.us_bank = this.user.us_bank; // 银行名称
+      this.bank_place = this.user.bank_place; // 开户行地址
+      this.us_bank_person = this.user.us_bank_person; // 持卡人
+      this.bank_account = this.user.bank_account; // 银行卡号
     }
   },
   mounted() {

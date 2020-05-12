@@ -5,20 +5,18 @@
     <div class="qian_box">
       <div>
         <p>矿机产出钱包</p>
-        <p v-if="user.lock_money">{{ user.lock_money }}</p>
-        <p v-else>0.0000</p>
+        <p>{{ user.lock_money ? user.lock_money : 0.0000 }}</p>
       </div>
       <div>
         <p>商务钱包</p>
-        <p v-if="user.business_money">{{ user.business_money }}</p>
-        <p v-else>0.0000</p>
+        <p>{{ user.business_money? user.business_money : 0.0000 }}</p>
       </div>
     </div>
     <ul>
       <!-- <li @click="rut_moneyrecord(1)">
         <img src="../../assets/img/personal/dealimg.png" />
         <p>提现</p>
-      </li> -->
+      </li>-->
       <li @click="rut_moneyrecord(2)">
         <img src="../../assets/img/personal/dealimg.png" />
         <p>矿机钱包记录</p>
@@ -39,13 +37,30 @@ export default {
   },
   data() {
     return {
-      user: this.$store.state.user
+      user: {}
     };
   },
   created() {
     this.$store.commit("show_typeid", 106);
   },
+  mounted() {
+    this.login();
+  },
   methods: {
+    login: function() {
+      this.token_get(this.$api.user_login)
+        .then(data => {
+          if (data.code == 200) {
+            this.user = data.data;
+            this.$store.commit("show_user", data.data);
+          } else {
+            this.$toast(data.msg);
+          }
+        })
+        .catch(() => {
+          this.$toast.fail(this.$api.monmsg);
+        });
+    },
     rut_moneyrecord: function(id) {
       if (id == 1) {
         this.$store.commit("show_typeid", 10601);
