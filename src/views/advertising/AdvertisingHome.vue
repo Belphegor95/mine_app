@@ -8,7 +8,7 @@
         <ul class="list">
           <li v-for="(item,index)  in list" :key="index">
             <!-- <div class="img_"></div> -->
-            <img class="img_" :src="$api.baseUrl + item.ad_head_pic" alt />
+            <img class="img_" :src="$api.baseUrl + item.ad_head_pic" @click="onvideo(item)" />
             <div class="xinxi_box">
               <p>{{ item.ad_name }}</p>
               <div class="jilv_box">
@@ -79,7 +79,12 @@ export default {
           this.$toast.fail(this.$api.monmsg);
         });
     },
-    onLoad() {}
+    onvideo: function(item) {
+      this.$router.push({
+        path: "/videoPlayback",
+        query: item
+      });
+    }
   }
 };
 </script>

@@ -103,6 +103,9 @@ export default {
       modal_money: false
     };
   },
+  // created() {
+  //   this.$toast(123);
+  // },
   mounted() {
     this.getSwipeImg();
     if (this.user.us_bank && this.user.us_safe_pwd) {

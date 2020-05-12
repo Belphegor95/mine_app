@@ -130,8 +130,8 @@ export default {
               if (ri.length == 1) {
                 ri = 0 + ri;
               }
-              this.mydata.date.push(yue + "/" + ri);
-              this.mydata.list.push(Number(item.price));
+              this.mydata.date.unshift(yue + "/" + ri);
+              this.mydata.list.unshift(Number(item.price));
             }
           }
           this.my();
@@ -276,7 +276,7 @@ export default {
         },
         series: [
           {
-            name: "非农业",
+            name: "价格",
             smooth: true,
             type: "line",
             symbolSize: 8,
@@ -456,6 +456,7 @@ li > span {
 .xianshi_box > div  > span:nth-child(3) {
   flex: 1;
 } */
+
 </style>
 <style>
 .TradingFloor .van-cell {
