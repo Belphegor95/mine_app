@@ -152,39 +152,71 @@
     <ul class="shiming" v-else-if="$store.getters.get_typeid == 25">
       <li>
         <span>真实姓名</span>
-        <van-field maxlength="20" v-model="text" placeholder="请输入真实姓名" />
+        <van-field
+          maxlength="20"
+          v-if="user.us_name == '' ||  user.us_name == null"
+          v-model="us_name"
+          placeholder="请输入真实姓名"
+        />
+        <van-field maxlength="20" v-else readonly v-model="user.us_name" placeholder="请输入真实姓名" />
       </li>
       <li style="margin-bottom: 0.5rem">
         <span>身份证号</span>
-        <van-field maxlength="20" v-model="text1" placeholder="请输入身份证号" />
+        <van-field
+          maxlength="20"
+          v-if="user.us_id_card  == '' || user.us_id_card == null"
+          v-model="us_id_card"
+          placeholder="请输入身份证号"
+        />
+        <van-field maxlength="20" v-else readonly v-model="user.us_id_card" placeholder="请输入身份证号" />
       </li>
       <div class="shenfen_box">
-        <van-uploader>
-          <div class="upimg"></div>
+        <van-uploader
+          v-model="us_card_front_pic"
+          :preview-image="false"
+          accept="image/*"
+          v-if="user.us_card_front_pic == '' || user.us_card_front_pic == null"
+        >
+          <div v-if="us_card_front_pic.length == 0" class="upimg"></div>
+          <img v-else :src="us_card_front_pic[0].content" class="upimg" />
         </van-uploader>
+        <img v-else :src="$api.baseUrl + user.us_card_front_pic" class="upimg" />
         <p>身份证正面</p>
       </div>
       <div class="shenfen_box">
-        <van-uploader>
-          <div class="upimg"></div>
+        <van-uploader
+          v-model="us_card_reverse_pic"
+          :preview-image="false"
+          accept="image/*"
+          v-if="user.us_card_reverse_pic == '' || user.us_card_reverse_pic == null"
+        >
+          <div v-if="us_card_reverse_pic.length == 0" class="upimg"></div>
+          <img v-else :src="us_card_reverse_pic[0].content" class="upimg" />
         </van-uploader>
+        <img v-else :src="$api.baseUrl + user.us_card_reverse_pic" class="upimg" />
         <p>身份证反面</p>
       </div>
     </ul>
     <!-- 联系客服 -->
-    <ul class="kefu" v-else-if="$store.getters.get_typeid == 7">
-      <li>
-        <span>联系电话</span>
-        <van-field maxlength="20" v-model="text" placeholder="13666666666" readonly />
-      </li>
-      <li>
-        <span>微信</span>
-        <van-field maxlength="20" v-model="text" placeholder="13666666666" readonly />
-      </li>
-    </ul>
-
+    <div v-else-if="$store.getters.get_typeid == 7">
+      <ul class="kefu" v-for="(item,index) in contacts?contacts:''" :key="index">
+        <li v-for="(v1,i) in item" :key="i">
+          <span>{{`${index == 0?'客服电话':index == 1?'客服微信':'客服QQ'}${i}`}}</span>
+          <van-field maxlength="20" :value="v1" readonly />
+        </li>
+      </ul>
+    </div>
+    <van-popup class="modal_box" v-model="fullModal">
+      <h4>完善信息</h4>
+      <p>您的其他信息不完整,请完善信息</p>
+      <div class="btn_box">
+        <span @click="onNoFull">取消</span>
+        <span @click="onFull">确定</span>
+      </div>
+    </van-popup>
     <div
       class="queding_box"
+      v-show="isBtn"
       v-if="$store.getters.get_typeid != 7 && $store.getters.get_typeid != 2"
     >
       <van-button @click="determine" class="quedingbtn" type="info">确定</van-button>
@@ -216,7 +248,14 @@ export default {
       bank_place: "", // 开户行地址
       us_bank_person: "", // 持卡人
       bank_account: "", // 银行卡号
-      is_ptel: false
+      us_name: "", //真实姓名
+      us_id_card: "", // 身份证号
+      us_card_front_pic: [], //身份证正面
+      us_card_reverse_pic: [], //身份证反面
+      contacts: [], // 客服
+      is_ptel: false,
+      isBtn: true,
+      fullModal: false
     };
   },
   watch: {
@@ -240,12 +279,22 @@ export default {
       this.bank_place = this.user.bank_place; // 开户行地址
       this.us_bank_person = this.user.us_bank_person; // 持卡人
       this.bank_account = this.user.bank_account; // 银行卡号
+      this.us_name = this.user.us_name; //真实姓名
+      this.us_id_card = this.user.us_id_card; // 身份证号
+      this.us_card_front_pic = []; //身份证正面
+      this.us_card_reverse_pic = []; //身份证反面
     }
   },
   mounted() {
-    if (this.$store.getters.get_typeid == 1) {
+    if (this.$route.query.id) {
+      this.$store.commit("show_typeid", 1);
       this.is_ptel = true;
-      this.ptel = this.$route.query.id ? this.$route.query.id : "";
+      this.$nextTick(() => {
+        this.ptel = this.$route.query.id ? this.$route.query.id : "";
+      });
+    }
+    if (this.$store.getters.get_typeid == 7) {
+      this.getcontact();
     }
   },
   methods: {
@@ -325,7 +374,20 @@ export default {
         }
         this.blindBank();
       } else if (type == 25) {
-        this.$store.commit("show_typeid", 2);
+        if (this.us_name.trim() == "") {
+          this.$toast("真实姓名输入有误");
+          return;
+        } else if (this.us_id_card.trim() == "") {
+          this.$toast("身份证输入有误");
+          return;
+        } else if (this.us_card_front_pic.length == 0) {
+          this.$toast("身份证正面没有上传");
+          return;
+        } else if (this.us_card_reverse_pic.length == 0) {
+          this.$toast("身份证反面没有上传");
+          return;
+        }
+        this.realname();
       }
     },
     register: function() {
@@ -357,6 +419,7 @@ export default {
           if (data.code == 200) {
             this.$toast({
               message: data.msg,
+              forbidClick: true,
               onClose: () => {
                 this.$router.push("/");
               }
@@ -384,6 +447,7 @@ export default {
           if (data.code == 200) {
             this.$toast({
               message: data.msg,
+              forbidClick: true,
               onClose: () => {
                 window.localStorage.password = this.us_pwd;
                 this.$store.commit("show_typeid", 2);
@@ -414,8 +478,13 @@ export default {
             user.us_safe_pwd = this.us_safe_pwd;
             this.$toast({
               message: data.msg,
+              forbidClick: true,
               onClose: () => {
-                this.$store.commit("show_typeid", 2);
+                if (this.isuser_full() != 2) {
+                  this.fullModal = true;
+                } else {
+                  this.$store.commit("show_typeid", 2);
+                }
               }
             });
           } else {
@@ -443,8 +512,13 @@ export default {
             user.ali_account = this.ali_account;
             this.$toast({
               message: data.msg,
+              forbidClick: true,
               onClose: () => {
-                this.$store.commit("show_typeid", 2);
+                if (this.isuser_full() != 2) {
+                  this.fullModal = true;
+                } else {
+                  this.$store.commit("show_typeid", 2);
+                }
               }
             });
           } else {
@@ -478,7 +552,46 @@ export default {
             user.bank_account = this.bank_account;
             this.$toast({
               message: data.msg,
+              forbidClick: true,
               onClose: () => {
+                if (this.isuser_full() != 2) {
+                  this.fullModal = true;
+                } else {
+                  this.$store.commit("show_typeid", 2);
+                }
+              }
+            });
+          } else {
+            this.$toast(data.msg);
+          }
+        })
+        .catch(() => {
+          this.$toast.fail(this.$api.monmsg);
+        });
+    },
+    realname: function() {
+      // 实名认证
+      this.$toast.loading({
+        duration: 0, // 持续展示 toast
+        message: "加载中...",
+        forbidClick: true
+      });
+      this.token_post(this.$api.user_realname, {
+        us_name: this.us_name,
+        us_id_card: this.us_id_card,
+        us_card_front_pic: this.us_card_front_pic[0].content,
+        us_card_reverse_pic: this.us_card_reverse_pic[0].content
+      })
+        .then(data => {
+          if (data.code == 200) {
+            let user = this.$store.state.user;
+            user.us_name = this.us_name;
+            user.us_id_card = this.us_id_card;
+            this.$toast({
+              message: data.msg,
+              forbidClick: true,
+              onClose: () => {
+                this.getuser();
                 this.$store.commit("show_typeid", 2);
               }
             });
@@ -490,7 +603,98 @@ export default {
           this.$toast.fail(this.$api.monmsg);
         });
     },
+    getuser: function() {
+      this.token_get(this.$api.user_login)
+        .then(data => {
+          if (data.code == 200) {
+            this.user = data.data;
+            this.$store.commit("show_user", data.data);
+          } else {
+            this.$toast(data.msg);
+          }
+        })
+        .catch(() => {
+          this.$toast.fail(this.$api.monmsg);
+        });
+    },
+    getcontact: function() {
+      // 联系客服
+      this.axios
+        .post(this.$api.index_contact)
+        .then(data => {
+          if (data.code == 200) {
+            // console.info(data);
+            this.contacts = data.data;
+            var arr1 = [],
+              arr2 = [],
+              arr3 = [];
+            try {
+              for (let i = 0; i < this.contacts.length; i++) {
+                let item = this.contacts[i];
+                if (Object.keys(item).length < 0) {
+                  return (this.contacts = []);
+                }
+                for (let j = 0; j < Object.keys(item).length; j++) {
+                  if (
+                    (Object.keys(item)[j] + "").indexOf("tel") != -1 &&
+                    item[eval("Object.keys(item)[j]")]
+                  ) {
+                    arr1.push(item[eval("Object.keys(item)[j]")]);
+                  } else if (
+                    (Object.keys(item)[j] + "").indexOf("wechat") != -1 &&
+                    item[eval("Object.keys(item)[j]")]
+                  ) {
+                    arr2.push(item[eval("Object.keys(item)[j]")]);
+                  } else if (
+                    (Object.keys(item)[j] + "").indexOf("qq") != -1 &&
+                    item[eval("Object.keys(item)[j]")]
+                  ) {
+                    arr3.push(item[eval("Object.keys(item)[j]")]);
+                  }
+                }
+              }
+            } catch (err) {
+              this.contacts = []; 
+            }
+            this.contacts = [arr1, arr2, arr3];
+          } else {
+            this.$toast(data.msg);
+          }
+        })
+        .catch(() => {
+          this.$toast.fail(this.$api.monmsg);
+        });
+    },
+    isuser_full: function() {
+      let user = this.user;
+      if (!user.us_safe_pwd || user.us_safe_pwd == null) {
+        return 22;
+      } else if (!user.ali_account || user.ali_account == null) {
+        return 23;
+      } else if (!user.us_bank || user.us_bank == null) {
+        return 24;
+      }
+      return 2;
+    },
+    onFull: function() {
+      this.fullModal = false;
+      this.$store.commit("show_typeid", this.isuser_full());
+    },
+    onNoFull: function() {
+      this.fullModal = false;
+      this.$store.commit("show_typeid", 2);
+    },
     password: function(id) {
+      if (id == 25) {
+        // console.info()
+        if (!this.user.us_name || this.user.us_name != null) {
+          this.isBtn = false;
+        } else {
+          this.isBtn = true;
+        }
+      } else {
+        this.isBtn = true;
+      }
       this.$store.commit("show_typeid", id);
       this.code = "";
     }
@@ -504,7 +708,10 @@ export default {
   position: relative;
   height: 100%;
   width: 100%;
-  overflow: hidden;
+  overflow-y: scroll;
+}
+.register::-webkit-scrollbar{
+  display: none;
 }
 ul {
   background: #fff;
@@ -516,6 +723,10 @@ ul {
 .yinhangzhanghao,
 .kefu {
   padding-bottom: 1rem;
+}
+.kefu {
+  padding-bottom: 0.4rem!important;
+  margin-bottom: 0.5rem;
 }
 .geren {
   padding-bottom: 0.6rem;

@@ -53,10 +53,10 @@
         <van-uploader
           v-model="fileList"
           :preview-image="false"
-          :after-read="upvoucher"
           v-if="buydata.trade_info.status == 1 "
         >
-          <img src="../../assets/img/deal/uploadingimg.png" />
+          <img v-if="fileList.length == 0" src="../../assets/img/deal/uploadingimg.png" />
+          <img v-else :src="fileList[0].content" alt />
         </van-uploader>
         <div v-else-if="buydata.trade_info.status == 2 || buydata.trade_info.status == 3">
           <img :src="$api.baseUrl + buydata.trade_info.voucher" />
@@ -71,7 +71,7 @@
       <van-button @click="back" class="zhifubtn" type="info">取消交易</van-button>
     </div>
     <div v-if="buydata.trade_info.status == 1" class="zhifu_box">
-      <van-button @click="rut" class="zhifubtn" type="info">我已支付</van-button>
+      <van-button @click="upvoucher" class="zhifubtn" type="info">我已支付</van-button>
     </div>
     <div
       v-else-if="buydata.trade_info.status == 2 && user.id === buydata.trade_info.st_id"
@@ -118,8 +118,11 @@ export default {
         });
     },
     upvoucher: function() {
-      let arr = [];
-      arr.push(this.fileList[0].content);
+      // 上传凭证
+      if (this.fileList.length == 0) {
+        this.$toast("凭证未上传");
+        return;
+      }
       this.$toast.loading({
         duration: 0, // 持续展示 toast
         message: "加载中...",
@@ -131,7 +134,13 @@ export default {
       })
         .then(data => {
           if (data.code == 200) {
-            this.$toast(data.msg);
+            this.$toast({
+              message: data.msg,
+              forbidClick: true,
+              onClose: () => {
+                this.$router.push("/personal/dealing_slip");
+              }
+            });
           } else {
             this.$toast(data.msg);
           }
@@ -192,9 +201,6 @@ export default {
           this.$toast.fail(this.$api.monmsg);
         });
     },
-    rut: function() {
-      this.$router.push("/personal/dealing_slip");
-    }
   }
 };
 </script>

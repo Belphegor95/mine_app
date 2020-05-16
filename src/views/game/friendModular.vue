@@ -30,7 +30,7 @@
                 <i>ID：{{ item.id }}</i>
               </div>
             </div>
-            <img src="../../assets/img/game/gameTar5.png" @click="config.success(item)" alt />
+            <img v-if="item.steal == 1" src="../../assets/img/game/gameTar5.png" @click="config.success(item)" alt />
           </li>
         </ul>
       <!-- </van-cell>
@@ -61,10 +61,17 @@ export default {
   },
   methods: {
     getmyfriends: function () {
+      let user = this.$store.state.user
       this.token_post(this.$api.user_myfriends)
         .then(data => {
           if (data.code === 200) {
-            // console.log(data);
+            if (data.data && data.data.length > 0) {
+              data.data.forEach((item, index) => {
+                if (item.id == user.id) {
+                  data.data.splice(index, 1);
+                }
+              });
+            }
             this.myfriendslist = data.data
           } else {
             this.$toast(data.msg);

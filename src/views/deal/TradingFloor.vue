@@ -40,13 +40,13 @@
       <div class="mima_box">
         <div>
           <img src="../../assets/img/pigeon.png" alt />
-          <van-field @input="getreal" v-model="num" placeholder="请输入出售数量" />
+          <van-field @input="getreal" v-model="num" type="digit" placeholder="请输入出售数量" />
         </div>
         <div class="xianshi_box">
           <!-- <img src="../../assets/img/pigeon.png" alt /> -->
           <div style="margin-left: 0.5rem">
             <p>实际挂卖数: {{ real.real_num }}</p>
-            <p>手续费: {{ real.fee }}</p>
+            <!-- <p>手续费: {{ real.fee }}</p> -->
             <p>挂单价格: {{ real.price }}</p>
           </div>
         </div>
@@ -95,12 +95,12 @@ export default {
     this.gettrade();
   },
   methods: {
-    openModal: function(is,item) {
+    openModal: function(is, item) {
       if (is) {
         this.modal = true;
       } else {
         this.modal_buy = true;
-        this.t_id = item.id
+        this.t_id = item.id;
       }
       this.num = "";
       this.us_safe_pwd = "";
@@ -136,11 +136,16 @@ export default {
           }
           this.my();
         })
-        .catch(() => {this.$toast.fail(this.$api.monmsg)});
+        .catch(() => {
+          this.$toast.fail(this.$api.monmsg);
+        });
     },
-    //
     show: function() {
-      if (this.num.trim() == "") {
+      // 卖出
+      if (this.num % 5 != 0 || this.num < 5) {
+        this.$toast("出售数量为5和5的倍数");
+        return;
+      } else if (this.num.trim() == "") {
         this.$toast("出售数量输入有误");
         return;
       } else if (this.us_safe_pwd.trim() == "") {
@@ -159,15 +164,16 @@ export default {
         if (data.code == 200) {
           this.modal = false;
           this.$toast(data.msg);
-          this.gettrade()
+          this.gettrade();
         } else {
           this.$toast(data.msg);
         }
       });
     },
     getreal: function() {
+      // 获取交易额度
       this.token_post(this.$api.trade_getreal, {
-        num: this.num
+        num: this.num ? this.num : 0
       }).then(data => {
         if (data.code == 200) {
           this.real = data.data;
@@ -177,6 +183,7 @@ export default {
       });
     },
     buy: function() {
+      // 买入
       if (this.us_safe_pwd.trim() == "") {
         this.$toast("支付密码输入有误");
         return;
@@ -192,8 +199,8 @@ export default {
       }).then(data => {
         if (data.code == 200) {
           this.modal_buy = false;
-          let data_ = data.data
-          data_.status = 1
+          let data_ = data.data;
+          data_.status = 1;
           this.$toast({
             message: data.msg,
             onClose: () => {
@@ -456,7 +463,6 @@ li > span {
 .xianshi_box > div  > span:nth-child(3) {
   flex: 1;
 } */
-
 </style>
 <style>
 .TradingFloor .van-cell {

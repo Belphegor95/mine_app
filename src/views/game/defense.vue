@@ -49,7 +49,7 @@
             <van-field v-model="pwd" type="password" placeholder="请输入支付密码" />
           </li>
         </ul>
-        <p style="marginTop:2.4rem;" >我的商务钱包：{{ user.business_money?user.business_money:'0.0000' }}</p>
+        <p style="marginTop:2.4rem;">我的商务钱包：{{ user.business_money?user.business_money:'0.0000' }}</p>
         <button @click="buyito">
           <span>确 认</span>
         </button>
@@ -73,13 +73,29 @@ export default {
       itolist: []
     };
   },
+  props: ["config"],
   created() {
+    console.log();
     this.$store.commit("show_typeid", 17804);
   },
   mounted() {
     this.getito();
   },
   methods: {
+    login: function() {
+      this.token_get(this.$api.user_login)
+        .then(data => {
+          if (data.code == 200) {
+            this.user = data.data;
+            this.$store.commit("show_user", data.data);
+          } else {
+            this.$toast(data.msg);
+          }
+        })
+        .catch(() => {
+          this.$toast.fail(this.$api.monmsg);
+        });
+    },
     getito: function() {
       this.axios
         .get(this.$api.index_tools)
@@ -102,8 +118,10 @@ export default {
       })
         .then(data => {
           if (data.code === 200) {
-            this.popupShow = false;
             this.$toast(data.msg);
+            this.config.success();
+            this.login()
+            this.popupShow = false;
           } else {
             this.$toast(data.msg);
           }

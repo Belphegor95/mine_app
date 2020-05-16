@@ -12,7 +12,7 @@
     <ul v-else class="contentList">
       <li v-for="(ito,index)  in itolist" :key="index" @click="onito(ito)">
         <span>
-          <img v-if="ito.pic"  :src="$api.baseUrl+ito.pic" alt />
+          <img v-if="ito.pic" :src="$api.baseUrl+ito.pic" alt />
           <img v-else src="../../assets/img/game/text1.png" alt />
         </span>
         <div>
@@ -26,17 +26,17 @@
     <!-- </van-cell>
     </van-list>-->
     <van-popup v-model="popupShow">
-      <div class="machineMsg"  v-if="store" >
+      <div class="machineMsg" v-if="store">
         <div class="msgTop">
           <span>
-            <img v-if="store" :src="$api.baseUrl+store.pic" alt="">
+            <img v-if="store" :src="$api.baseUrl+store.pic" alt />
             <img v-else src="../../assets/img/game/text1.png" alt />
           </span>
           <div>
             <p>等级：{{ store.name }}</p>
-          <p>算力：{{ store.computing }}</p>
-          <p>采矿时间：{{ store.valid_time }}天</p>
-          <p>投入产出比：{{ store.roi }}</p>
+            <p>算力：{{ store.computing }}</p>
+            <p>采矿时间：{{ store.valid_time }}天</p>
+            <p>投入产出比：{{ store.roi }}</p>
           </div>
         </div>
         <ul class="zhifumima">
@@ -75,9 +75,10 @@ export default {
       popupShow: false,
       nextTo: false,
       itolist: [],
-      store:{},   //选中的商品信息
+      store: {} //选中的商品信息
     };
   },
+  props: ["config"],
   created() {
     this.$store.commit("show_typeid", 17804);
   },
@@ -85,6 +86,20 @@ export default {
     this.getito();
   },
   methods: {
+    login: function() {
+      this.token_get(this.$api.user_login)
+        .then(data => {
+          if (data.code == 200) {
+            this.user = data.data;
+            this.$store.commit("show_user", data.data);
+          } else {
+            this.$toast(data.msg);
+          }
+        })
+        .catch(() => {
+          this.$toast.fail(this.$api.monmsg);
+        });
+    },
     getito: function() {
       this.axios
         .get(this.$api.index_ito)
@@ -111,6 +126,8 @@ export default {
       })
         .then(data => {
           if (data.code === 200) {
+            this.config.success();
+            this.login()
             this.popupShow = false;
             this.$toast(data.msg);
           } else {
@@ -126,6 +143,7 @@ export default {
       this.$router.push(`/gameHome?tarbar=${type}`);
     },
     onito: function(store) {
+      this.id = store.id;
       this.buyNumber = "";
       this.pwd = "";
       this.popupShow = true;

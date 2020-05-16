@@ -17,7 +17,7 @@
       </li>
       <li>
         <span>联系电话</span>
-        <van-field v-model="tel" placeholder="请输入联系电话" />
+        <van-field v-model="tel" type="digit" placeholder="请输入联系电话" />
       </li>
       <li>
         <span>广告分类</span>
@@ -25,29 +25,32 @@
           <van-dropdown-item v-model="ca_id" :options="option1" />
         </van-dropdown-menu>
       </li>
-       <li>
+      <li>
         <span>单次佣金</span>
-        <van-field v-model="single" placeholder="单次观看广告佣金" />
+        <van-field v-model="single" type="digit" placeholder="单次观看广告佣金" />
       </li>
       <li>
         <span>任务次数</span>
-        <van-field v-model="total" placeholder="设置任务次数" />
+        <van-field v-model="total" type="digit" placeholder="设置任务次数" />
       </li>
       <li>
         <span>预付赏金</span>
-        <div style="padding: 10px 16px;color: #aaa;font-size: 0.3rem">1000</div>
+        <div style="padding: 10px 16px;color: #aaa;font-size: 0.3rem">{{`${single*total}`}}</div>
       </li>
-     <!-- <span style="">: </span> -->
+      <!-- <span style="">: </span> -->
     </ul>
     <div class="up_box">
       <div>
         <span>封面图片</span>
-        <span>建议比例统一为1:1</span>
-        <van-uploader style="float: right;" accept="image/*" :after-read="uploadImg" />
+        <span style="flex: 1;">建议比例统一为1:1</span>
+        <label>
+          <img v-if="ad_head_pic"  style="width: 1.6rem;height: 1.6rem;margin-right: .16rem" :src="ad_head_pic" alt />
+          <van-uploader v-show="!ad_head_pic" style="float: right;" accept="image/*" :after-read="uploadImg" />
+        </label>
       </div>
       <div>
         <span>上传视频</span>
-        <span>MP4格式，大小不得超过10M</span>
+        <p style="flex: 1;">MP4格式，推荐时长15秒以内，大小不得超过20M</p>
         <van-uploader style="float: right;" accept="video/*" :after-read="uploadVideo" />
       </div>
     </div>
@@ -106,7 +109,9 @@ export default {
             this.$toast(data.msg);
           }
         })
-        .catch(() => {this.$toast.fail(this.$api.monmsg)});
+        .catch(() => {
+          this.$toast.fail(this.$api.monmsg);
+        });
     },
     uploadImg: function(file) {
       // 上传
@@ -117,8 +122,8 @@ export default {
       if (file.file.type.indexOf("mp4") == -1) {
         return this.$toast.fail("只支持上传mp4格式");
       }
-      if (file.file.size > 10000000) {
-        return this.$toast.fail("请上传10M以内视频");
+      if (file.file.size > 20000000) {
+        return this.$toast.fail("请上传20M以内视频");
       }
       this.$toast.loading({
         duration: 0, // 持续展示 toast
@@ -141,7 +146,9 @@ export default {
             this.$toast(data.msg);
           }
         })
-        .catch(() => {this.$toast.fail(this.$api.monmsg)});
+        .catch(() => {
+          this.$toast.fail(this.$api.monmsg);
+        });
     },
     addadvert: function() {
       if (this.ad_name.trim() == "") {
@@ -208,7 +215,9 @@ export default {
             this.$toast(data.msg);
           }
         })
-        .catch(() => {this.$toast.fail(this.$api.monmsg)});
+        .catch(() => {
+          this.$toast.fail(this.$api.monmsg);
+        });
     }
   }
 };
@@ -242,8 +251,10 @@ i {
   background-color: #fff;
 }
 .up_box > div {
-  /* display: flex; */
+  display: flex;
+  align-items: center;
   height: 1.4rem;
+  justify-content: space-between;
   padding: 0.3rem 0.3rem 0.15rem 0.3rem;
 }
 .up_box > div:nth-child(2) {
@@ -260,12 +271,16 @@ i {
   font-weight: normal;
   color: rgba(51, 51, 51, 1);
 }
-.up_box > div span:nth-child(2) {
+.up_box > div span:nth-child(2),
+.up_box > div p {
   font-size: 0.22rem;
   font-family: Adobe Heiti Std;
   font-weight: normal;
   color: rgba(153, 153, 153, 1);
-  margin-left: 0.68rem;
+  margin-left: 0.48rem;
+}
+.up_box > div p {
+  margin-right: 0.4rem;
 }
 .up_box > div img {
   height: 1.4rem;
@@ -276,7 +291,7 @@ i {
   width: 100%;
   height: 0.98rem;
   background: #fff;
-  position: absolute;
+  position: fixed;
   bottom: 0;
   display: flex;
   justify-content: center;

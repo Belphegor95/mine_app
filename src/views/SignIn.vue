@@ -71,11 +71,12 @@ export default {
           is: false
         }
       ],
-      week: [false,false,false,false,false,false,false]
+      week: [false, false, false, false, false, false, false]
     };
   },
   mounted() {
     this.getsigninfo();
+    // this.isSameWeek(new Date)
   },
   methods: {
     getsigninfo: function() {
@@ -90,9 +91,9 @@ export default {
                   // 判断是不是在本周
                   if (this.isSameWeek(data_time)) {
                     // 计算是本周的周几
-                    let week_index = this.get_day(new Date(datas[i].add_time));
+                    let week_index = this.get_day(data_time);
                     this.week[week_index - 1] = true;
-                    this.$forceUpdate()
+                    this.$forceUpdate();
                   }
                 }
               }

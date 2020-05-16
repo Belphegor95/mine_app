@@ -18,9 +18,9 @@
       <!-- <van-swipe :show-indicators="false" @change="onChange" vertical :loop="false"> -->
       <!-- <van-swipe-item v-for="(item, index) in videoList" :key="index" class="product_swiper"> -->
       <div class="video_container">
+        <!-- loop -->
         <video
           class="video_box"
-          loop
           webkit-playsinline="true"
           x5-video-player-type="h5-page"
           x5-video-player-fullscreen="true"
@@ -30,7 +30,7 @@
           :src="$api.baseUrl + querydata.video"
           :playOrPause="playOrPause"
           @click="pauseVideo"
-          @ended="onPlayerEnded()"
+          @ended="onPlayerEnded"
         ></video>
         <!-- 封面 -->
         <img
@@ -67,7 +67,7 @@
           </div>
           <div>
             <img src="../../assets/img/personal/eyeimg.png" alt />
-            12
+            {{ querydata.skim? querydata.skim : 0 }}
           </div>
         </div>
       </transition>
@@ -324,7 +324,30 @@ export default {
     },
     onPlayerEnded() {
       //视频结束
-      this.isVideoShow = true;
+      this.$toast.loading({
+        duration: 0, // 持续展示 toast
+        message: "加载中...",
+        forbidClick: true
+      });
+      this.token_post(this.$api.advert_get_ad_ito, {
+        id:this.querydata.id
+      })
+        .then(data => {
+          if (data.code === 200) {
+            this.$toast({
+              message: data.msg,
+              onClose: () => {
+                
+              }
+            });
+          } else {
+            this.$toast(data.msg);
+          }
+        })
+        .catch(() => {
+          this.$toast("请求异常");
+        });
+      // this.isVideoShow = true;
       this.current += this.current;
     }
     //复制当前链接

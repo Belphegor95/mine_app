@@ -18,17 +18,8 @@
         <li
           v-for="(image, index) in shuffling"
           :key="index"
-          :style="{width:current == 0?'.3rem':'.15rem',background:current == 0?'#0BAAFD':'#E3E3E3'}"
+          :style="{width:current == index?'.3rem':'.15rem',background:current == index?'#0BAAFD':'#E3E3E3'}"
         ></li>
-        <!-- <li
-          :style="{width:current == 1?'.3rem':'.15rem',background:current == 1?'#0BAAFD':'#E3E3E3'}"
-        ></li>
-        <li
-          :style="{width:current == 2?'.3rem':'.15rem',background:current == 2?'#0BAAFD':'#E3E3E3'}"
-        ></li>
-        <li
-          :style="{width:current == 3?'.3rem':'.15rem',background:current == 3?'#0BAAFD':'#E3E3E3'}"
-        ></li>-->
       </ul>
     </div>
     <div class="news">
@@ -43,7 +34,7 @@
     <div class="menu_box">
       <div @click="GameHome">
         <img src="../assets/img/home/tar1.png" />
-        <p>赏金矿场</p>
+        <p>趣味矿场</p>
       </div>
       <div @click="rut_push(201,'/deal/trading_floor')">
         <img src="../assets/img/home/tar2.png" />

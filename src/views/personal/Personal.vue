@@ -6,15 +6,15 @@
       <div class="geren">
         <img :src="$api.baseUrl + user.us_head_pic" />
         <div>
-          <p>{{ user.us_name?user.us_name : "佚名" }}</p>
-          <p>ID:{{ user.id }}</p>
+          <p>{{ user.us_nickname?user.us_nickname : "佚名" }}</p>
+          <p>ID:{{ user.us_account?user.us_account:'' }}</p>
         </div>
       </div>
     </div>
     <ul>
       <li @click="rut_push(true,'group')">
         <img src="../../assets/img/personal/friendimg.png" alt />
-        <p>我的团队</p>
+        <p>我的粉丝</p>
       </li>
       <li @click="rut_push(true,'dealing_slip')">
         <img src="../../assets/img/personal/detailimg.png" alt />

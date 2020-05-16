@@ -14,7 +14,7 @@
               <div></div>
               <div class="shu_box">
                 <img src="../../assets/img/personal/eyeimg.png" alt />
-                <p>12</p>
+                <p>{{ item.skim ? item.skim : 0 }}</p>
               </div>
             </div>
           </div>

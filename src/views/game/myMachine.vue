@@ -4,7 +4,7 @@
     <header class="header">
       <img src="../../assets/img/game/end.png" alt @click="goBack" />
     </header>
-    
+
     <div class="zhanwei"></div>
     <div class="headerMsg">
       <div v-for="(item,index) in headerMsg" :key="index">
@@ -46,7 +46,7 @@ export default {
         { key: "今日收益", value: "0" },
         { key: "有效矿机", value: "0" },
         { key: "算力", value: "0" }
-      ],
+      ]
       // loading: false,
       // finished: false
     };
@@ -59,7 +59,7 @@ export default {
     this.getgame1();
   },
   methods: {
-         // 获取头部信息
+    // 获取头部信息
     getgame1: function() {
       this.token_post(this.$api.game_index, {
         type: 1
@@ -135,8 +135,10 @@ export default {
   align-items: center;
   width: 92%;
   height: 1rem;
-  background: url("../../assets/img/game/gameheaderBgc.png") center center /
-    100% 100% no-repeat;
+  background: white;
+  border-radius: 0.1rem;
+  /* background: url("../../assets/img/game/gameheaderBgc.png") center center /
+    100% 100% no-repeat; */
 }
 .headerMsg div {
   flex: 1;

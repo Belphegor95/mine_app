@@ -105,4 +105,17 @@ api.game_showfriends = "/index/game/showfriends";
 api.game_steal = "/index/game/steal";
 //   签到信息的接口
 api.user_signinfo = "/index/user/signinfo";
+
+// 看完视频完成任务的 接口 
+api.advert_get_ad_ito = "/index/advert/get_ad_ito";
+// 实名认证 接口 
+api.user_realname = "/index/user/realname";
+// 获取客服
+api.index_contact = "/index/index/contact";
+// 投诉
+api.friend_complain = "/index/friend/complain";
+// 敏感词
+api.index_sensitive = "index/index/sensitive";
+
+
 export { api };

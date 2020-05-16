@@ -5,10 +5,10 @@
     <div class="qian_box">
       <div>
         <p>矿机产出钱包</p>
-        <p>{{ user.lock_money ? user.lock_money : 0.0000 }}</p>
+        <p>{{ user.ito_money ? user.ito_money : 0.0000 }}</p>
       </div>
       <div>
-        <p>商务钱包</p>
+        <p>赏金钱包</p>
         <p>{{ user.business_money? user.business_money : 0.0000 }}</p>
       </div>
     </div>
@@ -23,7 +23,7 @@
       </li>
       <li @click="rut_moneyrecord(3)">
         <img src="../../assets/img/personal/dealimg.png" />
-        <p>商务钱包记录</p>
+        <p>赏金钱包记录</p>
       </li>
     </ul>
   </div>

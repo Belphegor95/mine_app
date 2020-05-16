@@ -47,7 +47,7 @@
                 <div v-if="active == index" class="tooltip">
                   <span @click="thumb(item.id)">点赞</span>
                   <span @click="comments(item.id)">评论</span>
-                  <!-- <span>转发</span> -->
+                  <span @click="onComplain(item.id)">投诉</span>
                 </div>
               </transition>
             </div>
@@ -55,6 +55,25 @@
         </div>
       </li>
     </ul>
+    <van-popup class="complainBox" v-model="complain" position="left">
+      <div class="box">
+        <div class="left_box" @click="complain = false">
+          <img src="@/assets/img/backimg.png" alt />
+          <p>投诉</p>
+        </div>
+      </div>
+      <div class="textareaBox">
+        <van-field
+          :autosize="{minHeight: 120}"
+          type="textarea"
+          v-model="complaintext"
+          placeholder="请描述一下投诉原因"
+        />
+      </div>
+      <div class="queding_box">
+        <van-button @click="onput" class="quedingbtn" type="info">确定</van-button>
+      </div>
+    </van-popup>
     <van-popup v-model="show" position="bottom" :style="{ height: '2.1rem' }">
       <van-field maxlength="120" class="contentCass" v-model="content" type="textarea" />
       <van-button class="fasongbtn" @click="onfabu" type="info">发布</van-button>
@@ -70,12 +89,19 @@ export default {
   },
   data() {
     return {
+      user: this.$store.state.user,
       friendlist: [],
       show: false,
       content: "",
       m_id: null,
-      active: undefined
+      active: undefined,
+      complainId: null,
+      complain: false,
+      complaintext: ""
     };
+  },
+  created() {
+    this.$store.commit("show_typeid", 301);
   },
   mounted() {
     this.getfriend();
@@ -137,6 +163,34 @@ export default {
         if (data.code == 200) {
           this.show = false;
           this.getfriend();
+          this.$toast(data.msg);
+        } else {
+          this.$toast(data.msg);
+        }
+      });
+    },
+    onComplain: function(id) {
+      this.complainId = id;
+      this.complain = true;
+      this.complaintext = "";
+    },
+    onput: function() {
+      // 投诉
+      if (this.complaintext.trim() == "") {
+        this.$toast("投诉原因输入有误");
+        return;
+      }
+      this.$toast.loading({
+        duration: 0, // 持续展示 toast
+        message: "加载中...",
+        forbidClick: true
+      });
+      this.token_post(this.$api.friend_complain, {
+        id: this.complainId,
+        complain: this.complaintext
+      }).then(data => {
+        if (data.code == 200) {
+          this.complain = false;
           this.$toast(data.msg);
         } else {
           this.$toast(data.msg);
@@ -321,8 +375,88 @@ li > img {
   background: rgba(57, 142, 245, 1);
   color: rgba(255, 255, 255, 1) !important;
 }
+/* 投诉 */
+/*  */
+.complainBox {
+  width: 100%;
+  height: 100%;
+  /* display: flex;  
+    flex-direction: column; */
+}
+/* 确定 */
+.queding_box {
+  width: 100%;
+  height: 0.98rem;
+  background: #fff;
+  position: absolute;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.quedingbtn {
+  width: 6rem;
+  height: 0.7rem;
+  line-height: 0.7rem;
+  border-radius: 0.35rem;
+}
+.box {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 99;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 0.3rem 0.27rem;
+  box-sizing: border-box;
+  background: #fff;
+  border-bottom: 1px solid #f7f7f7;
+}
+.touming_ {
+  background: transparent;
+  border-bottom: none !important;
+}
+.touming_ p {
+  color: #fff !important;
+}
+.left_box {
+  display: flex;
+}
+.left_box > img {
+  /* width: 0.24rem; */
+  height: 0.4rem;
+}
+.left_box > p {
+  font-family: Adobe Heiti Std;
+  margin-left: 0.32rem;
+  font-weight: normal;
+  font-size: 0.3rem;
+  color: #333;
+}
+.right_box {
+  float: right;
+  font-size: 0.26rem;
+  font-family: Adobe Heiti Std;
+  font-weight: normal;
+  color: rgba(51, 51, 51, 1);
+}
+.textareaBox {
+  position: fixed;
+  left: 0;
+  top: 1rem;
+  z-index: 99;
+  width: 100%;
+  /* display: flex;
+  width: 100%;
+  flex: 1; */
+}
 </style>
 <style>
+.complainBox .van-field__value {
+  padding: 0.2rem;
+  background-color: rgba(247, 247, 247, 1) !important;
+}
 .Friends .van-popup {
   display: flex;
   align-items: center;

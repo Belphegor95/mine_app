@@ -1,7 +1,10 @@
 <!-- 发布朋友圈 -->
 <template>
   <div>
-    <breadcrumb @is_manage="manage"></breadcrumb>
+    <breadcrumb></breadcrumb>
+    <div class="right_box">
+      <p @click="manage">发布</p>
+    </div>
     <van-field
       class="shuru"
       v-model="content"
@@ -30,10 +33,28 @@ export default {
   data() {
     return {
       content: "",
-      fileList: []
+      fileList: [],
+      sensitive: [] //关键字
     };
   },
+  mounted() {
+    this.getsensitive();
+  },
   methods: {
+    getsensitive: function() {
+      this.axios
+        .get(this.$api.index_sensitive)
+        .then(data => {
+          if (data.code == 200) {
+            this.sensitive = data.data;
+          } else {
+            this.$toast(data.msg);
+          }
+        })
+        .catch(() => {
+          this.$toast.fail(this.$api.monmsg);
+        });
+    },
     manage: function() {
       let arr = [];
       for (let i = 0; i < this.fileList.length; i++) {
@@ -42,7 +63,17 @@ export default {
       }
       if (this.content.trim() == "") {
         this.$toast("留言输入有误");
-        return
+        return;
+      }
+      if (
+        this.sensitive.some(item => {
+          if (this.content.indexOf(item) != -1) {
+            return true;
+          }
+        })
+      ) {
+        this.$toast("输入内容包含敏感词汇,请重新输入");
+        return;
       }
       this.$toast.loading({
         duration: 0, // 持续展示 toast
@@ -65,7 +96,9 @@ export default {
             this.$toast(data.msg);
           }
         })
-        .catch(() => {this.$toast.fail(this.$api.monmsg)});
+        .catch(() => {
+          this.$toast.fail(this.$api.monmsg);
+        });
     }
   }
 };
@@ -86,5 +119,12 @@ img {
   width: 1.6rem;
   height: 1.6rem;
   margin-right: 0.1rem;
+}
+.right_box {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 100;
+  padding: 0.3rem 0.27rem;
 }
 </style>

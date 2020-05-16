@@ -2,10 +2,10 @@
 <template>
   <div class="share_box">
     <breadcrumb :typeid="104" :transparent="true"></breadcrumb>
-    <img class="imgrcode" style="width: 62%;" :src="jrQrcode.getQrBase64(url)" alt />
-    <p id="biao1">{{url}}</p>
+    <img class="imgrcode" style="width: 62%;height: 35%" :src="jrQrcode.getQrBase64(url)" alt />
+    <!-- <p id="biao1">{{url}}</p> -->
     <div class="fuzhi_box">
-      <van-button class="fuzhibtn" @click="doCopy" type="default">复制地址</van-button>
+      <van-button class="fuzhibtn" @click="doCopy" type="default">一键复制分享</van-button>
     </div>
     <input id="fzlj" type="text" :value="url" readonly="readOnly" style=" opacity: 0 " />
   </div>
@@ -52,10 +52,8 @@ export default {
 .share_box {
   position: relative;
   height: 100%;
-  background-image: url("../../assets/img/personal/sharingimg.png");
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  -moz-background-size: 100% 100%;
+  min-height: 13.34rem;
+  background: url("../../assets/img/personal/sharingimg .png") center center / 100% 100% no-repeat;
 }
 .share_box p {
   font-size: 0.36rem;
@@ -72,7 +70,7 @@ export default {
   width: 100%;
   justify-content: center;
   position: absolute;
-  top: 10rem;
+  top: 85%;
 }
 .fuzhibtn {
   width: 3rem;
@@ -85,7 +83,7 @@ export default {
 }
 .imgrcode {
   position: absolute;
-  top: 2.6rem;
-  left: 1.4rem;
+  top: 43%;
+  left: 21%;
 }
 </style>

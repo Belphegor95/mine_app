@@ -1,8 +1,8 @@
 <template>
   <div class="boxFather">
     <div class="box" :class="transparent?'touming_':''">
-      <div class="left_box">
-        <img @click="back" src="@/assets/img/backimg.png" alt />
+      <div class="left_box" @click="back">
+        <img  src="@/assets/img/backimg.png" alt />
         <p v-text="getTitle($store.getters.get_typeid)"></p>
       </div>
       <div class="right_box" v-if="$store.getters.get_typeid=== 103">
@@ -12,9 +12,7 @@
       <div class="right_box" v-if="$store.getters.get_typeid=== 301">
         <p v-if="is_delet" @click="manage">发布朋友圈</p>
       </div>
-      <div class="right_box" v-if="$store.getters.get_typeid=== 302">
-        <p v-if="is_delet" @click="manage">发布</p>
-      </div>
+      
     </div>
   </div>
 </template>

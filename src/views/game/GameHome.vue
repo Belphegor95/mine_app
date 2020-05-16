@@ -1,13 +1,6 @@
 <!-- 交易单 -->
 <template>
   <div class="GameHome_box">
-    <!-- 头部信息展示部分 -->
-    <!-- <header v-show="!isFriend" class="headerMsg">
-      <div v-for="(item,index) in headerMsg" :key="index">
-        <span v-text="item.value"></span>
-        <span v-text="item.key"></span>
-      </div>
-    </header>-->
     <!-- 游戏内贴图 -->
     <main class="gameMsg">
       <!-- 返回 -->
@@ -24,6 +17,7 @@
           v-for="(item,index) in friendBilist&&friendBilist.produce&&friendBilist.produce.length>0?friendBilist.produce:''"
           :key="index"
           :style="{left:listPosition[index].left,top:listPosition[index].top}"
+          v-show="item.num&&item.num>0"
           @click="toukuang(item.id,item.num)"
         >
           <img src="../../assets/img/game/bi1.png" alt />
@@ -34,6 +28,8 @@
           v-for="(item,index) in gameMsg.produce"
           :key="index"
           :style="{left:listPosition[index].left,top:listPosition[index].top}"
+          v-show="item.last&&item.last>0"
+          @click="collect(item.id)"
         >
           <img src="../../assets/img/game/bi1.png" alt />
         </li>
@@ -138,7 +134,7 @@
     <footer class="gameTarbar" v-show="!isFriend">
       <div @click="tarPush(1)">
         <!-- 角标 -->
-        <span>{{ friends }}</span>
+        <!-- <span>{{ friends }}</span> -->
         <img src="../../assets/img/game/gameTar1.png" alt />
       </div>
       <div @click="tarPush(2)">
@@ -150,9 +146,9 @@
       <div @click="tarPush(4)">
         <img src="../../assets/img/game/gameTar4.png" alt />
       </div>
-      <div @click="collect">
+      <!-- <div @click="collect">
         <img src="../../assets/img/game/gameTar5.png" alt />
-      </div>
+      </div>-->
     </footer>
     <!-- 游戏部分功能弹框 -->
     <van-popup v-model="popupShow" position="left">
@@ -160,9 +156,9 @@
         <FriendModular :config="fricenConfig" v-if="tarbarType == 1" />
         <FriendAdd v-else-if="tarbarType == 101" />
         <FriendRecommend v-else-if="tarbarType == 102" />
-        <Machine v-else-if="tarbarType == 2" />
+        <Machine :config="onRushs"  v-else-if="tarbarType == 2" />
         <MyMachine v-else-if="tarbarType == 3" />
-        <Defense v-else-if="tarbarType == 4" />
+        <Defense  v-else-if="tarbarType == 4" :config="onRushs"  />
       </div>
     </van-popup>
   </div>
@@ -215,6 +211,9 @@ export default {
       fricenConfig: {
         success: res => this.gerFirendBiList(res)
       },
+      onRushs:{
+        success: () => this.onRush()
+      },
       firednId: ""
     };
   },
@@ -224,6 +223,11 @@ export default {
     this.getgame2();
   },
   methods: {
+    // 刷新
+    onRush(){
+      this.getgame()
+      this.getgame2()
+    },
     // 获取头部信息
     getgame: function() {
       this.token_post(this.$api.game_index, {
@@ -280,17 +284,27 @@ export default {
       } else {
         id = this.firednId;
       }
+      this.$toast.loading({
+        duration: 0, // 持续展示 toast
+        message: "加载中...",
+        forbidClick: true
+      });
       this.token_post(this.$api.game_showfriends, {
         id
       })
         .then(data => {
+          this.$toast.clear({
+            forbidClick: true
+          });
           if (data.code === 200) {
             // 好友的币的列表
             this.friendBilist = data.data;
             let lv2 = 0;
-            data.data&&data.data.usito&&data.data.usito.length>0?data.data.usito.forEach(item=>{
-              item.level > lv2 ? (lv2 = item.level) : null;
-            }):null
+            data.data && data.data.usito && data.data.usito.length > 0
+              ? data.data.usito.forEach(item => {
+                  item.level > lv2 ? (lv2 = item.level) : null;
+                })
+              : null;
             // 是正常home页  还是好友的矿场页开关
             this.lv2 = lv2;
             this.isFriend = true;
@@ -300,9 +314,13 @@ export default {
             this.$toast(data.msg);
           }
         })
-        .catch(() => {});
+        .catch(() => {
+          this.$toast.clear({
+            forbidClick: true
+          });
+        });
     },
-
+    // 偷币
     toukuang(id, num) {
       this.$toast.loading({
         duration: 0, // 持续展示 toast
@@ -338,14 +356,16 @@ export default {
     goBack() {
       this.$router.go(-1);
     },
-    // 一键收取
-    collect() {
+    // 收取自己的币
+    collect(id) {
       this.$toast.loading({
         duration: 0, // 持续展示 toast
         message: "加载中...",
         forbidClick: true
       });
-      this.token_post(this.$api.game_harvest)
+      this.token_post(this.$api.game_harvest, {
+        id
+      })
         .then(data => {
           if (data.code === 200) {
             this.$toast({
