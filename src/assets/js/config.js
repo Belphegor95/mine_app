@@ -120,6 +120,7 @@ api.index_sensitive = "index/index/sensitive";
 // 已销毁
 api.index_statistics = "index/index/statistics";
 
-
+// 忘记密码  
+api.every_forget = "index/every/forget"
 
 export { api };

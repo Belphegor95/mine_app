@@ -10,7 +10,7 @@
       <van-field v-model="account" placeholder="请输入您的手机号" />
       <van-field type="password" v-model="password" placeholder="请输入密码" />
       <div class="yanzheng_box">
-        <van-field v-model="verification" placeholder="请输入验证码" />
+        <van-field v-model="verification" type="digit" maxlength="4" placeholder="请输入验证码" />
         <div class="yzm" @click="originalCodeUpdata">
           <i
             v-for="(item,index) in originalCode"
@@ -117,7 +117,8 @@ export default {
       this.$router.push("/register");
     },
     deal: function() {
-      this.$router.push("/deal");
+      this.$store.commit("show_typeid", 26);
+      this.$router.push("/register");
     }
   },
   created() {

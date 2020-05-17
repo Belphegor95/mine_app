@@ -56,7 +56,8 @@ export default {
         { id: 302, title: "返回" },
         { id: 401, title: "新闻快讯" },
         { id: 801, title: "已发行/已销毁" },
-        { id: 901, title: "签到" }
+        { id: 901, title: "签到" },
+        { id: 26, title: "忘记密码" }
       ]
     };
   },
