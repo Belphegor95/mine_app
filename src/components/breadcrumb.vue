@@ -31,6 +31,7 @@ export default {
         { id: 23, title: "绑定支付宝账号" },
         { id: 24, title: "绑定银行卡账号" },
         { id: 25, title: "实名认证" },
+        { id: 26, title: "忘记密码" },
         { id: 7, title: "联系客服" },
         { id: 101, title: "我的团队" },
         { id: 102, title: "我的交易单" },

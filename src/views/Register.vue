@@ -206,6 +206,26 @@
         </li>
       </ul>
     </div>
+    <!-- 忘记密码 -->
+    <ul class="shiming" v-else-if="$store.getters.get_typeid == 26">
+      <li>
+        <span>手机号</span>
+        <van-field maxlength="20" v-model="us_tel" type="digit" placeholder="请输入您的手机号" />
+      </li>
+      <li>
+        <span>登录密码</span>
+        <van-field maxlength="20" type="password" v-model="us_pwd" placeholder="请输入登录密码" />
+      </li>
+      <li>
+        <span>确认密码</span>
+        <van-field maxlength="20" type="password" v-model="us_pwd_" placeholder="请再次输入登录密码" />
+      </li>
+      <li style="padding-bottom: 0.5rem;">
+        <span>短信验证</span>
+        <van-field maxlength="20" v-model="code" type="digit" />
+        <van-button class="fasongbtn" type="info">发送</van-button>
+      </li>
+    </ul>
     <van-popup class="modal_box" v-model="fullModal">
       <h4>完善信息</h4>
       <p>您的其他信息不完整,请完善信息</p>
@@ -388,7 +408,50 @@ export default {
           return;
         }
         this.realname();
+      } else if (type == 26) {
+        if (this.us_tel.trim() == "") {
+          this.$toast("手机号输入有误");
+          return;
+        } else if (this.us_pwd.trim() == "" || this.us_pwd_.trim() == "") {
+          this.$toast("两次密码输入有误");
+          return;
+        } else if (this.us_pwd.trim() != this.us_pwd_.trim()) {
+          this.$toast("两次密码输入有误");
+          return;
+        } else if (this.code.trim() == "") {
+          this.$toast("验证码输入有误");
+          return;
+        }
+        this.forget();
       }
+    },
+    forget: function() {
+      // 忘记密码
+      this.$toast.loading({
+        duration: 0, // 持续展示 toast
+        message: "加载中...",
+        forbidClick: true
+      });
+      this.token_post(this.$api.every_forget, {
+        us_tel: this.us_tel,
+        us_pwd: this.us_pwd,
+        code: this.code
+      })
+        .then(data => {
+          if (data.code == 200) {
+            this.$toast({
+              message: data.msg,
+              onClose: () => {
+                this.$router.go(-1);
+              }
+            });
+          } else {
+            this.$toast(data.msg);
+          }
+        })
+        .catch(() => {
+          this.$toast.fail(this.$api.monmsg);
+        });
     },
     register: function() {
       // 注册账号
@@ -654,7 +717,7 @@ export default {
                 }
               }
             } catch (err) {
-              this.contacts = []; 
+              this.contacts = [];
             }
             this.contacts = [arr1, arr2, arr3];
           } else {
@@ -710,7 +773,7 @@ export default {
   width: 100%;
   overflow-y: scroll;
 }
-.register::-webkit-scrollbar{
+.register::-webkit-scrollbar {
   display: none;
 }
 ul {
@@ -725,7 +788,7 @@ ul {
   padding-bottom: 1rem;
 }
 .kefu {
-  padding-bottom: 0.4rem!important;
+  padding-bottom: 0.4rem !important;
   margin-bottom: 0.5rem;
 }
 .geren {

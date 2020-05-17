@@ -23,7 +23,7 @@
       <van-button class="login_button" type="primary" @click="home">登录</van-button>
       <div class="zhanghao_box">
         <span @click="register">注册账号</span>
-        <!-- <span @click="deal">忘记密码</span> -->
+        <span @click="deal">忘记密码</span>
         <!-- <a href>注册账号</a>
         <a href>忘记密码</a>-->
       </div>
@@ -117,7 +117,8 @@ export default {
       this.$router.push("/register");
     },
     deal: function() {
-      this.$router.push("/deal");
+      this.$store.commit("show_typeid", 26);
+      this.$router.push("/register");
     }
   },
   created() {
