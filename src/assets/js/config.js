@@ -35,7 +35,8 @@ api.user_sign = "/index/user/sign";
 // 15 道具商城（防偷）(暂未使用)
 api.index_tools = "/index/index/tools";
 // 16 推荐好友
-api.index_recommend = "/index/index/recommend";
+// api.index_recommend = "/index/index/recommend";
+api.index_recommend = "/index/user/recommend";
 // 17，搜索好友
 api.index_search = "/index/index/search";
 // 18，我的好友
