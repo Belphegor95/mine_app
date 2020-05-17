@@ -42,7 +42,7 @@ export default {
         { id: 10601, title: "提现" },
         { id: 10602, title: "矿机钱包记录" },
         { id: 10603, title: "赏金钱包记录" },
-        { id: 177, title: "广告" },
+        { id: 177, title: "任务中心" },
         { id: 17701, title: "广告押金" },
         { id: 17702, title: "退还押金" },
         { id: 17703, title: "提现" },

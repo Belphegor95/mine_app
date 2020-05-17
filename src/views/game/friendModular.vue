@@ -5,14 +5,14 @@
     <ul class="addFriend">
       <li @click="pushTo(101)" >
         <div>
-          <img src="../../assets/img/game/add.png" alt />
+          <img src="../../assets/img/game/new.png" alt />
           <span>添加好友</span>
         </div>
         <img src="../../assets/img/game/go.png" alt />
       </li>
       <li @click="pushTo(102)" >
         <div>
-          <img src="../../assets/img/game/add.png" alt />
+          <img src="../../assets/img/game/recommend.png" alt />
           <span>好友推荐</span>
         </div>
         <img src="../../assets/img/game/go.png" alt />

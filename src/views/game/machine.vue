@@ -13,7 +13,11 @@
       <li v-for="(ito,index)  in itolist" :key="index" @click="onito(ito)">
         <span>
           <img v-if="ito.pic" :src="$api.baseUrl+ito.pic" alt />
-          <img v-else src="../../assets/img/game/text1.png" alt />
+          <img v-else-if="ito.name == '微矿'" src="../../assets/img/game/mill_0.png" alt />
+          <img v-else-if="ito.name == '小矿'" src="../../assets/img/game/mill_1.png" alt />
+          <img v-else-if="ito.name == '中矿'" src="../../assets/img/game/mill_2.png" alt />
+          <img v-else-if="ito.name == '大矿'" src="../../assets/img/game/mill_3.png" alt />
+          <img v-else-if="ito.name == '富矿'" src="../../assets/img/game/mill_4.png" alt />
         </span>
         <div>
           <p>等级：{{ ito.name }}</p>

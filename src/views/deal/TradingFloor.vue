@@ -8,7 +8,7 @@
         <span>全网交易数据</span>
       </div>
       <div class="xinxi_box">
-        <span>今日价格: {{ mydata.price }}</span>
+        <span>今日价格: {{ mydata.price }}$</span>
         <span>24h成交量: {{ mydata.num }}</span>
       </div>
       <div id="myChart" :style="{width: '100%', height: '180px'}"></div>
@@ -28,7 +28,7 @@
       <ul>
         <li v-for="(item,index) in tradelist" :key="index">
           <span>{{ item.num }}</span>
-          <span>{{ item.price }}</span>
+          <span>{{ item.price }}$</span>
           <span class="yellow" @click="openModal(false,item)">购买</span>
         </li>
       </ul>
@@ -46,8 +46,8 @@
           <!-- <img src="../../assets/img/pigeon.png" alt /> -->
           <div style="margin-left: 0.5rem">
             <p>实际挂卖数: {{ real.real_num }}</p>
-            <!-- <p>手续费: {{ real.fee }}</p> -->
-            <p>挂单价格: {{ real.price }}</p>
+            <p>挂单价格: {{ real.price }}$</p>
+            <!-- <p>折合人民币: {{ real.fee }}</p> -->
           </div>
         </div>
         <div>

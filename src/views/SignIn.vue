@@ -9,30 +9,6 @@
           <img v-if="item" src="../assets/img/pigeon.png" alt />
           <img v-else src="../assets/img/gold.png" alt />
         </span>
-        <!-- <span class="gray">
-          <p>2</p>
-          <img src="../assets/img/gold.png" alt />
-        </span>
-        <span class="gray">
-          <p>3</p>
-          <img src="../assets/img/gold.png" alt />
-        </span>
-        <span class="gray">
-          <p>4</p>
-          <img src="../assets/img/gold.png" alt />
-        </span>
-        <span class="gray">
-          <p>5</p>
-          <img src="../assets/img/gold.png" alt />
-        </span>
-        <span class="gray">
-          <p>6</p>
-          <img src="../assets/img/gold.png" alt />
-        </span>
-        <span class="gray">
-          <p>7</p>
-          <img src="../assets/img/gold.png" alt />
-        </span>-->
       </div>
       <p>坚持每天签到，收获更多</p>
       <van-button @click="sign" class="quedingbtn" type="info">确定</van-button>
@@ -48,35 +24,12 @@ export default {
   },
   data() {
     return {
-      weeks: [
-        {
-          is: false
-        },
-        {
-          is: false
-        },
-        {
-          is: false
-        },
-        {
-          is: false
-        },
-        {
-          is: false
-        },
-        {
-          is: false
-        },
-        {
-          is: false
-        }
-      ],
       week: [false, false, false, false, false, false, false]
     };
   },
   mounted() {
     this.getsigninfo();
-    // this.isSameWeek(new Date)
+    // this.isSameWeek(new Date());
   },
   methods: {
     getsigninfo: function() {
@@ -132,7 +85,10 @@ export default {
       let inDateStr = inDate.toLocaleDateString(); // 获取如YYYY/MM/DD的日期
       let nowDate = new Date();
       let nowTime = nowDate.getTime();
-      let nowDay = nowDate.getDay() - 1;
+      let nowDay = nowDate.getDay();
+      if (nowDay == -1) {
+        nowDay = 6;
+      }
       for (let i = 0; i < 7; i++) {
         if (
           inDateStr ==
