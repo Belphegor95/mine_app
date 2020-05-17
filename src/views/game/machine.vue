@@ -53,8 +53,8 @@
             <van-field v-model="pwd" type="password" placeholder="请输入支付密码" />
           </li>
         </ul>
-        <p v-if="user.business_money">我的商务钱包：{{ user.business_money }}</p>
-        <p v-else>我的商务钱包：0.0000</p>
+        <p v-if="user.business_money">我的赏金钱包：{{ user.business_money }}</p>
+        <p v-else>我的赏金钱包：0.0000</p>
         <button @click="buyito">
           <span>确 认</span>
         </button>

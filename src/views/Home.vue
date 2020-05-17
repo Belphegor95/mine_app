@@ -2,7 +2,7 @@
   <div class="home">
     <header class="header">
       <img @click="rut_push(901,'/sign_in')" src="../assets/img/home/qian.png" alt />
-      <button>
+      <button @click="onDestroy">
         <span>已发行/已销毁</span>
       </button>
     </header>
@@ -157,6 +157,9 @@ export default {
       } else {
         this.modal_money = true;
       }
+    },
+    onDestroy: function () {
+      this.$router.push("/destroy");
     }
   }
 };

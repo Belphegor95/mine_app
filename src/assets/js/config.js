@@ -116,6 +116,9 @@ api.index_contact = "/index/index/contact";
 api.friend_complain = "/index/friend/complain";
 // 敏感词
 api.index_sensitive = "index/index/sensitive";
+// 已销毁
+api.index_statistics = "index/index/statistics";
+
 
 
 export { api };

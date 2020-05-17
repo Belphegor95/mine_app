@@ -41,7 +41,7 @@ export default {
         { id: 107, title: "我的信息" },
         { id: 10601, title: "提现" },
         { id: 10602, title: "矿机钱包记录" },
-        { id: 10603, title: "商务钱包记录" },
+        { id: 10603, title: "赏金钱包记录" },
         { id: 177, title: "广告" },
         { id: 17701, title: "广告押金" },
         { id: 17702, title: "退还押金" },
@@ -55,6 +55,7 @@ export default {
         { id: 301, title: "朋友圈" },
         { id: 302, title: "返回" },
         { id: 401, title: "新闻快讯" },
+        { id: 801, title: "已发行/已销毁" },
         { id: 901, title: "签到" }
       ]
     };

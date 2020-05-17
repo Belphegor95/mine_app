@@ -1,4 +1,4 @@
-<!-- 矿机钱包记录 商务钱包记录 -->
+<!-- 矿机钱包记录 赏金钱包记录 -->
 <template>
   <div class="moneyrecord">
     <breadcrumb></breadcrumb>

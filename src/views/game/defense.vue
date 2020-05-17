@@ -49,7 +49,7 @@
             <van-field v-model="pwd" type="password" placeholder="请输入支付密码" />
           </li>
         </ul>
-        <p style="marginTop:2.4rem;">我的商务钱包：{{ user.business_money?user.business_money:'0.0000' }}</p>
+        <p style="marginTop:2.4rem;">我的赏金钱包：{{ user.business_money?user.business_money:'0.0000' }}</p>
         <button @click="buyito">
           <span>确 认</span>
         </button>

@@ -41,6 +41,9 @@ import Details from '../views/journalism/Details.vue'
 // 签到
 import SignIn from '../views/SignIn.vue'
 
+// 发行和销毁
+import Destroy from '../views/Destroy.vue'
+
 
 Vue.use(VueRouter)
 
@@ -64,6 +67,11 @@ const routes = [
     path: '/deal',
     name: 'Deal',
     component: Deal
+  },
+  {
+    path: '/destroy',
+    name: 'Destroy',
+    component: Destroy
   },
   {
     path: '/personal/personal',
