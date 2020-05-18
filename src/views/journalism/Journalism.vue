@@ -18,7 +18,7 @@
       <li>
         <p>NCK 2小时内快速拉升 涨破22美元，NCK 2小时内快速拉升 涨破22 美元，阿第三方科技爱的色放Joe啦地方</p>
         <div>2019-12-12 12:00:00</div>
-      </li> -->
+      </li>-->
     </ul>
   </div>
 </template>
@@ -31,7 +31,7 @@ export default {
   },
   data() {
     return {
-      newslist: [] 
+      newslist: []
     };
   },
   mounted() {
@@ -41,17 +41,24 @@ export default {
     getNewslist: function() {
       this.axios
         .get(this.$api.index_newslist, {})
-        .then((data) => {
+        .then(data => {
           if (data.code == 200) {
-            this.newslist = data.data
+            this.newslist = data.data;
           } else {
-            this.$toast(data.msg)
+            this.$toast(data.msg);
           }
         })
-        .catch(() => {this.$toast.fail(this.$api.monmsg)});
+        .catch(() => {
+          this.$toast.fail(this.$api.monmsg);
+        });
     },
-    rut_push: function() {
-      this.$router.push("/journalism/details");
+    rut_push: function(id) {
+      this.$router.push({
+        path: "/journalism/details",
+        query: {
+          id: id
+        }
+      });
     }
   }
 };

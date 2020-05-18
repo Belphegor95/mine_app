@@ -35,7 +35,7 @@
       </li>
       <li>
         <!-- <span>预付赏金</span> -->
-        <span>支持矿币</span>
+        <span>支付矿币</span>
         <div style="padding: 10px 16px;color: #aaa;font-size: 0.3rem">{{`${single*total}`}}</div>
       </li>
       <!-- <span style="">: </span> -->
@@ -45,11 +45,21 @@
         <span>封面图片</span>
         <span style="flex: 1;">建议比例统一为1:1</span>
         <label>
-          <img v-if="ad_head_pic"  style="width: 1.6rem;height: 1.6rem;margin-right: .16rem" :src="ad_head_pic" alt />
-          <van-uploader v-show="!ad_head_pic" style="float: right;" accept="image/*" :after-read="uploadImg" />
+          <img
+            v-if="ad_head_pic"
+            style="width: 1.6rem;height: 1.6rem;margin-right: .16rem"
+            :src="ad_head_pic"
+            alt
+          />
+          <van-uploader
+            v-show="!ad_head_pic"
+            style="float: right;"
+            accept="image/*"
+            :after-read="uploadImg"
+          />
         </label>
       </div>
-      <div>
+      <div style="margin-bottom: 1rem;margin-top: .4rem;">
         <span>上传视频</span>
         <p style="flex: 1;">MP4格式，推荐时长15秒以内，大小不得超过20M</p>
         <van-uploader style="float: right;" accept="video/*" :after-read="uploadVideo" />

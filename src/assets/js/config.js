@@ -16,7 +16,7 @@ api.index_newsDetail = "/index/index/newsDetail";
 api.index_ito = "/index/index/ito";
 // 6，获取用户的某一字段值(暂未使用)
 api.user_getmyinfo = "/index/user/getmyinfo";
-// 7,我的团队
+// 7,我的粉丝
 api.user_myTeam = "/index/user/myTeam";
 // 8,交易大厅
 api.trade_index = "/index/trade/index";

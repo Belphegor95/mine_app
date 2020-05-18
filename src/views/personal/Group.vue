@@ -1,4 +1,4 @@
-<!-- 我的团队 -->
+<!-- 我的粉丝 -->
 <template>
   <div class="Group">
     <breadcrumb :typeid="101"></breadcrumb>

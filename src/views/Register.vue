@@ -128,11 +128,11 @@
     <ul class="yinhangzhanghao" v-else-if="$store.getters.get_typeid == 24">
       <li>
         <span>开户银行</span>
-        <van-field maxlength="20" v-model="us_bank" placeholder="请输入银行名称" />
+        <van-field maxlength="20" type="text" v-model="us_bank" placeholder="请输入银行名称" />
       </li>
       <li>
         <span>持卡人姓名</span>
-        <van-field maxlength="20" v-model="us_bank_person" placeholder="请输入持卡人姓名" />
+        <van-field maxlength="20" type="text" v-model="us_bank_person" placeholder="请输入持卡人姓名" />
       </li>
       <li>
         <span>银行卡号</span>
@@ -140,7 +140,7 @@
       </li>
       <li>
         <span>开户行地址</span>
-        <van-field maxlength="20" v-model="bank_place" placeholder="请输入银行卡开户行地址" />
+        <van-field maxlength="20" type="text" v-model="bank_place" placeholder="请输入银行卡开户行地址" />
       </li>
       <li>
         <span>短信验证</span>
@@ -178,7 +178,7 @@
           v-if="user.us_card_front_pic == '' || user.us_card_front_pic == null"
         >
           <div v-if="us_card_front_pic.length == 0" class="upimg"></div>
-          <img v-else :src="us_card_front_pic[0].content" class="upimg" />
+          <img v-else :src="us_card_front_pic[us_card_front_pic.length - 1].content" class="upimg" />
         </van-uploader>
         <img v-else :src="$api.baseUrl + user.us_card_front_pic" class="upimg" />
         <p>身份证正面</p>
@@ -191,7 +191,7 @@
           v-if="user.us_card_reverse_pic == '' || user.us_card_reverse_pic == null"
         >
           <div v-if="us_card_reverse_pic.length == 0" class="upimg"></div>
-          <img v-else :src="us_card_reverse_pic[0].content" class="upimg" />
+          <img v-else :src="us_card_reverse_pic[us_card_reverse_pic.length - 1].content" class="upimg" />
         </van-uploader>
         <img v-else :src="$api.baseUrl + user.us_card_reverse_pic" class="upimg" />
         <p>身份证反面</p>
@@ -642,8 +642,8 @@ export default {
       this.token_post(this.$api.user_realname, {
         us_name: this.us_name,
         us_id_card: this.us_id_card,
-        us_card_front_pic: this.us_card_front_pic[0].content,
-        us_card_reverse_pic: this.us_card_reverse_pic[0].content
+        us_card_front_pic: this.us_card_front_pic[this.us_card_front_pic.length - 1].content,
+        us_card_reverse_pic: this.us_card_reverse_pic[this.us_card_reverse_pic.length - 1].content
       })
         .then(data => {
           if (data.code == 200) {
@@ -750,14 +750,18 @@ export default {
     password: function(id) {
       if (id == 25) {
         // console.info()
-        if (!this.user.us_name || this.user.us_name != null) {
-          this.isBtn = false;
-        } else {
+        if (!this.user.us_name || this.user.us_name == null) {
+          console.info(1)
           this.isBtn = true;
+        } else {
+          console.info(2)
+          this.isBtn = false;
         }
       } else {
+        console.info(3)
         this.isBtn = true;
       }
+      
       this.$store.commit("show_typeid", id);
       this.code = "";
     }

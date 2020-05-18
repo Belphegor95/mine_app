@@ -75,7 +75,7 @@
       <p>请完善您的银行和支付信息</p>
       <div class="btn_box">
         <span @click="modal_money = false">取消</span>
-        <span @click="rut_register(2,'register')">确定</span>
+        <span @click="rut_register(22,'register')">确定</span>
       </div>
     </van-popup>
   </div>

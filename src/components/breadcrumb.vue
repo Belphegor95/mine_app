@@ -32,7 +32,7 @@ export default {
         { id: 24, title: "绑定银行卡账号" },
         { id: 25, title: "实名认证" },
         { id: 7, title: "联系客服" },
-        { id: 101, title: "我的团队" },
+        { id: 101, title: "我的粉丝" },
         { id: 102, title: "我的交易单" },
         { id: 103, title: "我的广告" },
         { id: 104, title: "分享推广" },

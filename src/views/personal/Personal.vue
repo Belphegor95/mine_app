@@ -50,7 +50,7 @@
       <p>请完善您的银行和支付信息</p>
       <div class="btn_box">
         <span @click="modal_money = false">取消</span>
-        <span @click="rut_push(false,'register',2)">确定</span>
+        <span @click="rut_push(false,'register',22)">确定</span>
       </div>
     </van-popup>
     <van-popup class="modal_box" v-model="modal">

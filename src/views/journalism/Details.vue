@@ -3,9 +3,9 @@
   <div class="Details">
     <breadcrumb></breadcrumb>
     <div class="xiangqing">
-      <h2>BTT、ETT两大币种24小时资金净流入 突破17亿人民币</h2>
-      <div>2019-12-12 12:00:00</div>
-      <p>上周日，比特币升至5200美元水平。之后略有下降，并回到5000美元附近，似乎涨势似乎已经结束，但是现在看来，在面临任何重大阻</p>
+      <h2>{{ newsDetail.title }}</h2>
+      <div>{{ newsDetail.add_time }}</div>
+      <p v-html="newsDetail.content">上周日，比特币升至5200美元水平。之后略有下降，并回到5000美元附近，似乎涨势似乎已经结束，但是现在看来，在面临任何重大阻</p>
     </div>
   </div>
 </template>
@@ -17,20 +17,27 @@ export default {
     breadcrumb
   },
   data() {
-    return {};
+    return {
+      newsDetail: {}
+    };
   },
   mounted() {
-    this.getnewsDetail()
+    this.getnewsDetail();
   },
   methods: {
     getnewsDetail: function() {
-      this.axios.post(this.$api.index_newsDetail).then(data => {
-        if (data.code == 200) {
-          console.info(data);
-        } else {
-          this.$toast(data.msg);
-        }
-      });
+      this.axios
+        .post(this.$api.index_newsDetail, {
+          id: this.$route.query.id
+        })
+        .then(data => {
+          if (data.code == 200) {
+            // console.info(data);
+            this.newsDetail = data.data
+          } else {
+            this.$toast(data.msg);
+          }
+        });
     }
   }
 };
