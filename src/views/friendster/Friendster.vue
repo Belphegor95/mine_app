@@ -7,17 +7,18 @@
       <span>视频</span>
     </div>-->
     <van-empty v-if="friendlist.length == 0" description="暂无数据" />
-    <ul v-else>
+    <ul v-else  style="overflow: hidden;" >
       <li v-for="(item,index) in friendlist" :key="index">
         <img :src="$api.baseUrl + item.us_head_pic" alt />
         <div class="neirong_box">
-          <p>雷厉风行</p>
+          <p>{{item.us_nickname?item.us_nickname:'佚名'}}</p>
           <p>{{ item.content }}</p>
           <div class="tu_box" v-if="item.pic">
             <img
               v-for="(item1,index1) in item.imgarr"
               :key="index1"
               :src="$api.baseUrl + item1"
+              @click="()=>{imgSee=item1;show1=true}"
               alt
             />
           </div>
@@ -78,6 +79,9 @@
       <van-field maxlength="120" class="contentCass" v-model="content" type="textarea" />
       <van-button class="fasongbtn" @click="onfabu" type="info">发布</van-button>
     </van-popup>
+    <van-popup v-model="show1" style="width:100%;maxHeight:100%;"   >
+      <img @click="()=>{show1=false;imgSee=''}" style="width:100%;maxHeight:100%;" :src="$api.baseUrl + imgSee" alt="">
+    </van-popup>
   </div>
 </template>
 
@@ -92,6 +96,8 @@ export default {
       user: this.$store.state.user,
       friendlist: [],
       show: false,
+      show1:false,
+      imgSee:'',
       content: "",
       m_id: null,
       active: undefined,

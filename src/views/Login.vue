@@ -7,7 +7,7 @@
       </div>
     </div>
     <div class="login_box">
-      <van-field v-model="account" placeholder="请输入您的手机号" />
+      <van-field v-model="account" type="digit" placeholder="请输入您的手机号" />
       <van-field type="password" v-model="password" placeholder="请输入密码" />
       <div class="yanzheng_box">
         <van-field v-model="verification" type="digit" maxlength="4" placeholder="请输入验证码" />
@@ -89,7 +89,6 @@ export default {
         message: "加载中...",
         forbidClick: true
       });
-      localStorage.clear();
       window.localStorage.account = this.account;
       window.localStorage.password = this.password;
       this.token_get(this.$api.user_login)
@@ -122,6 +121,7 @@ export default {
     }
   },
   created() {
+    localStorage.clear();
     this.originalCodeUpdata(); // 初始化验证码
   }
 };
