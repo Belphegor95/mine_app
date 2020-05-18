@@ -2,7 +2,7 @@
 <template>
   <div class="AdvertisingHome_box">
     <breadcrumb></breadcrumb>
-    <van-search v-model="searchValue" show-action placeholder="请输入搜索关键词" @search="onSearch">
+    <van-search v-model="searchValue" show-action placeholder="请输入好友手机号" @search="onSearch">
       <template #action>
         <div @click="onSearch">搜索</div>
       </template>

@@ -39,14 +39,14 @@
       <img
         v-show="!isFriend"
         v-if="gameMsg.prevent&&gameMsg.prevent.length>0&&fh_lv>0"
-        :style="fh_lv == 2?{height:'22%',left:'79%',top:'25%'}:''"
+        :style="fh_lv == 2?{height:'22%',left:'79%',top:'22%'}:fh_lv == 3?{height:'26%',left:'67%',top:'23%'}:{height:'14%',left:'74%',top:'30%'}"
         :src="fh_lv == 3?require('../../assets/img/game/dun2.gif'):fh_lv == 2?require('../../assets/img/game/man.png'):require('../../assets/img/game/dog2.gif')"
         class="dog"
       />
       <img
         v-show="isFriend"
         v-if="friendBilist.prevent&&friendBilist.prevent.length>0&&fh_lv2>0"
-        :style="fh_lv2 == 2?{height:'22%',left:'79%',top:'25%'}:''"
+        :style="fh_lv2 == 2?{height:'22%',left:'79%',top:'22%'}:fh_lv2 == 3?{height:'26%',left:'67%',top:'23%'}:{height:'14%',left:'74%',top:'30%'}"
         :src="fh_lv2 == 3?require('../../assets/img/game/dun2.gif'):fh_lv2 == 2?require('../../assets/img/game/man.png'):require('../../assets/img/game/dog2.gif')"
         class="dog"
       />

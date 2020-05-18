@@ -1,7 +1,19 @@
 <!-- 广告视频区 -->
 <template>
   <div class="AdvertisingHome_box">
-    <breadcrumb></breadcrumb>
+    <!-- <breadcrumb></breadcrumb> -->
+    <div class="headers">
+      <img src="../../assets/img/backimg.png" @click="()=>$router.go(-1)" alt />
+      <div>
+        <button class="active" >
+          <span>任务大厅</span>
+        </button>
+        <button  @click="()=>$toast('暂未开放')" >
+          <span>赏金广告</span>
+        </button>
+      </div>
+      <span></span>
+    </div>
     <van-tabs v-model="cate_index" @click="getadvertDetail">
       <van-tab v-for="(item,index) in cates" :key="index" :title="item.ca_name">
         <van-empty style="background-color: #fff" v-if="list.length == 0" description="暂无数据" />
@@ -24,11 +36,11 @@
 </template>
 
 <script>
-import breadcrumb from "@/components/breadcrumb";
+// import breadcrumb from "@/components/breadcrumb";
 export default {
-  components: {
-    breadcrumb
-  },
+  // components: {
+  //   breadcrumb
+  // },
   data() {
     return {
       activeName: "",
@@ -92,6 +104,49 @@ export default {
 .AdvertisingHome_box {
   height: 100%;
   background-color: #f7f7f7;
+}
+.AdvertisingHome_box .headers {
+  height: 2rem;
+  width: 100%;
+  background: #398ef5;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* padding: 0.6rem 0.3rem 0.86rem 0.3rem; */
+  padding: 0.3rem 0.3rem 0.86rem 0.3rem;
+  box-sizing: border-box;
+}
+.AdvertisingHome_box .headers img {
+  height: 0.4rem;
+}
+.AdvertisingHome_box .headers div {
+  width: 4rem;
+  height: 0.6rem;
+  background: white;
+  border-radius: 0.3rem;
+  display: flex;
+  align-items: center;
+  padding: 0.04rem;
+  box-sizing: border-box;
+}
+.AdvertisingHome_box .headers button {
+  height: 100%;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .32rem;
+  color: #398EF5;
+  background: transparent;
+  border: none;
+  border-radius: .3rem;
+}
+.AdvertisingHome_box .headers .active {
+  background: #398EF5;
+  color: white;
+}
+.AdvertisingHome_box .van-tabs {
+  margin-top: -0.6rem;
 }
 .list {
   display: flex;

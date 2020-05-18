@@ -32,7 +32,9 @@
         <div class="msgTop">
           <span>
             <img v-if="store.pic" :src="this.baseUrl+store.pic" alt />
-            <img v-else src="../../assets/img/game/text1.png" alt />
+          <img v-else-if="store.name == '警犬'" src="../../assets/img/game/dog.png" alt />
+          <img v-else-if="store.name == '保安'" src="../../assets/img/game/man.png" alt />
+          <img v-else-if="store.name == '金钟罩'" src="../../assets/img/game/dun.png" alt />
           </span>
           <div>
             <p>等级：{{ store.name }}</p>
@@ -241,7 +243,7 @@ export default {
   justify-content: center;
 }
 .msgTop > span img {
-  width: 1.42rem;
+  max-width: 1.42rem;
   max-height: 1.38rem;
 }
 .msgTop div {

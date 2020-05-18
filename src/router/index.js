@@ -178,4 +178,12 @@ const router = new VueRouter({
   routes
 })
 
+router.beforeEach((to, from,next)=>{
+  if(!(window.localStorage.getItem('account'))&&to.path!='/'&&to.path!='/login'&&to.path!='/register'){
+    next('/')
+  } else{
+    next()
+  }
+})
+
 export default router

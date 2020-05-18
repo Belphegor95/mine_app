@@ -33,8 +33,12 @@
       <div class="machineMsg" v-if="store">
         <div class="msgTop">
           <span>
-            <img v-if="store" :src="$api.baseUrl+store.pic" alt />
-            <img v-else src="../../assets/img/game/text1.png" alt />
+            <img v-if="store.pic" :src="$api.baseUrl+store.pic" alt />
+            <img v-else-if="store.name == '微矿'" src="../../assets/img/game/mill_0.png" alt />
+            <img v-else-if="store.name == '小矿'" src="../../assets/img/game/mill_1.png" alt />
+            <img v-else-if="store.name == '中矿'" src="../../assets/img/game/mill_2.png" alt />
+            <img v-else-if="store.name == '大矿'" src="../../assets/img/game/mill_3.png" alt />
+            <img v-else-if="store.name == '富矿'" src="../../assets/img/game/mill_4.png" alt />
           </span>
           <div>
             <p>等级：{{ store.name }}</p>
@@ -131,7 +135,7 @@ export default {
         .then(data => {
           if (data.code === 200) {
             this.config.success();
-            this.login()
+            this.login();
             this.popupShow = false;
             this.$toast(data.msg);
           } else {
